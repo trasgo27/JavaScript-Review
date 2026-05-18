@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divScore{
+            font-size: 40px;
+            color: red;
+        }
+        #divNoti{
+            border: solid greenyellow 3px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #btnToVideo{
+            font-size: 30px;
+            border-radius: 5px;
+        }
+        .invisible{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Practica Obligatoria</h1>
+    <p>Practica 1 (Obligatoria)
+        Crear una página web que al cabo de 5 segundos de estar en ella muestre una notificación
+        al usuario para que visite un nuevo video que se ha publicado. Para ello, crea una función
+        timeout que reciba el número de ms como parámetro y cree una promesa con el timeout
+        como acción. Además, que salga por pantalla una cuenta atrás de 5 a 0 segundos. Cuando
+        la cuenta llegue a cero, se mostrará la notificación.
+        <br>
+        Cuando el usuario clica en la notificación, llevarle a una página en el que se muestre el
+        video que se adjunta en esta tarea.
+        <br>
+        Al hacer clic con el botón izquierdo del ratón en el video, éste se parará o se reproducirá.
+        Cada clic cambia de un estado a otro.
+        <br>
+        Al hacer clic con el botón derecho del ratón en el video, debe aparecer un texto en la parte
+        inferior que nos diga el tiempo total del vídeo en minutos y segundos.
+        Ver video con toda la práctica funcionando (adjunto).
+    </p>
+    <div id="divScore">
+
+    </div>
+    <div id="divNoti">
+        <button id="btnToVideo" class="invisible">Ir al Video
+
+        </button>
+    </div>
+    
+    <script>
+        //@ts-check
+
+        const miDivScore = /**@type {HTMLDivElement}*/ (document.getElementById('divScore'));
+        const miBoton = /** @type {HTMLButtonElement} */ (document.getElementById('btnToVideo'));
+
+        // pedir permiso notificacion temprano
+        if (Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // estado
+        let time = 5;
+        let esperandoClick = false;
+
+        // configurar click del boton una sola vez
+        miBoton.addEventListener('click', () => {
+            clearInterval(idInter);
+            window.open('video.html', '_blank');
+        });
+
+        const idInter = setInterval(() => {
+            if (esperandoClick) {
+                // fase boton: esperar 5s, luego reiniciar cuenta atras
+                time--;
+                if (time <= 0) {
+                    time = 5;
+                    esperandoClick = false;
+                    miBoton.classList.add('invisible');
+                    limpiarTime();
+                }
+            } else {
+                // fase cuenta atras
+                console.log(time);
+                mostrarTime();
+                time--;
+                if (time < 0) {
+                    time = 5; // segundos que dura la fase boton
+                    esperandoClick = true;
+                    limpiarTime();
+                    miBoton.classList.remove('invisible');
+                    notificar();
+                }
+            }
+        }, 1000);
+
+        function notificar() {
+            Notification.requestPermission().then(() => {
+                if (Notification.permission === 'granted') {
+                    const miNoti = new Notification('Aviso', { body: "Nuevo Video" });
+                    miNoti.onclick = () => window.open('video.html', '_blank');
+                }
+            });
+        }
+
+        function mostrarTime() {
+            miDivScore.textContent = time.toString();
+        }
+
+        function limpiarTime() {
+            miDivScore.textContent = '';
+        }
+    </script>
+</body>
+
+</html>

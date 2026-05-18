@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="miBoton">
+        Recibir Notificacion
+    </button>
+    <script>
+        //Evento
+        const miBoton = document.getElementById('miBoton');
+        miBoton.addEventListener('click', () => {
+            hacerNotificacion();
+        });
+        //The HandShake
+        function darLaMano() {
+            Notification.requestPermission()
+                .then((permiso) => {
+                    if (permiso === "granted"){
+                        console.log('Permiso Concedido');
+                        const opciones = {
+                    body: "Este es el BODY de la notificacion ...",
+                    icon: "./img/dancing.png"
+                }
+                new Notification("Un Nuevo Mensaje", opciones);
+            }else{
+                        console.log('Permiso NO Concedido');
+                    }
+                        
+                })
+                .catch((er) => {
+                    console.log(er);
+                });
+        }
+        //Hacer la notificacion
+        function hacerNotificacion() {
+            if (Notification.permission !== "granted") {
+                darLaMano();
+            } else if (Notification.permission === "granted") {
+                const opciones = {
+                    body: "Este es el BODY de la notificacion ...",
+                    icon: "./img/dancing.png"
+                }
+                new Notification("Un Nuevo Mensaje", opciones);
+            }
+        }
+        /*function manejador() {
+            hacerNotificacion();
+        }*/
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <h1>Add Table Rows</h1>
+</head>
+
+<body>
+    <table id="miTabla">
+        <tr>
+            
+        </tr>
+    </table>
+    <br>
+    <input type="button" onclick="ejecutar()" value="miFuncion">
+    <script>
+        function piramide(){
+            let cadena = ""; //Cuidado let no const, no se puede cambiar const
+            const miTabla = document.getElementById("miTabla");
+            const numFilas = 10;
+            //const filas = [];
+            //const celdas = [];
+            
+            for(let i = 0; i < numFilas ; i++){
+                let nuevaFila = miTabla.insertRow(-1);
+                let nuevaCelda = nuevaFila.insertCell(0);
+                for (let j = 0 ; j <= i ; j++){
+                    cadena += " .  *  . ";
+                }
+                //Imprimirlo
+                
+                nuevaCelda.innerHTML = cadena;              
+                //Refrescarlo
+                cadena = "";
+            }
+        }//fin piramide
+        //otra funcion
+        function imprimir(cadena){
+            const miTabla = document.getElementById("miTabla");
+            //Contador
+            let i = 0;
+            //crear nueva fila
+            const fila = miTabla.insertRow(i);
+            const colum = fila.insertCell(0);
+            colum.innerHTML = cadena;
+        }
+        function ejecutar() {
+            piramide();         
+
+        }
+    </script>
+</body>
+
+</html>

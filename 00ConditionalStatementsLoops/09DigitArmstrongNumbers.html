@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>9.- 3-Digit Armstrong Numbers</h1>
+    <p>Write a JavaScript program to find the Armstrong numbers of 3 digits.
+        <br>Note : An Armstrong number of three digits is an integer such that the sum of the cubes of its digits is
+        equal to the number itself.
+        <br>For example, 371 is an Armstrong number since 3**3 + 7**3 + 1**3 = 371.
+    </p>
+    <script>
+        const descomponerEnDigits = function (num) {
+            const vectorDigi = [];
+            let deci01 = 0;
+            while (num > 0) {
+                deci01 = num % 10;//384 > 4
+                num = (num - deci01) / 10;//num = 384-4/10 = 38
+                vectorDigi.push(deci01);
+            }
+            return vectorDigi;
+        }
+        //funcion esArmStrong()
+        const esArmS = function (num) {
+            //convertir en vector
+            let vector = descomponerEnDigits(num);
+            //const longi = vector.length();
+            let sumaCubo = 0;
+            vector.forEach((elem) => {
+                sumaCubo += elem * elem * elem; //Math.pow(elem, 3) or elem ** 3;
+            });
+            if (num === sumaCubo) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        //Funcion Iterar de 100 a 1000
+        const repetir = function () {
+            //conseguir num ArmStrong numeros
+            const vectorExitos = [];
+            let i = 100;
+            for(let i = 100; i<1000; i++){
+                if (esArmS(i)) {
+                    vectorExitos.push(i);
+                    //num--;//reducir el numero de exitos
+                }
+                
+            }
+            return vectorExitos;
+        }
+        //Mostrar
+        console.table(descomponerEnDigits(19));
+        console.table(descomponerEnDigits(123));
+        console.table(descomponerEnDigits(5));
+        console.log(esArmS(1));
+        console.log(esArmS(153));
+        console.log(esArmS(100));
+        console.log(esArmS(370));
+        console.log(repetir(5));
+        console.log(repetir());
+    </script>
+</body>
+</html>

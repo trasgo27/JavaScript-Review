@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h3{
+            color:red;
+        }
+        video{
+            width:100%;
+            max-width: 600px;
+            border: red solid 2px;
+            border-radius: 10px;
+        }
+        button{
+            padding:10px;
+            margin: 10px;
+            color: red;
+            font-size: 30px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Recording</h1>
+    <h3>Media Recorder</h3>
+    <div id="divBtn">
+        <button id="btnGrabar">GRABAR</button>
+        <button id="btnParar" disabled>PARAR</button>
+        <a href="" id="miEnlace" style="display:none">Descargar Video</a>
+    </div>
+    <br><br>
+    <video src="" id="miPreview" autoplay playsinline muted></video>
+    <script src="./script/script.js"></script>
+</body>
+</html>

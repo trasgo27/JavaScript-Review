@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Class Lab – Four Squares</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark:      #0f172a;
+            --surface-dark: #1e293b;
+            --text-main:    #f8fafc;
+            --success:      #10b981;
+            --error:        #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Header ── */
+        .header {
+            position: absolute;
+            top: 1.5rem;
+            text-align: center;
+            z-index: 20;
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p.subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        /* ── Game canvas fills viewport ── */
+        #game-canvas {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* ── Central target ── */
+        #target {
+            width: 160px;
+            height: 160px;
+            border: 3px dashed rgba(255,255,255,0.2);
+            border-radius: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.35s ease;
+            z-index: 2;
+        }
+        #target.highlight {
+            border-color: var(--success);
+            background: rgba(16,185,129,0.1);
+            color: var(--success);
+        }
+
+        /* ── Draggable squares – JS positions them ── */
+        .drag-square {
+            width: 110px;
+            height: 110px;
+            border-radius: 22px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: grab;
+            user-select: none;
+            z-index: 5;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .drag-square:active { cursor: grabbing; }
+        .drag-square.dragging {
+            transform: scale(1.08);
+            z-index: 1000;
+        }
+
+        /* ── Status paragraph (from 050101) ── */
+        #demo-paragraph {
+            position: absolute;
+            bottom: 1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.8rem;
+            padding: 14px 48px;
+            border-radius: 20px;
+            background: transparent;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            white-space: nowrap;
+            z-index: 20;
+        }
+        #demo-paragraph.success {
+            background: #00FF00;
+            color: #000;
+            font-size: 4rem;
+        }
+        #demo-paragraph.error {
+            background: #FF0000;
+            color: #fff;
+            font-size: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Promise Class Lab</h1>
+        <p class="subtitle">Drag any square to the centre target</p>
+    </div>
+
+    <!-- Canvas -->
+    <div id="game-canvas">
+        <div id="target">DROP HERE</div>
+    </div>
+
+    <!-- Paragraph from 050101 -->
+    <p id="demo-paragraph">Awaiting Promise...</p>
+
+    <script>
+    /* ─────────────────────────────────────────────
+       DraggableSquare Class
+       Encapsulates all drag logic from 050204 +
+       the Promise resolution / paragraph update
+    ───────────────────────────────────────────── */
+    class DraggableSquare {
+
+        /**
+         * @param {object} config
+         * @param {string} config.id          – unique id for the DOM element
+         * @param {string} config.label       – text shown on the square
+         * @param {string} config.gradient    – CSS background value
+         * @param {string} config.shadow      – box-shadow (colour part)
+         * @param {'top'|'bottom'|'left'|'right'} config.edge  – starting position
+         */
+        constructor({ id, label, gradient, shadow, edge }) {
+            this.id       = id;
+            this.label    = label;
+            this.gradient = gradient;
+            this.shadow   = shadow;
+            this.edge     = edge;
+
+            // Shared references
+            this.canvas   = document.getElementById('game-canvas');
+            this.target   = document.getElementById('target');
+            this.demoPara = document.getElementById('demo-paragraph');
+
+            // Drag state
+            this.isDragging  = false;
+            this.startX      = 0;
+            this.startY      = 0;
+            this.initialLeft = 0;
+            this.initialTop  = 0;
+
+            // Build the element
+            this._createElement();
+            this._placeAtEdge();
+            this._attachEvents();
+        }
+
+        /* ── DOM creation ── */
+        _createElement() {
+            this.el = document.createElement('div');
+            this.el.id = this.id;
+            this.el.className = 'drag-square';
+            this.el.textContent = this.label;
+            this.el.style.background  = this.gradient;
+            this.el.style.boxShadow   = `0 16px 40px -10px ${this.shadow}`;
+            this.canvas.appendChild(this.el);
+        }
+
+        /* ── Initial edge positioning ── */
+        _placeAtEdge() {
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+            const S = 110; // square size
+
+            const positions = {
+                top:    { left: (W - S) / 2, top: 100 },
+                bottom: { left: (W - S) / 2, top: H - S - 100 },
+                left:   { left: 60,          top: (H - S) / 2 },
+                right:  { left: W - S - 60,  top: (H - S) / 2 },
+            };
+
+            const p = positions[this.edge];
+            this.el.style.left = p.left + 'px';
+            this.el.style.top  = p.top  + 'px';
+        }
+
+        /* ── Event listeners ── */
+        _attachEvents() {
+            // mousedown on the square
+            this.el.addEventListener('mousedown', (e) => this._onMouseDown(e));
+
+            // mousemove / mouseup on the document (so dragging stays smooth)
+            this._boundMouseMove = (e) => this._onMouseMove(e);
+            this._boundMouseUp   = ()  => this._onMouseUp();
+            document.addEventListener('mousemove', this._boundMouseMove);
+            document.addEventListener('mouseup',   this._boundMouseUp);
+        }
+
+        /* ── Drag start ── */
+        _onMouseDown(e) {
+            this.isDragging  = true;
+            this.startX      = e.clientX;
+            this.startY      = e.clientY;
+            this.initialLeft = this.el.offsetLeft;
+            this.initialTop  = this.el.offsetTop;
+
+            this.el.classList.add('dragging');
+            this.el.style.transition = 'none';
+            this.el.textContent = 'ARRASTRANDO';
+        }
+
+        /* ── Drag move ── */
+        _onMouseMove(e) {
+            if (!this.isDragging) return;
+
+            const dx = e.clientX - this.startX;
+            const dy = e.clientY - this.startY;
+
+            let newX = this.initialLeft + dx;
+            let newY = this.initialTop  + dy;
+
+            // Constrain within canvas
+            const cW = this.canvas.offsetWidth;
+            const cH = this.canvas.offsetHeight;
+            newX = Math.max(0, Math.min(newX, cW - this.el.offsetWidth));
+            newY = Math.max(0, Math.min(newY, cH - this.el.offsetHeight));
+
+            this.el.style.left = newX + 'px';
+            this.el.style.top  = newY + 'px';
+
+            // Live proximity feedback on target
+            if (this._isOverlapping()) {
+                this.target.classList.add('highlight');
+                this.target.textContent = 'DROP NOW';
+            } else {
+                this.target.classList.remove('highlight');
+                this.target.textContent = 'DROP HERE';
+            }
+        }
+
+        /* ── Drag end → Promise ── */
+        _onMouseUp() {
+            if (!this.isDragging) return;
+            this.isDragging = false;
+
+            this.el.classList.remove('dragging');
+            this.el.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+
+            this._verificarChoque()
+                .then((msg) => {
+                    console.log(`[${this.id}] ${msg}`);
+                    this._onSuccess();
+                })
+                .catch((fail) => {
+                    console.log(`[${this.id}] ${fail}`);
+                    this._onFailure();
+                });
+        }
+
+        /* ── Promise: checks overlap ── */
+        _verificarChoque() {
+            return new Promise((resolve, reject) => {
+                if (this._isOverlapping()) {
+                    resolve('CONSEGUIDO – boxes overlap!');
+                } else {
+                    reject('HAS FALLADO – missed the target!');
+                }
+            });
+        }
+
+        /* ── Overlap helper ── */
+        _isOverlapping() {
+            const dragRect   = this.el.getBoundingClientRect();
+            const targetRect = this.target.getBoundingClientRect();
+            return !(
+                dragRect.right  < targetRect.left  ||
+                dragRect.left   > targetRect.right ||
+                dragRect.bottom < targetRect.top   ||
+                dragRect.top    > targetRect.bottom
+            );
+        }
+
+        /* ── Success state ── */
+        _onSuccess() {
+            // Square feedback
+            this.el.textContent  = '¡YEAH!';
+            this.el.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+            this.el.style.boxShadow  = '0 16px 40px -10px rgba(16,185,129,0.6)';
+
+            // Target feedback
+            this.target.classList.remove('highlight');
+            this.target.style.background    = 'rgba(16,185,129,0.15)';
+            this.target.style.borderColor   = '#10b981';
+            this.target.textContent         = 'SOLVED';
+
+            // Paragraph – from 050101 style
+            this.demoPara.textContent = 'CONSEGUIDO!!!';
+            this.demoPara.className   = 'success';
+        }
+
+        /* ── Failure state ── */
+        _onFailure() {
+            // Square feedback
+            this.el.textContent  = 'RETRY';
+            this.el.style.background = this.gradient; // restore original colour
+
+            // Target reset
+            this.target.classList.remove('highlight');
+            this.target.style.background  = '';
+            this.target.style.borderColor = '';
+            this.target.textContent       = 'DROP HERE';
+
+            // Paragraph – from 050101 style
+            this.demoPara.textContent = 'HAS FALLADO!!!';
+            this.demoPara.className   = 'error';
+        }
+
+        /* ── Reset square to its original edge position ── */
+        reset() {
+            this._placeAtEdge();
+            this.el.textContent  = this.label;
+            this.el.style.background = this.gradient;
+            this.el.style.boxShadow  = `0 16px 40px -10px ${this.shadow}`;
+        }
+    }
+
+    /* ─────────────────────────────────────────────
+       Instantiate the four squares
+    ───────────────────────────────────────────── */
+    const squares = [
+        new DraggableSquare({
+            id:       'sq-top',
+            label:    '▲ NORTE',
+            gradient: 'linear-gradient(135deg,#6366f1,#a855f7)',
+            shadow:   'rgba(99,102,241,0.45)',
+            edge:     'top',
+        }),
+        new DraggableSquare({
+            id:       'sq-bottom',
+            label:    '▼ SUR',
+            gradient: 'linear-gradient(135deg,#f59e0b,#ef4444)',
+            shadow:   'rgba(245,158,11,0.45)',
+            edge:     'bottom',
+        }),
+        new DraggableSquare({
+            id:       'sq-left',
+            label:    '◀ OESTE',
+            gradient: 'linear-gradient(135deg,#06b6d4,#3b82f6)',
+            shadow:   'rgba(6,182,212,0.45)',
+            edge:     'left',
+        }),
+        new DraggableSquare({
+            id:       'sq-right',
+            label:    '▶ ESTE',
+            gradient: 'linear-gradient(135deg,#ec4899,#f43f5e)',
+            shadow:   'rgba(236,72,153,0.45)',
+            edge:     'right',
+        }),
+    ];
+
+    /* ─────────────────────────────────────────────
+       Reset button – double-click the target
+    ───────────────────────────────────────────── */
+    document.getElementById('target').addEventListener('dblclick', () => {
+        squares.forEach(s => s.reset());
+        const para = document.getElementById('demo-paragraph');
+        para.textContent = 'Awaiting Promise...';
+        para.className   = '';
+        const tgt = document.getElementById('target');
+        tgt.style.background  = '';
+        tgt.style.borderColor = '';
+        tgt.textContent       = 'DROP HERE';
+    });
+    </script>
+</body>
+</html>

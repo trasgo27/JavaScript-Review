@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>1. Delayed Callback Execution</h1>
+    <p>Write a JavaScript function that takes a callback and invokes it after a delay of 2 second.</p>
+</body>
+<script>
+    function invokeAfterDelay(callback) {
+        setTimeout(callback, 2000); // 2000 milliseconds = 2 second
+    }
+    function display_message() {
+        console.log('Hello!');
+    }
+    invokeAfterDelay(display_message); // Invokes the sayHello function after a 1-second delay
+
+</script>
+</html>

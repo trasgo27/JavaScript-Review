@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            border: solid green 3px;
+            border-radius: 10px;
+            width: 50%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Volumen Esfera</h1>
+    <p>Introduce el radio en un form</p>
+    <p>Calcular volumen</p>
+    <form action="" id="form">
+        <p>Introduce el valor del radio y consigue el volumen</p>
+        <label for="radio">Radio:</label>
+        <br><br>
+        <input type="text" name="" id="radio" required>
+        <br><br>
+        <label for="volumen">Volumen</label>
+        <br><br>
+        <input type="text" name="" id="volumen" readonly>
+        <br><br>
+        <button id="calcular" type="submit">Calcular</button>
+    </form>
+    <script>
+        //Prevenir recarga del formulario
+        const e = document.querySelector("#form");
+        e.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            ejecutar();
+        });
+        //tomar valor radio
+        function valorR(){
+            const e = document.querySelector("#radio");
+            return Number(e.value);
+        }
+        function ejecutar(){
+            //crear objeto
+            const i = document.querySelector("#volumen");
+            let radio = valorR();
+            let v = (4/3)*Math.PI*Math.pow(radio,3); //right formula            
+            v = v.toFixed(3); //
+            i.value = v;
+        }
+    </script>
+</body>
+</html>

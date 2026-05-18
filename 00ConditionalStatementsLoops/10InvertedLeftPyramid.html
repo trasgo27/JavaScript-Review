@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Inverted Right Alligned Pyramid</h1>
+    <script>
+        //Dos bucles para 
+        let x, y = 0;
+        const col = 10;
+        let cadena = "";
+        let espacio = "";
+        let total = "";
+        for (let i = 0; i <= col; i++) {//loop exterior
+            for (let s = 0; s < i; s++) {//loop estrella
+                    espacio += "   ";
+                }
+                total = espacio;
+            for (let j = col-i; j >= 0; j--) {//loop estrella
+                cadena += " * ";          
+                
+            }
+            total += cadena;
+            cadena = "";
+            espacio = "";
+            console.log(total);
+            total = "";            
+        }
+    </script>
+</body>
+
+</html>

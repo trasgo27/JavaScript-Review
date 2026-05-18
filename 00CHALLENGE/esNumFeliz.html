@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>esFeliz()</h1>
+    <script>
+        const esFeliz = function (num) {
+            //Exterior
+            let historial = [];
+            while (historial[num] != true && num !== 1) { //continua 
+                historial[num] = true;
+                let elevarSum = 0;
+                while (num > 0) {
+                    let resto = num % 10;
+                    num = Math.floor(num / 10) ;
+                    elevarSum += resto;
+                }
+                num = elevarSum;
+            }
+            return num === 1;
+        }
+        //Iterar
+        let repe = 5;
+        let i = 1;
+        exitos = [];
+        while (repe > 0) {
+            if (esFeliz(i)) {
+                exitos.push(i);
+                repe--;
+            }
+            i++;
+            
+        }
+        //Mostrar
+        console.table(exitos);
+    </script>
+</body>
+</html>

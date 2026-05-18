@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .norte{
+            background-color: blue;
+        }
+        .sur{
+            background-color: green;
+        }
+        .ecuador{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cambia Color con Latitud</h1>
+    <p>Ej1: Cambia el color del fondo del sitio web según la latitud del usuario: 
+        <br> Norte: Azul. Sur: Verde. Ecuador: Amarillo. </p>
+    <script>
+        //API geolocation         
+        const miPosi = navigator.geolocation.getCurrentPosition((p)=>{
+            const miLati = p.coords.latitude;
+            //condition
+            let miEstilo = "";        
+        
+            if(miLati > 1){
+                miEstilo = "norte";
+            }else if(miLati < -1){
+                miEstilo = "sur";
+            }else if( miLati >= -1 && miLati <= 1 ){
+                miEstilo = "ecuador"
+            }else{
+                alert('Algo fue mal ...');
+            }
+            //UI
+        const miCuerpo = document.body;
+        miCuerpo.className = miEstilo;
+        });      
+        
+        
+    </script>
+    </body>
+
+</html>

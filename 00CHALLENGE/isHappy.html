@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Happy Numbers Math approach</h1>
+    <h2></h2>
+    <p></p>
+    <script>
+
+        //variables globales
+
+        const esHappy = function (num) {
+            //variables
+            const historial = []; //Se crea historial nuevo para cada num
+            //exterior
+            while (historial[num] !== true && num !== 1) { // 2 negativos, No entra con un positivo
+                historial[num] = true;
+                //interior
+                let sumaCua = 0; //inicializar             
+
+                while (num > 0) {
+                    let resto = num % 10;
+                    num = Math.floor(num / 10); // Mover la coma
+                    sumaCua += resto * resto;
+
+                }//fin ciclo interior
+                num = sumaCua;
+
+            }//fin ciclo exterior
+
+            return num === 1;
+        }
+
+        //invocar la funcion
+        let contar = 0;
+        let i = 1;
+        const vectNumHappy = [];
+        while (contar < 5) {
+            
+            if (esHappy(i)) {
+                vectNumHappy.push(i);
+            }
+            i++;
+            contar++;
+        }
+        //mostrar
+        //console.table(registrarNum);
+        console.table(vectNumHappy);
+
+    </script>
+</body>
+
+</html>

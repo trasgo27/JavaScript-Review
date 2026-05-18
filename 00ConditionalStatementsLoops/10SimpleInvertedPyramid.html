@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Create Simple Inverted Pyramid </h1>
+    <h2>with Nested Loops</h2>
+    <script>
+        let x, y = 0;
+        let numSuperior = 10;
+        let cadena = "";
+        //loop
+        for (let i = 1; i <= numSuperior; i++) { //condicion de permanencia
+            for (let j = numSuperior -i; j >= 0; j-- ){
+                cadena += " * ";
+            }
+            console.log(cadena);
+            console.log("\n");
+            cadena = "";
+        }
+    </script>
+</body>
+
+</html>

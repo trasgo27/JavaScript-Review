@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>01.- Largest of Two Integers</h1>
+    <h2>Ternary Operators</h2>
+    <h2>ES06 shorthand code</h2>
+    <p>Write a JavaScript program that displays the largest integer among two integers.</p>
+    <a href="https://www.w3resource.com/javascript-exercises/javascript-conditional-statements-and-loops-exercises.php">Conditional
+        Statements and Loops</a>
+
+    <script>
+        //Get 2 random intergers
+        const n1 = Math.floor(Math.random() * 100) + 1;
+        setTimeout(() => { console.log(`Numero UNO: ${n1}`) }, 1000);
+        const n2 = Math.floor(Math.random() * 100) + 1;
+        setTimeout(() => { console.log(`Numero DOS: ${n2}`) }, 2250);
+
+        setTimeout(() => {
+            respuesta = (n1 > n2) ? `${n1} es MAYOR` : `${n2} es MAYOR`;
+            console.log(respuesta)
+                ;
+        }
+        , 2500); 
+    </script>
+
+</body>
+
+</html>

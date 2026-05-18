@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divMostrar {
+            border: 3px solid hotpink;
+            border-radius: 5px;
+            height: 200px;
+        }
+
+        #divBtn {
+            border: 3px solid hotpink;
+            border-radius: 5px;
+            height: 200px;
+            padding: 10px;
+        }
+
+        button {
+            font-size: 30px;
+            padding: 5px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="divMostrar">
+
+    </div>
+    <br>
+    <div id="divBtn">
+        <button id="btnAuto">Autorizar</button>
+    </div>
+    <script>
+        const miDivMostrar = document.getElementById("divMostrar");
+        const miDivBtn = document.getElementById("divBtn");
+        const miBtnAuto = document.getElementById("btnAuto");
+        miBtnAuto.addEventListener('click', async () => {
+
+            await Notification.requestPermission();
+
+            console.log(Notification.permission);
+
+            if (Notification.permission === 'granted') {
+
+                const noti = new Notification(
+                    'Aviso',
+                    {
+                        body: 'Has recibido un email'
+                    }
+                );
+
+                console.log(noti);
+                console.table(noti);
+                console.log(window.Notification);
+
+                noti.onshow = () => {
+                    console.log('Notification shown');
+                };
+
+                noti.onerror = (err) => {
+                    console.log('Notification error');
+                    console.log(err);
+                };
+
+            }
+        });
+
+        //Logica           
+
+    </script>
+</body>
+
+</html>

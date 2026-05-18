@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //variables
+        var notaMedia = 0; // hay que iniciar
+        var notaLetra = "";
+        const vectorNotas = [["david", 80], ["vinoth", 77], ["divya", 88], ["ishitha", 95], ["thomas", 68]];
+        vectorNotas.forEach((alumno) => {
+            notaMedia += alumno[1];
+        });
+        notaMedia = notaMedia / vectorNotas.length;
+        //Separar calcular Media
+
+        //Mostrar por alerta
+        setTimeout(() => {
+            alert(`Nota Media de la Clase: ${notaMedia}`)
+        }, 900);
+        if (notaMedia < 60) {
+            notaLetra = "F";
+        } else if (notaMedia < 70) {
+            notaLetra = "D";
+        } else if (notaMedia < 80) {
+            notaLetra = "C";
+        } else if (notaMedia < 90) {
+            notaLetra = "B";
+        } else {
+            notaLetra = "A";
+        }
+        //Mostra Alerta
+        setTimeout(() => {
+            alert(`La nota en Letra es: ${notaLetra}`);
+        }, 1500);
+    </script>
+</body>
+
+</html>

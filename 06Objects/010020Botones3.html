@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #miResultadoDiv{
+            margin-top: 5px;
+            width: 600px;
+            height: 100px;
+            border: 3px black solid;            
+            text-align: center;
+        }
+        /*Create classes*/
+        .miEstiloDivNeutral{
+            background-color: beige;
+        }
+        .miEstiloDivExito{
+            background-color: lightgreen;
+        }
+        .miEstiloDivFallo{
+            background-color: red;
+        }
+        .caja{
+             position:absolute;width:50px; height:50px;
+        }
+        /* Button styling */
+        .btn-control{
+            margin: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="miContenedor"  style="background-color: aliceblue; width: 600px; overflow:hidden; height: 400px; border: 2px solid black; position: relative; ">
+        <div id="northSquare" class="caja" style="background-color: rgb(205, 184, 225); top:0px; left:275px;">North</div>
+        <div id="eastSquare" class="caja" style="background-color: pink; top:175px; left:550px;">East</div>
+        <div id="southSquare" class="caja" style="background-color: lightgoldenrodyellow; top:350px; left:275px;">South</div>
+        <div id="westSquare" class="caja" style="background-color: lightblue; top:175px; left:0px;">West</div>
+    </div>  
+    <h1>Desafio Botones</h1>
+    <div id="miResultadoDiv" class="miEstiloDivNeutral">
+        <p id="miResultadoP">Status: </p>
+        <!-- 3 Buttons for Data Persistence -->
+        <button class="btn-control" id="btnReset" onclick="resetPositions()">Reset Positions</button>
+        <button class="btn-control" id="btnSave" onclick="saveToLocalStorage()">Save to Local Storage</button>
+        <button class="btn-control" id="btnClear" onclick="clearLocalStorage()">Clear Storage</button>
+    </div>  
+    
+</body>
+<script>
+    //variables
+     
+    
+    //const cajaBlanca = document.querySelector('#divBlanco');
+    const divExito = document.querySelector('#miResultadoDiv');
+    const parrafoExito = document.querySelector('#miResultadoP');
+    //Container reference for clamping
+    const miContenedor = document.getElementById("miContenedor");
+    //event listener
+    
+    //OOP Object Oriented Programming
+    //constructor
+    function Cuadrado(identi, inicio, esArrastrado){
+        this.identi = identi;
+        this.inicio = inicio;
+        this.esArrastrado = false;
+    }
+    //keyword class as constructor
+    class CrearCuadrado {
+    // 1. THE BIRTH (Constructor)
+    constructor(identi, inicio) {
+        this.identi = identi;
+        this.inicio = inicio;
+        this.esArrastrado = false;
+        this.elemento = document.getElementById(identi);
+        
+        this.elemento.addEventListener('mousedown',(evento)=>{this.isDraggingLogic()});
+        window.addEventListener('mousemove',(evento)=>{this.mouseMoveLogic(evento)});
+        window.addEventListener('mouseup',()=>(this.pararArrastre()));        
+    }
+
+    // 2. THE SKILLS (Methods - Outside the constructor)
+    
+    posicionInicio() {
+        // Save the ORIGINAL CSS position as the "home" point
+        // We read the inline style values (e.g. "275px", "0px")
+        this.puntoInicioLeft = this.elemento.style.left;
+        this.puntoInicioTop  = this.elemento.style.top;
+
+        console.log("Setting start for "+this.identi+" at: left="+this.puntoInicioLeft+", top="+this.puntoInicioTop);
+    }
+
+    posicionActual() {
+        // Your logic for current position
+        let posiActX = this.elemento.getBoundingClientRect().left;
+        let posiActY = this.elemento.getBoundingClientRect().top;
+    }
+
+    // NEW METHOD: Move the box back to its original starting position
+    volverAlInicio() {
+        this.elemento.style.left = this.puntoInicioLeft;
+        this.elemento.style.top  = this.puntoInicioTop;
+        this.elemento.innerHTML  = this.identi;
+        console.log("Returned " + this.identi + " to start: left=" + this.puntoInicioLeft + ", top=" + this.puntoInicioTop);
+    }
+
+    isDraggingLogic() {
+        // Your logic for toggle dragging here
+        this.esArrastrado = true;
+        this.elemento.style.backgroundColor= "lightblue";
+        this.elemento.innerHTML="COGIDO!!!";
+        this.elemento.style.cursor="grabbing";
+        this.elemento.style.zIndex="100";
+    }
+    mouseMoveLogic(evento){
+        if(!this.esArrastrado) return;
+        
+        // Get container bounds for clamping
+        const contRect = miContenedor.getBoundingClientRect();
+        const cajaAncho = this.elemento.offsetWidth;   // 50px
+        const cajaAlto  = this.elemento.offsetHeight;  // 50px
+
+        // Position RELATIVE to the container, centered on cursor
+        let RelativaX = (evento.clientX - contRect.left) - cajaAncho / 2;
+        let RelativaY = (evento.clientY - contRect.top)  - cajaAlto / 2;
+
+        // CLAMP: keep the box inside the container
+        RelativaX = Math.max(0, Math.min(RelativaX, contRect.width  - cajaAncho));
+        RelativaY = Math.max(0, Math.min(RelativaY, contRect.height - cajaAlto));
+
+        // Move
+        this.elemento.style.left = RelativaX + "px";
+        this.elemento.style.top  = RelativaY + "px";
+    }
+    pararArrastre(){
+        if(!this.esArrastrado) return;
+        //Reset the Brain
+        this.esArrastrado = false;
+        //Reset Body
+        this.elemento.style.backgroundColor="orange";
+        this.elemento.innerHTML = this.identi;
+        this.elemento.style.cursor="default";
+        this.elemento.style.zIndex=1;
+        
+    }
+
+
+}
+//We create 4 unique instances from the bluePrint
+const cNorte = new CrearCuadrado("northSquare","inicioNorte");
+const cEste = new CrearCuadrado("eastSquare","inicioEste");
+const cSur = new CrearCuadrado("southSquare","inicioSur");
+const cOeste = new CrearCuadrado("westSquare","inicioOeste");
+
+//Initialize their starting positions
+cNorte.posicionInicio();
+cEste.posicionInicio();
+cSur.posicionInicio();
+cOeste.posicionInicio();
+
+// ==========================================
+// 💾 DATA PERSISTENCE - LOCAL STORAGE LOGIC
+// ==========================================
+
+// SAVE: Collect all positions and save as JSON
+function saveToLocalStorage() {
+    const posiciones = {
+        northSquare: { left: cNorte.elemento.style.left, top: cNorte.elemento.style.top },
+        eastSquare:  { left: cEste.elemento.style.left,  top: cEste.elemento.style.top },
+        southSquare: { left: cSur.elemento.style.left,   top: cSur.elemento.style.top },
+        westSquare:  { left: cOeste.elemento.style.left,  top: cOeste.elemento.style.top }
+    };
+    localStorage.setItem("posicionesCajas", JSON.stringify(posiciones));
+    parrafoExito.textContent = "Status: ✅ Positions saved to Local Storage!";
+    console.log("Saved:", posiciones);
+}
+
+// LOAD: Check on page load if there are saved positions
+function loadFromLocalStorage() {
+    const saved = localStorage.getItem("posicionesCajas");
+    if (saved) {
+        const posiciones = JSON.parse(saved);
+        // Apply saved coordinates to each instance
+        if (posiciones.northSquare) {
+            cNorte.elemento.style.left = posiciones.northSquare.left;
+            cNorte.elemento.style.top  = posiciones.northSquare.top;
+        }
+        if (posiciones.eastSquare) {
+            cEste.elemento.style.left = posiciones.eastSquare.left;
+            cEste.elemento.style.top  = posiciones.eastSquare.top;
+        }
+        if (posiciones.southSquare) {
+            cSur.elemento.style.left = posiciones.southSquare.left;
+            cSur.elemento.style.top  = posiciones.southSquare.top;
+        }
+        if (posiciones.westSquare) {
+            cOeste.elemento.style.left = posiciones.westSquare.left;
+            cOeste.elemento.style.top  = posiciones.westSquare.top;
+        }
+        parrafoExito.textContent = "Status: 📂 Loaded saved positions from Local Storage!";
+        console.log("Loaded:", posiciones);
+    }
+}
+
+// CLEAR: Remove saved data from Local Storage
+function clearLocalStorage() {
+    localStorage.removeItem("posicionesCajas");
+    parrafoExito.textContent = "Status: 🗑️ Local Storage cleared!";
+    console.log("Local Storage cleared.");
+}
+
+// RESET: Move all boxes back to their original CSS positions
+function resetPositions() {
+    cNorte.volverAlInicio();
+    cEste.volverAlInicio();
+    cSur.volverAlInicio();
+    cOeste.volverAlInicio();
+    parrafoExito.textContent = "Status: 🔄 All boxes reset to original positions!";
+}
+
+// 💾 Load saved positions when page starts
+loadFromLocalStorage();
+
+
+</script>
+</html>

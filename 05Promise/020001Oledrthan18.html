@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Mayor 18</h1>
+    <p>2. Crear una promesa portero de discoteca que deje pasar a los mayores de 18 y al resto 
+los rechace. </p>
+<script>
+    //Random Age
+    const edadCrear = function(){
+        return Math.floor(Math.random()*36+1);
+    };
+    //let edadPersona = 0;
+    //Promise
+    miEdadPromesa = new Promise((resolve,reject)=>{
+        const edadPersona = edadCrear();
+        const mensEdadPer = { edad:edadPersona}
+        if(edadPersona>=18){
+            mensEdadPer.resultado="SI Puede Pasar";
+            resolve(mensEdadPer);
+        }else{
+            mensEdadPer.resultado="NO puede pasar";
+            reject(mensEdadPer);
+        }
+    });
+    
+    //Console
+    //console.log("La edad es: ",edadPersona);
+    miEdadPromesa
+    .then((mensaje) => {
+        console.log("La Edad es: "+mensaje.edad+" Resultado: "+mensaje.resultado)
+    })
+    .catch((error) => {
+        console.log(("La Edad es: "+error.edad+" Resultado: "+error.resultado));
+    });
+     
+</script>
+</body>
+</html>

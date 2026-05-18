@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color: blueviolet;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>04.- Largest of Five Numbers</h1>
+    <p>Write a JavaScript conditional statement to find the largest of five numbers.
+        <br> Display an alert box to show the results.
+        <br> Sample numbers : -5, -2, -6, 0, -1
+        <br> Output : 0
+
+    </p>
+    <script>
+        //Conseguir el signo 
+        let num1 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num2 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num3 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num4 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num5 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+
+        let vectorOri = [num1, num2, num3, num4, num5];
+        let cadena = "";
+        let numMayor = 0;
+
+        //Mostrar por consola
+        setTimeout(() => { console.log(num1) }, 1000);
+        setTimeout(() => { console.log(num2) }, 2000);
+        setTimeout(() => { console.log(num3) }, 3000);
+        setTimeout(() => { console.log(num4) }, 4000);
+        setTimeout(() => { console.log(num5) }, 5000);
+        setTimeout(() => { console.log(`Vector Original: ${vectorOri}`) }, 5000);
+
+        //Logica 
+        /*let vectorOrden = [...vectorOri].sort((a, b) => a - b);//With curly braces you need return
+        setTimeout(() => { console.log(`Vector Ordenado ASCENDENTE: ${vectorOrden}`) }, 5000);
+        let vectorOrdenDESCENDENTE = [...vectorOri].sort((a, b) => { return b - a });
+        setTimeout(() => { console.log(`Vector Ordenado DESCENDENTE: ${vectorOrdenDESCENDENTE}`) }, 6000);
+        */
+        let vectorAscendente = vectorOri.sort((a, b) => a - b);
+        const long = vectorOri.length;
+        let mayor = vectorAscendente[long - 1]
+
+        //Mostrar Alerta
+        setTimeout(() => {
+            alert(`Vector Original ${vectorOri}`);
+        }, 6000);
+
+        setTimeout(() => {
+            alert(`El mayor es: ${mayor}`);
+        }, 7000);
+
+        setTimeout(() => {
+            alert(`Vector Ascendente: ${vectorAscendente.join(', ')}`)
+        }, 7500);
+        //Variable
+        var ifMayor;
+
+        if (num1 > num2 && num1 > num3 && num1 > num4 && num1 > num5) {
+            ifMayor = num1;
+        } else if (num2 > num1 && num2 > num3 && num2 > num4 && num2 > num5) {
+            ifMayor = num2;
+        } else if (num3 > num2 && num3 > num1 && num3 > num4 && num3 > num5) {
+            ifMayor = num3;
+        } else if (num4 > num2 && num4 > num3 && num4 > num1 && num4 > num5) {
+            ifMayor = num4;
+        } else {
+            ifMayor = num5;
+        }
+
+        setTimeout(() => { alert(`IF dice que: El mayor es: ${ifMayor}`) }, 8500)
+    </script>
+</body>
+
+</html>

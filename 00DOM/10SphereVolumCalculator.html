@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #destino{
+            border: 3px solid #000;
+        }
+        div{
+            width: 35%;
+            border-radius: 10px;
+            padding: auto;
+            margin: 10px;
+        }
+        form{
+            padding: 5px;
+            margin: 5px;
+            width: 90%;
+            border-radius: 10px;
+            background-color: beige;
+        }
+        button{
+            font-size: 18px;
+            padding: 6px;
+            margin: 3px;
+            border: solid red 3px;
+            border-radius: 6px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>10. Sphere Volume Calculator</h1>
+    <h2>Write a JavaScript Program to calculate sphere volum</h2>
+    <div id="destino">
+        <h3>Volumen de la Esfera: </h3>
+        <br>
+        <p>Introduce el valor del radio y consigue el volumen</p>
+        <form action="" method="post" id="formulario">
+        <!--//action php destination method get or post-->
+            <label for="radioIn">Radio</label>
+            <br><br>
+            <input type="text" name="radioIn" id="radioIn" required>
+            <br><br>
+            <label for=""></label>Volumen
+            <br><br>
+            <input type="text" name="volumenIn" id="volumenIn" readonly>
+            <br><br>
+            <button id="calcularbt" type="submit">Calcular</button> 
+            <!--//boton evento submit-->
+        </form>
+        <!--//input type button onclick mifuncion()-->
+    </div>
+    <script>
+        //Parar la recarga del formulario
+        //Add the form an Event listener
+        document.querySelector("#formulario").addEventListener("submit",(e)=>{
+            e.preventDefault();
+            const radio = document.querySelector("#radioIn").value;
+            const volumenIn = document.querySelector("#volumenIn");
+            const r = parseFloat(radio);
+            if(isNaN(r)){
+                alert("Introducir un Valor Numerico ...");
+                return;
+            }else{
+                const volumen = (4/3)*Math.PI*r**3;
+                volumenIn.value = volumen.toFixed(2);
+            }
+        });
+        //Capturar el radio del form
+        function capturarRadio(){            
+            var x = document.getElementById("radioIn");
+            var miRadio = Number(x.value);
+            return miRadio;
+        }
+        function ejecutar(){
+            let radio = 1;
+            let vol = 3*3.141596(radio**3)/4;
+            return capturarRadio();         
+
+        }
+        //alert(ejecutar(3))
+        console.log(ejecutar());
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divBotones {
+            padding: 10px;
+            background-color: lightgoldenrodyellow;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+
+        #divResultados {
+            padding: 10px;
+            background-color: lightgreen;
+            border: solid 2px grey;
+            border-radius: 5px;
+            font-size: larger;
+        }
+
+        button {
+            background-color: aliceblue;
+            font-size: large;
+            padding: 5px;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+
+        h3 {
+            color: red;
+        }
+
+        .desaparecer {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Window Object</h1>
+    <h2>LocalStorage Property</h2>
+    <h3>No Admite:
+        <br> NEGATIVOS
+        <br> NI Superior a 100
+    </h3>
+    <div id="divBotones">
+        <button id="btnAdd">Increase!</button>
+        <br><br>
+        <button id="btnSubst">Reduce!</button>
+        <br><br>
+        <button id="btnDelete">Delete!</button>
+    </div>
+    <br><br>
+    <p>Click and see the counter go up</p>
+    <p>If you close the browser or the tap, and click again the counter doesn't start from cero. It keeps its
+        previous value</p>
+    <br><br>
+    <div id="divResultados">
+
+    </div>
+    <script>
+        //Globales
+        var contador = 0;
+        var limiteInf = 0;
+        var limiteSup = 5;
+        // ✅ Initialize
+        let almacenado = localStorage.getItem('contador');
+        if (almacenado != null) {
+            contador = parseInt(almacenado);
+        }
+        mostrar();
+
+        //Escuchadores
+        const miSumar = document.getElementById('btnAdd');
+        const miRestar = document.getElementById('btnSubst');
+        const miBorrar = document.getElementById('btnDelete');
+        miSumar.addEventListener('click', (e) => {
+            sumar();
+        });
+        miRestar.addEventListener('click', (e) => {
+            restar();
+        });
+        miBorrar.addEventListener('click', (e) => {
+            borrar();
+        });
+        //Logica
+        function mostrar() {
+            //let contadorLetras = localStorage.getItem('contador') || '0';
+            const miMarcador = document.getElementById('divResultados');
+            //miMarcador.innerText = contadorLetras;
+            //  BETTER  //this removes the previous text
+            miMarcador.innerHTML = `<p>Contador: ${contador}</p>`;
+
+        }
+        function sumar() {            
+            if (contador >= limiteSup) {
+                quitarBoton();
+                return;
+            } else {
+                contador++;
+                localStorage.setItem('contador', contador);
+                document.getElementById('btnSubst').disabled = false;
+                mostrar();
+            }
+
+        }
+
+        function restar() {
+            if (contador === limiteInf) {
+                quitarBoton();
+                return;
+            } else {
+                contador--;
+                localStorage.setItem('contador', contador);
+                document.getElementById('btnAdd').disabled = false;
+                mostrar();
+            }
+        }
+
+        function borrar() {
+            localStorage.removeItem('contador');
+            contador = 0;
+            mostrar();
+        }
+
+        function quitarBoton() {
+
+            if (contador == limiteInf) {
+                const miBoton = document.getElementById('btnSubst');
+                miBoton.disabled = true;
+            } else if (contador == limiteSup) {
+                const miBoton = document.getElementById('btnAdd');
+                miBoton.disabled = true;
+            }
+        }
+
+        //Ejecutar
+
+
+    </script>
+
+</body>
+
+</html>

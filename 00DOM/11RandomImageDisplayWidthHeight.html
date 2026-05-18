@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            color: blueviolet;
+            font-size: 30px;
+            padding: 7px;
+            border: 3px solid blueviolet;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>10. Random Image Display</h1>
+    <p>Write a JavaScript program to display a random image (clicking on a button)
+        <br>from the following list.
+    </p>
+    <p>Apretar para cambiar Imagen</p>
+    <p>Write a JavaScript function that displays a random image from an array of image URLs 
+    <br>along with its specified width and height.</p>
+    <br>
+    <button id="boton" onclick="ejecutar()">Apretar</button>
+    <br><br>
+    <div id="div">
+        <img id="img" src="../00CHALLENGE/Imagenes/imagenes11/ciudad-200x300.jpg" alt="">
+    </div>
+</body>
+<script>
+    function ejecutar() {
+        //
+        const b = document.querySelector("#boton");
+        const t = document.querySelector("#div");
+        const i = document.querySelector("#img");
+        //array random images
+        /*const imagenes = [
+            "../00CHALLENGE/Imagenes/imagenes11/campo-200x300.jpg",
+            "../00CHALLENGE/Imagenes/imagenes11/ciudad-200x300.jpg",
+            "../00CHALLENGE/Imagenes/imagenes11/madre-200x300.jpg",
+            "../00CHALLENGE/Imagenes/imagenes11/tractor-200x300.jpg"
+        ];*/
+        //array de Objetos
+        const imgLista = [
+        {url:"../00CHALLENGE/Imagenes/imagenes11/tractor-200x300.jpg", width:200,height:300},
+        {url:"../00CHALLENGE/Imagenes/imagenes11/maiz-700x500.jpg", width:700,height:500},
+        {url:"../00CHALLENGE/Imagenes/imagenes11/marejada-400x500.jpg", width:400,height:500},
+        {url:"../00CHALLENGE/Imagenes/imagenes11/pueblo-800x300.jpg", width:800,height:300}
+        ];
+
+        /*const nombres = [
+            "campo",
+            "ciudad",
+            "madre",
+            "tractor"
+        ];*/
+        //generar num aleatorio
+        let numAl = Math.floor(Math.random() * imagenes.length);
+        //actualizar el recurso
+        i.src = imgLista[numAl].url;
+        //i.
+        //alert(`${numAl}` + "  corresponde con: \n" + ` ${nombres[numAl]}`);
+    }
+</script>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Crear una promesa que compare una cadena con otra y se resuelva en caso de que 
+sean iguales. </p>
+<script>
+    //Create Random Sentences
+    const sentenceA = "She has run too many marathons";
+    const sentenceB= "I am not that sure that I want to run in that track";
+    //Create a Random Chain
+    const longitud = 4;
+    makeTwoBinariaCadena = function(){
+        const num1 = Math.floor(Math.random()*3)+1;
+        const num2 = Math.floor(Math.random()*3)+1;
+        const binario1 = num1.toString(2).padStart(8,'0');
+        const binario2 = num2.toString(2).padStart(8,'0');
+         return [binario1, binario2];
+    }
+    makeOneBinaryChain = function(){
+        const n1 = Math.floor(Math.random()*3+1);
+        return n1.toString(2).padStart(4,'0');
+    }
+    
+    //Logic Promise
+    const miPromesa = new Promise((resolve,reject)=>{
+        const A = makeOneBinaryChain();
+        const B = makeOneBinaryChain();
+        const paquete = {valor1:A,valor2:B };
+        if(A==B){
+            paquete.resultado="IGUALES";
+            resolve(paquete);
+        }else{
+            paquete.resultado="DISTINTOS";
+            reject(paquete);
+        }
+    });
+    //Promise
+    //Data Consumption
+     
+    console.log(makeTwoBinariaCadena());
+    console.log(makeOneBinaryChain());
+    //Promise Consumption
+    miPromesa
+        .then((msg)=>{
+            console.log("✅ SUCCESS!");
+            console.log("Cadena 1: "+ msg.valor1);
+            console.log("Cadena 2: "+msg.valor2);
+            console.log("Verdict: "+msg.resultado);
+        })
+        .catch((err)=>{
+            console.log("❌ FAILURE");
+            console.log("Cadena 1: "+ err.valor1);
+            console.log("Cadena 2: "+err.valor2);
+            console.log("Verdict: "+err.resultado);
+        });    
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>1. Style Paragraph</h1>
+    <p id="objetivo">Here is a sample html file with a submit button. 
+    <br> Now modify the style of the paragraph text through javascript code.
+    <br> miParrafo.style camelCase and "" </p>
+    <button id="submit" onclick="ejecutar()">Submit</button>
+    <script>
+        //variable
+        //.style 
+        // classList 
+        // cssText
+        
+        function ejecutar(){
+            //variables
+            const miParrafo = document.getElementById("objetivo");
+            miParrafo.style.backgroundColor="lightblue";
+            miParrafo.style.fontSize="36px";
+            miParrafo.style.color = "red";
+            miParrafo.style.margin = "6px";
+        }
+    </script>
+</body>
+</html>

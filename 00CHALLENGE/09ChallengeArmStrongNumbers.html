@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Strong Arms Digits</h1>
+    <script>
+        const descomponerEnDigits = function (num) {
+            return num.toString().split('');
+        }
+
+        //funcion esArmStrong(num)> descomponerEnDigits > vector [3,4,5];
+        const esArmS = function (num) {
+            //Obtener el vector 
+            let vector = descomponerEnDigits(num);
+            let sumaCubo = vector.reduce((total, digi) => {
+                return total +=(digi ** 3);
+            }, 0);
+            //return automatico
+            return sumaCubo === num;
+        }
+        //Funcion Iterar de 100 a 1000
+        const repetir = function () {
+            //conseguir num ArmStrong numeros
+            const vectorExitos = [];
+            for (let i = 100; i < 1000; i++) {
+                if (esArmS(i)) {
+                    vectorExitos.push(i);
+                }
+            }
+            return vectorExitos;
+        }
+        //Mostrar
+        console.table(descomponerEnDigits(19));
+        console.table(descomponerEnDigits(123));
+        console.table(descomponerEnDigits(5));
+        console.log(esArmS(1));
+        console.log(`true: ${esArmS(153)}`);
+        console.log(esArmS(100));
+        console.log(esArmS(370));
+        console.log(`Vector Repetir: ${repetir(5)}`);
+        console.log(`Vector Repetir: 11111 >>> ${repetir(11111)}`);
+    </script>
+</body>
+
+</html>

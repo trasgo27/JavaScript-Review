@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>Campo de texto (input) y un botón. <br>
+        Cada vez que el usuario escriba algo y pulse el botón,
+        <br> muestra cuántos caracteres ha escrito.
+    </p>
+    <div id="contenedor">
+        <input type="text">
+        <br><br>
+        <button class="boton">
+            Enviar
+        </button>
+    </div>
+    <script>
+        const contenedor = document.querySelector('#contenedor');
+        contenedor.addEventListener('click', function (event) {
+            let texto = "";
+            let numero = 0;
+
+            if (event.target.tagName === 'BUTTON') {
+                texto = event.target.querySelector('.boton');
+                numero = texto.length;
+            }
+
+            alert('El numero de caracteres es: ' + numero);
+        });
+    </script>
+</body>
+
+</html>

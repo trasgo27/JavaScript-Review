@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            margin: 5px;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+            border: solid 3px black;
+            border-radius: 5px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Change Body Color based on user's Latitud</h1>
+    <p>Callback function</p>
+    <div id="div1">Norte</div>
+    <div id="div2">Ecuador</div>
+    <div id="div3">Sur</div>
+    <h2>Color de Latitud</h2>
+    <div id="miDiv">Color Elegido</div>
+    <script>
+        const miDivNorte = document.getElementById('divNorte');
+        const miDivSur = document.getElementById('divSur');
+        const miDivEcu = document.getElementById('divEcu');
+
+        function elegirColor() {
+            const misColores = [
+                'lightblue',
+                'blueviolet',
+                'lawngreen',
+                'lightyellow',
+                'lightpink',
+                'orange'
+            ];
+            const tresColores = [];
+            for (let i = 0; i < 3; i++) {
+                let numAle = Math.floor(Math.random() * misColores.length);
+                let miBusca = `div${i + 1}`;
+                let miDiv = document.getElementById(`${miBusca}`);
+                miDiv.style.backgroundColor = misColores[numAle];
+                tresColores.push(misColores[numAle]);
+                misColores.splice(numAle, 1);
+            }
+            //Devolver colores Los Colores     
+            return tresColores;
+        }
+        //Now I want to use navigate as I am in the North latitude I want it to modify background color of another div with the same one as the north one
+
+        function conseguirLati() {
+            const miDiv = document.getElementById('miDiv');
+            const miNavi = navigator.geolocation;
+            miNavi.getCurrentPosition((posi)=>{
+                let stringColor = "";
+                let misTresColores = elegirColor();
+                const miLati = posi.coords.latitude;
+                
+                if (miLati > 1) {
+                    stringColor = misTresColores[0];
+                } else if (miLati < -1) {
+                    stringColor = misTresColores[1];
+                } else if (miLati <= 1 && miLati >= -1) {
+                    stringColor = misTresColores[2];
+                } else {
+                    alert('Algo Salio MAL');
+                }
+miDiv.innerText = stringColor;
+            });    
+}
+conseguirLati();
+
+
+    </script>
+</body>
+
+</html>

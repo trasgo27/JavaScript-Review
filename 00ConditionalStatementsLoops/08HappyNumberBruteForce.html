@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            color: brown;
+        }
+
+        h3 {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>08.- Happy Number</h1>
+    <h2 style="color: blueviolet;">Brute Force Maths</h2>
+    <h2>split(''), split('', limit), map()</h2>
+    <h3>slice(), substr(), substring()</h3>
+
+    <p>According to Wikipedia a happy number is defined by the following process :
+        <br> "Starting with any positive integer, replace the number by the sum of the squares of its digits,
+        <br> and repeat the process until the number equals 1 (where it will stay),
+        <br> or it loops endlessly in a cycle which does not include 1.
+        <br> Those numbers for which this process ends in 1 are happy numbers,
+        <br> while those that do not end in 1 are unhappy numbers (or sad numbers)".
+        <br> Write a JavaScript program to find and print the first 5 happy numbers
+    </p>
+    <script>
+        //function
+        const esHappy = function (num) { //outer loop checks numbers true inner breakdown
+            var m, n, acumulado, happy;
+            var vector = [];
+            while (vector[num] != true) { //outer loop checks positions
+                vector[num] = true;
+                //inner starts
+                acumulado = 0; //Resetear antes entrar
+                while (num > 0) {
+                    m = num % 10;
+                    num = Math.floor(num / 10);
+                    acumulado += m * m;
+                }// fin del while interior
+                num = acumulado;
+            }// end outer loop
+            return num == 1;
+        }
+        //Ahora colocar esto en un loop
+        let i = 1;
+        var contar=0;
+        let resultados = [];
+        while (contar < 15) {
+            if (esHappy(i)) {
+                resultados.push(i);
+                contar++;
+            }
+            i++;
+        }
+
+
+        //Visualizar
+        console.log(resultados);
+        //console.table(vector);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Change the content of a cell</title>
+</head>
+
+<body>
+    <h1>06. Update Table Cell</h1>
+    <p>
+        Write a JavaScript function that accepts
+        <br> a row, column (to identify a particular cell) and a string
+        <br> to update the cell's contents.
+    </p>
+    <table id="myTable" border="1">
+        <tr>
+            <td>Row1 cell1</td>
+            <td>Row1 cell2</td>
+        </tr>
+        <tr>
+            <td>Row2 cell1</td>
+            <td>Row2 cell2</td>
+        </tr>
+        <tr>
+            <td>Row3 cell1</td>
+            <td>Row3 cell2</td>
+        </tr>
+    </table>
+    <form>
+        <br>
+        <br>
+        <input type="button" onclick="ejecutar()" ; value="Change content">
+    </form>
+    <script>
+        function ejecutar() {
+            const miTabla = document.getElementById("myTable");
+            let fila = prompt(`Introducir numero Fila 0,1,2`);
+            let colu = prompt(`Introducir numero Columna 0,1 2`);
+            let text = prompt(`Introducir mensaje ...`);
+
+            if (miTabla.rows[fila]) {
+                let mifila = miTabla.rows[fila];
+                //let micelda = "";
+                if (mifila.cells[colu]) {
+                    let micelda = mifila.cells[colu];
+                    //micelda.innerHTML = text;
+                    micelda.textContent = text;
+                    micelda.style.backgroundColor = "pink";
+                    micelda.style.fontSize = "26px";
+                } else {
+                    alert(`Columna: ${colu} no existe`);
+                }
+            } else {
+                alert(`Fila: ${fila} no existe`);
+            }
+            //cambiar el texto            
+        }
+    </script>
+</body>
+
+</html>

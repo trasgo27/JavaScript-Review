@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Universal Armstrong Numbers</h1>
+    <a href="../00ConditionalStatementsLoops/09UniversalArmStrongDigits.md">Debugging</a>
+    <label for="cuantosDig">Cuantos Digitos?</label>
+    <br><br>
+    <input type="text" id="cuantosDig">
+    <br><br>
+    <button onclick="ejecutar()">Enviar</button>
+    <script>
+        // vectorizarNum 415 > vector = [4,1,5]
+        const vectorizarNum = function (num) {
+            return vectorNum = num.toString().split('').map(Number); // split() solo a strings
+        }
+        // coger numero del HTML
+        const recogerNum = function () {
+            const inputDoc = document.getElementById("cuantosDig");
+            return num = inputDoc.value;
+        }
+        //Transformar recogerNum en numero de digitos
+        //Cuidado const miFuncion = function(){}
+        function numDigitos() { //Recoge 4 del HTML > devuelve 4 ceros >10000
+            return 10 ** (recogerNum()) // 3 > 1000
+        }
+        //Comprobar esArmstrong()
+        function esArmstrong(num) {
+            //convertirlo en vector > reduce
+            let vectorNum = vectorizarNum(num); // [5,6]
+            let longi = vectorNum.length;
+            let sumaPoten = vectorNum.reduce((acu, ele) => {
+                return acu = acu + ele ** longi;
+            }, 0);
+            return sumaPoten === num;
+        }
+
+        //Ejecutar
+        function ejecutar() {
+            console.log(`Funcion Ejecutar`);
+            console.table(vectorizarNum(415));
+            console.table(recogerNum());
+            console.table(`Vectorizar Numero Recogido: ${vectorizarNum(recogerNum())}`);
+            console.log(`Recoger Num Inicio ${numDigitos()}`);
+            //Ejecutar
+            //Recoger el num del HTML
+            let numFinal = numDigitos();
+            let numIni = numFinal / 10;
+            let vectorExitos = [];
+            for (let i = numIni; i < numFinal; i++) {
+                console.log(i);
+                //Comprobar es StrongArm?
+                console.table(`Es armstrong: ${esArmstrong(i)}`);
+                if (esArmstrong(i)) {
+                    vectorExitos.push(i);
+                }
+            }
+            return console.table(`Numeros Armstrong: ${vectorExitos}`);
+        }
+    </script>
+</body>
+
+</html>

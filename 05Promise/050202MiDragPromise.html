@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="miContenedor"  style="background-color: aliceblue; width: 600px; overflow:hidden; height: 400px; border: 2px solid black; position: relative; ">
+        <div id="divAmarillo" style="background-color: yellow;border: black solid 2px; position: absolute;left: 50px;top: 50%;width:100px;height: 100px;display: flex; ">
+            <p style="">Arrastrame</p>
+        </div>
+        <div id="divBlanco" style="background-color: white;border: black dotted 5px; position: absolute;right: 50px;top: 50%;width:100px;height: 100px;display: flex; ">
+            <p style="">Destino</p>
+        </div>
+        <div>
+        </div>
+    </div>    
+    <p id="miResultado">Status:</p>
+</body>
+<script>
+    //variables
+    let isDragging=false;
+    let isOverlapping = false;
+    const cajaAmarilla = document.querySelector('#divAmarillo');
+    const cajaBlanca = document.querySelector('#divBlanco');
+    //event listener
+    cajaAmarilla.addEventListener('mouseover',function(){
+        cajaAmarilla.innerHTML="Cogeme!!!";
+        cajaAmarilla.style.backgroundColor="orange";
+        cajaAmarilla.style.cursor="grab";
+    });
+    cajaAmarilla.addEventListener('mousedown',function(){
+        isDragging=true;
+        cajaAmarilla.style.backgroundColor="lightblue";
+        cajaAmarilla.innerHTML="COGIDO!!!";
+        cajaAmarilla.style.cursor="grabbing";
+        cajaAmarilla.style.zIndex = "1000";
+    });
+        //Logic
+        //miPromesa Verifica Choque
+        //Promesa (resolve, reject =>{})
+        const verificarChoque = function () {
+            //We return a contract, promise
+            miPromesaNoHueco = new Promise(resolve, reject => {
+                //getBoundingClientRect() returns an object with the location and size
+                const posiAma = cajaAmarilla.getBoundingClientRect();
+                const posiBlan = cajaBlanca.getBoundingClientRect();
+                //Overlapping
+                let hayHueco = (
+                posiAma.right<posiBlan.left ||
+                posiAma.left>posiBlan.right ||
+                posiAma.bottom<posiBlan.top ||
+                posiAma.top>posiBlan.bottom
+            );
+                if(!hayHueco){
+                    resolve("CONSEGUIDO!!!")
+                }else{
+                    reject("Has Fallado!!!");
+                }
+            });}
+
+
+        
+    //Mouse move logic
+    document.addEventListener('mousemove',function(evento){
+        
+        if(isDragging){
+            cajaAmarilla.style.left=(evento.clientX-50)+"px";
+            cajaAmarilla.style.top=(evento.clientY-50)+"px";
+        }
+    });
+    //Drop Logic Attach to the Document
+        document.addEventListener('mouseup', function () {
+            //safety check 
+            //If we were not dragging don't do anything
+            if (!isDragging) return;
+            let hasLlegado = verificarChoque();
+            if (hasLlegado) {
+                cajaBlanca.style.backgroundColor = "lightgreen";
+                cajaBlanca.innerHTML = "LOGRADO!!!";
+                //cambiar aspecto cajaAmarilla
+                cajaAmarilla.style.backgroundColor = "green";
+                cajaAmarilla.style.color = "yellow";
+                cajaAmarilla.innerHTML ="Muy Bien!!!";
+            } else {
+
+                cajaBlanca.style.backgroundColor = "white";
+                cajaBlanca.innerHTML = "NOOOO!!!";
+                // Visual reset for the yellow box
+                cajaAmarilla.style.backgroundColor = "yellow";
+                cajaAmarilla.innerHTML = "SOLTADO!!!";
+                cajaAmarilla.style.cursor = "grab";
+            }
+            seSobrePonen = false;
+            isDragging = false;
+        });
+</script>
+</html>

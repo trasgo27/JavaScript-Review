@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div-contenedor{
+            border: 2px black solid;
+            width:1000px;
+            height: 500px;
+            position: relative;
+            padding: 5px;
+        }
+        #cuadrado-N{
+            top:0px;
+            left:450px;
+        }
+        #cuadrado-E{
+            top:200px;
+            left:900px;
+        }
+        #cuadrado-S{
+            top:400px;
+            left:450px;
+        }
+        #cuadrado-O{
+            top:200px;
+            left:0px;
+        }
+        #cuadrado-Centro{
+            top:200px;
+            left:450px;
+            border:dotted;
+        }
+
+        .cuadrado{
+            border: solid black 1px;
+            width:100px;
+            height: 100px;
+            position: absolute;
+            text-align: center;                        
+        }
+    </style>
+</head>
+<body>
+    <div id="div-contenedor" class="">
+        <div id="cuadrado-N" class="cuadrado">Norte</div>
+        <div id="cuadrado-E" class="cuadrado">Este</div>
+        <div id="cuadrado-S" class="cuadrado">Sur</div>
+        <div id="cuadrado-O" class="cuadrado">Oeste</div>
+        <div id="cuadrado-Centro" class="cuadrado">Target</div>
+    </div>
+    <div id="div-Resultado">Resultado</div>
+<script>
+    //Clases
+    //identificarlo, posicion inicio, posicion actual, seleccionado
+    //seleccionarlo, moverlo, desseleccionar
+    //event listeners
+    class Cajas {
+        constructor(id){
+            this.id = id;
+            this.caja = document.getElementById(id);
+            this.estaSeleccionado = false;
+            this.caja.addEventListener('mousedown',(e)=>{
+                this.seleccionar(e);
+            });
+            //mover con referencia a la pantalla
+            window.addEventListener('mousemove',(e)=>{
+                this.mover(e);
+            });
+            window.addEventListener('mouseup',(e)=>{
+                this.soltar(e);
+            });
+        }
+        //Metodos
+        seleccionar(e){
+            this.estaSeleccionado = true;
+            //Cambiar Puntero
+            //Cambiar Cuadro
+        }
+        mover(e){
+            if(!this.estaSeleccionado) return;
+            this.caja.style.left = e.clientX + "px";
+            this.caja.style.top  = e.clientY + "px";
+        }
+        soltar(e){
+            this.estaSeleccionado = false;
+        }
+    }
+    //Instancias
+    const cNorte = new Cajas("cuadrado-N");
+    const cEste  = new Cajas("cuadrado-E");
+    const cSur   = new Cajas("cuadrado-S");
+    const cOeste = new Cajas("cuadrado-O");
+</script>
+</body>
+</html>

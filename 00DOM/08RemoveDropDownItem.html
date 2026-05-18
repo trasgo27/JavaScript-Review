@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Remove items from a dropdown list</title>
+    <style>
+        input{
+            font-size: large;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        select{
+            font-size: large;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Remove Drop-down Item</h1>
+    <p>Write a JavaScript program to remove items from a drop-down list.</p>
+    <form>
+        <select id="colorSelect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>White</option>
+            <option>Black</option>
+        </select>
+        <br>
+        <br>
+        <input type="button" onclick="quitarColor()" value="Select and Remove">
+    </form>
+    <script>
+        function quitarColor(){
+            const miObjeto = document.getElementById("colorSelect");
+            if(miObjeto.selectedIndex !== -1){
+                miObjeto.remove(miObjeto.selectedIndex); //selected Index;
+                //miSelect.options[miSelect.selectedIndex].remove();
+            }else{
+                alert(`Nada Seleccionado ...`);
+            }
+        }
+    </script>
+</body>
+
+</html>

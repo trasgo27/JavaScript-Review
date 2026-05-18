@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>05.- Odd or Even</h1>
+    <p>Write a JavaScript for loop that iterates from 0 to 15. For each iteration, it checks if the current number is odd or even, and displays a message on the screen.
+<br>
+Sample Output :
+<br>
+"0 is even"
+<br>
+"1 is odd"
+<br>
+"2 is even"</p>
+<script>
+    const esPar = function(num){
+        if(num %2 == 0){
+            return `${num} es PAR`;
+        }else{
+            return `${num} es IMPAR`;
+        }
+    }
+    for(let i=0;i<16;i++){
+
+        setTimeout(()=>{ 
+            console.log(esPar(i));
+        },500*i);
+    }
+
+</script>
+</body>
+</html>

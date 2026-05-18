@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>02.- Sign of Product of Three Numbers</h1>
+    <p>Write a JavaScript conditional statement to find the sign of the product of three numbers.
+        <br> Display an alert box with the specified sign.
+        <br> Sample numbers : 3, -7, 2
+        <br> Output : The sign is -
+    </p>
+    <script>
+        // Declare variables to store input values
+        var num1, num2, num3;
+
+        // Uncomment the following lines to take input from the user
+        // num1 = window.prompt("Input the First integer", "0");
+        // num2 = window.prompt("Input the second integer", "0");
+        // num3 = window.prompt("Input the third integer", "0");
+
+        // Generate random numbers that CAN be negative (Bug fix: originals were always positive)
+        num1 = Math.floor(Math.random() * 10000 + 1) * (Math.random() < 0.5 ? -1 : 1);
+        num2 = Math.floor(Math.random() * 10000 + 1) * (Math.random() < 0.5 ? -1 : 1);
+        num3 = Math.floor(Math.random() * 10000 + 1) * (Math.random() < 0.5 ? -1 : 1);
+
+        let signoFinal = "";
+
+        // Determine the sign of the product:
+        // If any number is zero, the product is zero.
+        // Otherwise, count negative numbers: odd count → "-", even count → "+"
+        if (num1 === 0 || num2 === 0 || num3 === 0) {
+            signoFinal = "0 (the product is zero)";
+        } else {
+            let negativeCount = 0;
+            if (num1 < 0) negativeCount++;
+            if (num2 < 0) negativeCount++;
+            if (num3 < 0) negativeCount++;
+
+            signoFinal = (negativeCount % 2 === 0) ? "+" : "-";
+        }
+
+        console.log(`Los numeros son ${num1}, ${num2} y ${num3}`);
+        console.log(`El signo es: ${signoFinal}`);
+        alert(`Los numeros son ${num1}, ${num2} y ${num3}\nEl signo es: ${signoFinal}`);
+    </script>
+</body>
+
+</html>

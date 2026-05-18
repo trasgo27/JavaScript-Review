@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Numeros Felices</h1>
+    <h2>Set</h2>
+    <div>
+        <label for="cuantos">Cuantos Numeros Felices?</label>
+        <br> <br>
+        <input type="text" name="" id="cuantos">
+        <br> <br>
+        <button onclick="repeticion()">Enviar</button>
+    </div>
+    <script>        
+        const esNumFeliz = function (num) {
+            const miSet = new Set();
+            while (!(miSet.has(num)) && num !== 1) {
+                miSet.add(num);
+                let sumaCua = 0;
+                while (num > 0) {
+                    let resto = num % 10;
+                    num = Math.floor(num / 10);
+                    sumaCua += resto * resto;
+                }
+                num = sumaCua;
+            }//fin del while exterior
+            return num === 1;
+        }
+        //solicitar cuantos num felices
+        const repeticion = function(){     
+        let inputCuantos = document.getElementById("cuantos");
+        let cuantos = Number(inputCuantos.value);   
+        let i = 1;
+
+        const misNumFelices = new Set();
+        while (cuantos > 0) {
+            if ((esNumFeliz(i))) {
+                cuantos--;
+                misNumFelices.add(i);
+            }
+            i++
+        }
+        //Mostrar
+        console.log('Mis numeros felices ...');
+        console.table(misNumFelices);
+        }
+    </script>
+</body>
+
+</html>

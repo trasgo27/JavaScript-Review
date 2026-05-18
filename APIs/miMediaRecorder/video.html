@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    video{
+        width:100%;
+        max-width: 600px;
+        border: 2px solid red;
+        border-radius: 10px;
+    }
+    </style>
+</head>
+<body>
+    <h1>Grabar Video con Media Recorder</h1>
+    
+    <div id="miDiv">
+        <br>
+        <button id="btnIniciar">Iniciar</button>
+        
+        <button id="btnParar" disabled>Parar</button>
+        <br><br><br>
+        <video src="" id="miPreview" playsinline autoplay muted></video>
+        <a href="" id="miDescargar" style="display:none">Descargar</a>
+        <script src="scripts/video.js"></script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>Ej2: Añade un video a la página y
+        <br> agrega un menú desplegable para seleccionar diferentes
+        velocidades de reproducción
+        <br> (por ejemplo, 0.5x, 1x, 1.5x, 2x).
+    </p>
+    <video id="miVideo" width="400" controls>
+        <source src="./monoleg.mp4" type="video/mp4" >
+        Tu Navegador No Soporta
+    </video>
+    <br>
+    <select name="" id="selectVelocidad">
+        <option value="0.5">x0.5</option>
+        <option value="1">x1 Normal</option>
+        <option value="1.5">x1.5</option>
+        <option value="2">x2</option>
+    </select>
+    <script>
+        //Crear Objeto
+        const miSelector = document.getElementById('selectVelocidad');
+        const miVideo = document.getElementById('miVideo');
+        miVideo.playbackRate =1;
+        miSelector.addEventListener('change',(c)=>{
+            const velocidadSeleccionada = 
+            parseFloat(miSelector.value);
+            miVideo.playbackRate = velocidadSeleccionada;
+        });
+    </script>
+</body>
+</html>

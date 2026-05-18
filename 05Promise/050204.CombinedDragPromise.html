@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Promise Lab - Drag & Text</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-dark: #0f172a;
+            --surface-dark: #1e293b;
+            --text-main: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Playground Container */
+        #game-canvas {
+            width: 800px;
+            height: 450px;
+            background: var(--surface-dark);
+            border-radius: 32px;
+            position: relative;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        /* Drag Item */
+        #draggable {
+            width: 120px;
+            height: 120px;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            position: absolute;
+            left: 80px;
+            top: 165px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.4s;
+            z-index: 5;
+        }
+
+        #draggable:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            box-shadow: 0 30px 60px -10px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Drop Zone */
+        #target {
+            width: 180px;
+            height: 180px;
+            border: 3px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            position: absolute;
+            right: 80px;
+            top: 135px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #target.highlight {
+            border-color: var(--success-color);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* The Paragraph from 050101.CambiarParrafo.html adapted */
+        #demo-paragraph {
+            margin-top: 1rem;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+            padding: 20px 60px;
+            border-radius: 24px;
+            font-weight: 800;
+            font-size: 2rem; /* Will be animated to larger as in the requested file */
+            background: transparent;
+        }
+
+        /* Micro-animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .success-state {
+            color: var(--success-color) !important;
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .error-state {
+            color: var(--error-color) !important;
+            text-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Promise Fusion</h1>
+        <p class="subtitle">Drag the element to the target to resolve the logic</p>
+    </div>
+
+    <div id="game-canvas">
+        <div id="target">Destination</div>
+        <div id="draggable">Drag Me</div>
+    </div>
+
+    <!-- This is the paragraph from the first file -->
+    <p id="demo-paragraph">Awaiting Promise...</p>
+
+    <script>
+        const draggable = document.getElementById('draggable');
+        const target = document.getElementById('target');
+        const demoPara = document.getElementById('demo-paragraph');
+        const canvas = document.getElementById('game-canvas');
+
+        let isDragging = false;
+        let startX, startY;
+        let initialLeft, initialTop;
+
+        // Mouse Down - Start Dragging
+        draggable.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            initialLeft = draggable.offsetLeft;
+            initialTop = draggable.offsetTop;
+            
+            draggable.innerHTML = "DRAGGING";
+            draggable.style.transition = "none";
+        });
+
+        // Mouse Move - Handle Positioning
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            let newX = initialLeft + dx;
+            let newY = initialTop + dy;
+
+            // Constrain to canvas boundaries
+            const canvasRect = canvas.getBoundingClientRect();
+            newX = Math.max(0, Math.min(newX, canvasRect.width - draggable.offsetWidth));
+            newY = Math.max(0, Math.min(newY, canvasRect.height - draggable.offsetHeight));
+
+            draggable.style.left = newX + 'px';
+            draggable.style.top = newY + 'px';
+
+            // Visual feedback on proximity
+            if (isOverlapping()) {
+                target.classList.add('highlight');
+                target.innerHTML = "DROP NOW";
+            } else {
+                target.classList.remove('highlight');
+                target.innerHTML = "DESTINATION";
+            }
+        });
+
+        // Mouse Up - Resolve/Reject Promise
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            draggable.style.transition = "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
+
+            // Logic from 050203: vérifierChoque
+            verificarChoque()
+                .then((msg) => {
+                    // Success logic from 050101 combined with 050203
+                    console.log(msg);
+                    
+                    // Update Paragraph (Demo) - Style inspired by 050101
+                    demoPara.innerHTML = "CONSEGUIDO!!!";
+                    demoPara.style.fontSize = "100px"; // Adapt original 150px to something still big but readable
+                    demoPara.style.backgroundColor = "#00FF00"; // Green from 050101
+                    demoPara.style.color = "#000000";
+                    demoPara.classList.add('success-state');
+
+                    // Update UI Elements
+                    draggable.innerHTML = "YEAH!";
+                    draggable.style.background = "var(--success-color)";
+                    target.style.background = "rgba(16, 185, 129, 0.2)";
+                    target.innerHTML = "SOLVED";
+                })
+                .catch((fail) => {
+                    // Rejection logic from 050101 combined with 050203
+                    console.log(fail);
+
+                    // Update Paragraph (Demo) - Style inspired by 050101
+                    demoPara.innerHTML = "HAS FALLADO!!!";
+                    demoPara.style.fontSize = "100px";
+                    demoPara.style.backgroundColor = "#FF0000"; // Red from 050101
+                    demoPara.style.color = "#FFFFFF";
+                    demoPara.classList.add('error-state');
+
+                    // Reset UI Elements
+                    draggable.innerHTML = "RETRY";
+                    draggable.style.background = "var(--primary-gradient)";
+                    target.style.background = "transparent";
+                    target.innerHTML = "DESTINATION";
+                });
+        });
+
+        // Promise Logic (vérifierChoque inspired by 050203)
+        function verificarChoque() {
+            return new Promise((resolve, reject) => {
+                if (isOverlapping()) {
+                    resolve("Success: Boxes overlap!");
+                } else {
+                    reject("Error: Missed the target!");
+                }
+            });
+        }
+
+        // Helper to check overlap
+        function isOverlapping() {
+            const dragRect = draggable.getBoundingClientRect();
+            const targetRect = target.getBoundingClientRect();
+
+            return !(
+                dragRect.right < targetRect.left ||
+                dragRect.left > targetRect.right ||
+                dragRect.bottom < targetRect.top ||
+                dragRect.top > targetRect.bottom
+            );
+        }
+    </script>
+</body>
+</html>

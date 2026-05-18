@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>10. Pyramid Pattern with Nested Loop</h1>
+    <p>Write a JavaScript program to construct the following pattern,
+        <br> using a nested for loop.
+        <br>
+        * <br>
+        * * <br>
+        * * * <br>
+        * * * * <br>
+        * * * * * <br>
+    </p>
+    <div>
+        <button onclick="ejecutar()">Iniciar</button>
+    </div>
+    <div id="contenedor">
+        <p id="destino">
+
+        </p>
+    </div>
+    <script>
+        //Imprimir asterico
+
+        //Mostrar
+        function ejecutar() {
+            const destino = document.getElementById("destino");
+            //While you can use an array, pyramids are much easier with strings
+            let patronFinal = "";
+            //loops
+            for (let i = 1 ; i<10 ; i++){
+                for (let j = 0 ; j < i  ; j ++){ //Cuidado con comparar o ASIGNAR
+                    patronFinal += " * ";
+                    destino.innerHTML = patronFinal;
+                }
+                patronFinal += "<br>";
+                console.log(i +patronFinal);
+                console.log("Piramide: " + patronFinal);          
+                patronFinal = "";
+            }            
+        }
+
+    </script>
+</body>
+
+</html>

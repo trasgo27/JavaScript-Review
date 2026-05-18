@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>6.- Student Grades Calculation</h1>
+    <h2 style="color:blue">map()</h2>
+    <p>Write a JavaScript program that computes the average marks of the following students.
+        <br> Then, this average is used to determine the corresponding grade.
+    </p>
+    <script>
+        //variables
+        var notaMedia = 0; // hay que iniciar
+        var notaLetra = "";
+        const vectorNotas = [["david", 80], ["vinoth", 77], ["divya", 88], ["ishitha", 95], ["thomas", 68]];
+        let vectorCompleto = [];
+        vectorNotas.forEach((alumno) => {
+            notaMedia += alumno[1];
+        });
+        notaMedia = notaMedia / vectorNotas.length;
+        //Separar calcular Media
+
+        //Mostrar por alerta
+        setTimeout(() => {
+            alert(`Nota Media de la Clase: ${notaMedia}`)
+        }, 900);
+        //Logica
+        const calcularNota = function (nota) {
+            let notaL = "";
+            if (nota < 60) {
+                notaL = "F";
+            } else if (nota < 70) {
+                notaL = "D";
+            } else if (nota < 80) {
+                notaL = "C";
+            } else if (nota < 90) {
+                notaL = "B";
+            } else {
+                notaL = "A";
+            }
+            return notaL;
+        }//Fin calcularNota()
+
+
+        //Mostra Alerta
+        setTimeout(() => {
+            alert(`La nota en Letra es: ${calcularNota(notaMedia)}`);
+        }, 1500);
+        //Calculo para cada alumno
+        vectorCompleto = vectorNotas.map((alumno) => {
+            const nombre = alumno[0];
+            const notaNumerica = alumno[1];
+            let letra = calcularNota(alumno[1]);
+            return [nombre, notaNumerica, letra];
+        });
+        console.log(vectorCompleto);
+        console.table(vectorNotas);
+        console.table(vectorCompleto);
+        //construir un report
+        let report = "=== Informe FINAL ===\n";
+        vectorCompleto.forEach((alum) => {
+            report += `Nombre: ${alum[0].toUpperCase()}, Nota: ${alum[1]}, (Califica: ${alum[2]})\n`
+        });
+        setTimeout(() => { console.log(`${report}`) }, 2000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        Página con varios botones, <br>
+        cada uno con un nombre distinto <br> Al hacer clic en un botón, debe aparecer una
+alerta saludando a esa persona. <br>Usa una única función que reciba el nombre
+como parámetro para mostrar el saludo.
+
+    </p>
+    <div id="contenedorBotones">
+        <button id="bt-john" class="bt-nombres">
+            John
+        </button id="bt-charles">
+        <button class="bt-nombres" id ="bt-charles">
+            Charles
+        </button>
+        <button id="bt-david" class="bt-nombres">
+            David
+        </button>
+        <script>
+            const contBotones = document.querySelector('#contenedorBotones');
+            contBotones.addEventListener('click',(function(event){
+                if(event.target.tagName === 'BUTTON'){
+                    //Get name from the button's text
+                    const name = event.target.innerText;
+                    alert('Hello '+name);
+                }
+            }));
+
+            
+        </script>
+    </div>
+</body>
+</html>

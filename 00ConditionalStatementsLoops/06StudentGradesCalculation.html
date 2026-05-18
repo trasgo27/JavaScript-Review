@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //variables
+        var notaMedia = 0; // hay que iniciar
+        const vectorNotas = [["david", 80], ["vinoth", 77], ["divya", 88], ["ishitha", 95], ["thomas", 68]];
+        vectorNotas.forEach((alumno) => {
+            notaMedia += alumno[1];
+        });
+        notaMedia = notaMedia / vectorNotas.length;
+        //Mostrar por alerta
+        setTimeout(() => {
+            alert(`Nota Media de la Clase: ${notaMedia}`)
+        }, 900);
+        if (notaMedia < 60) {
+            setTimeout(() => {
+                alert(`Grado: F`);
+            }, 1000);
+        } else if (notaMedia < 70) {
+            setTimeout(() => {
+                alert(`Grado: D`);
+            }, 1000);
+        } else if (notaMedia < 80) {
+            setTimeout(() => {
+                alert(`Grado: C`);
+            }, 1000);
+        } else if (notaMedia < 90) {
+            setTimeout(() => {
+                alert(`Grado: B`);
+            }, 1000);
+        } else {
+            setTimeout(() => {
+                alert(`Grado: A`);
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

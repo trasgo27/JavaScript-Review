@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Universal ArmStrong </h1>
+    <p>
+        1,5,51=5 (All 1-digit numbers are Armstrong numbers)
+        <br>2,None,There are no 2-digit Armstrong numbers! (Try it: 12+22=5=12)
+        <br>3,153,13+53+33=153
+        <br>4,"1,634",14+64+34+44=1634
+        <br>5,"54,748",55+45+75+45+85=54748
+        <br>6,"548,834",56+46+86+86+36+46=548834
+    </p>
+
+    <label for="howManyD">Numeros con Cuantos Digitos ?</label>
+    <br><br>
+    <input type="text" id="howManyD">
+    <br><br>
+    <button onclick="activar()">Enviar</button>
+    <br><br>
+    <p id="resultado"></p>
+
+    <script>
+        // 100 > ["1", "0", "0"] > [1,0,0]
+        const vectorizarNum = function (num) {
+            let vectorNum = num.toString().split('').map(Number);
+            return vectorNum; //[1,0,0]
+        }
+
+        //deVectorNum [1,0,0] > 100
+        // BUG-FIX: forEach returns undefined, and the math was wrong.
+        // Now uses join + Number to convert [1,0,0] back to 100.
+        function deVectorNum(vector) {
+            return Number(vector.join(''));
+        }
+
+        //ArmStrong logic
+        // BUG-FIX: Removed broken forEach+return that made the function
+        // always return undefined. Removed unreachable reduce block.
+        // Now uses a single correct reduce to sum digits^length.
+        const esArmStrong = function (num) { //153
+            let vector = vectorizarNum(num);
+            let longi = vector.length;
+            let sumaDig = vector.reduce((acumula, ele) => {
+                return acumula + ele ** longi;
+            }, 0);
+            return num === sumaDig;
+        }
+
+        //Iterate
+        // BUG-FIX: Now takes numDigits (a number) instead of a vector,
+        // and declares finNum with let.
+        function iterar(numDigits) {
+            const vectorExitos = [];
+            let iniciNum = 10 ** (numDigits - 1);
+            let finNum = 10 ** numDigits;
+            for (let i = iniciNum; i < finNum; i++) {
+                if (esArmStrong(i)) {
+                    vectorExitos.push(i);
+                }
+            }
+            return vectorExitos;
+        }
+
+        //Logica Boton
+        // BUG-FIX: Pass n directly to iterar instead of the broken
+        // iterar(deVectorNum(vectorizarNum(n))) pipeline.
+        function activar() {
+            const input = document.getElementById("howManyD");
+            const n = Number(input.value);
+            const resultado = iterar(n);
+            console.log(resultado);
+            document.getElementById("resultado").textContent =
+                resultado.length > 0
+                    ? "Armstrong numbers: " + resultado.join(", ")
+                    : "No Armstrong numbers found for " + n + " digits.";
+        }
+
+    </script>
+</body>
+
+</html>

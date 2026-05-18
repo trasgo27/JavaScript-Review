@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica Notificaciones</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #contador {
+            font-size: 60px;
+            color: crimson;
+            margin-top: 40px;
+        }
+
+        video {
+            width: 700px;
+            border: solid 4px black;
+            border-radius: 10px;
+        }
+
+        #infoVideo {
+            margin-top: 20px;
+            font-size: 25px;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Nueva Publicación</h1>
+
+    <p>En 5 segundos aparecerá una notificación.</p>
+
+    <div id="contador">5</div>
+
+    <script>
+
+        //////////////////////////////////////////////////////
+        // PROMESA TIMEOUT
+        //////////////////////////////////////////////////////
+
+        function timeout(ms) {
+            return new Promise((resolve) => {
+
+                setTimeout(() => {
+                    resolve();
+                }, ms);
+
+            });
+        }
+
+        //////////////////////////////////////////////////////
+        // CUENTA ATRÁS
+        //////////////////////////////////////////////////////
+
+        let segundos = 5;
+
+        const miContador = document.getElementById('contador');
+
+        const intervalo = setInterval(() => {
+
+            segundos--;
+
+            miContador.innerText = segundos;
+
+            if (segundos <= 0) {
+                clearInterval(intervalo);
+            }
+
+        }, 1000);
+
+        //////////////////////////////////////////////////////
+        // NOTIFICACIÓN
+        //////////////////////////////////////////////////////
+
+        async function iniciarNotificacion() {
+
+            // Esperar 5 segundos
+            await timeout(5000);
+
+            // Pedir permiso
+            if (Notification.permission !== "granted") {
+
+                const permiso = await Notification.requestPermission();
+
+                if (permiso !== "granted") {
+                    alert("Permiso denegado");
+                    return;
+                }
+            }
+
+            // Crear notificación
+            const noti = new Notification(
+                "Nuevo Video Disponible",
+                {
+                    body: "Haz click para ver el nuevo video",
+                    icon: "https://cdn-icons-png.flaticon.com/512/727/727245.png"
+                }
+            );
+
+            // CLICK en la notificación
+            noti.onclick = () => {
+
+                window.open("video.html", "_blank");
+
+            };
+        }
+
+        iniciarNotificacion();
+
+    </script>
+
+</body>
+
+</html>

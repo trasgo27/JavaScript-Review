@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Colored Squares</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .square {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .square:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .red {
+            background-color: #e74c3c;
+        }
+
+        .blue {
+            background-color: #3498db;
+        }
+
+        .green {
+            background-color: #2ecc71;
+        }
+
+        .yellow {
+            background-color: #f1c40f;
+            color: #333;
+        }
+
+        /* Dark text for yellow */
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="square red botones" data-color="Red">Red</div>
+        <div class="square blue botones" data-color="Blue">Blue</div>
+        <div class="square green botones" data-color="Green">Green</div>
+        <div class="square yellow botones" data-color="Yellow">Yellow</div>
+    </div>
+    <script>
+        //Add event listener
+        const contenedor = document.querySelector('#container');
+        contenedor.addEventListener('click', function (event) {
+            if (event.target.classList.contains('square')) {
+                let color = event.target.innerText;
+                alert("Color elegido: " + color);
+                document.body.style.backgroundColor= color;
+
+            }
+        });
+    </script>
+</body>
+
+</html>

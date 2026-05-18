@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h1>Add Table Rows</h1>
+    <h2>SetTimeOut()</h2>
+    <h3>let cadena inside the loop</h3> 
+    <h4>Fuerzas el programa a crearlo de nuevo</h4>
+    <label for="cuantas" >Cuantas filas?</label>
+    <br>
+    <input type="text" id="cuantas">
+    <table id="miTabla">        
+    </table>
+    <br>
+    <input type="button" onclick="ejecutar()" value="miFuncion">
+    <script>
+        function piramide() {
+            //let cadena = ""; //Cuidado let no const, no se puede cambiar const
+            const miTabla = document.getElementById("miTabla");
+            const misCuantas = document.getElementById("cuantas");
+            //const numFilas = String(misCuantas).value; object HTMLInputElement ERROR
+            const numFilas = Number(misCuantas.value); //Object misCuantas > value > Number
+            //const filas = [];
+            //const celdas = [];
+            //const cadenas = new Array(numFilas);
+
+            for (let i = 0; i < numFilas; i++) {
+                let cadena = ""; //Mover cadena dentro Cada iteracion la refresca por completo.
+                let nuevaFila = miTabla.insertRow(-1);
+                let nuevaCelda = nuevaFila.insertCell(0);
+                                
+                for (let j = 0; j <= i; j++) {
+                    cadena += " .  *  . ";
+                }
+                //Imprimirlo
+                setTimeout(()=>{
+                    nuevaCelda.innerHTML = cadena;
+                },500*i);
+                
+                //Refrescarlo
+                //cadena = "";
+            }
+        }//fin piramide
+        //otra funcion
+        function imprimir(cadena) {
+            const miTabla = document.getElementById("miTabla");
+            //Contador
+            let i = 0;
+            //crear nueva fila
+            const fila = miTabla.insertRow(i);
+            const colum = fila.insertCell(0);
+            colum.innerHTML = cadena;
+        }
+        function ejecutar() {
+            piramide();
+
+        }
+    </script>
+</body>
+
+</html>

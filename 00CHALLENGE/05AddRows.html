@@ -1,0 +1,110 @@
+Good—this is where things start to feel like real frontend work.
+
+Instead of hardcoding values, we’ll let the user **type data** and then insert it into the table dynamically.
+
+---
+
+## ✅ Simple working example
+
+### 🔹 HTML (inputs + button + table)
+
+```html
+<h1>Add Table Rows Dynamically</h1>
+
+<input type="text" id="col1" placeholder="Column 1">
+<input type="text" id="col2" placeholder="Column 2">
+<button onclick="addRow()">Add Row</button>
+
+<br><br>
+
+<table id="miTabla" border="1">
+    <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+    </tr>
+</table>
+```
+
+---
+
+### 🔹 JavaScript
+
+```js
+function addRow() {
+    const tabla = document.getElementById("miTabla");
+
+    const valor1 = document.getElementById("col1").value;
+    const valor2 = document.getElementById("col2").value;
+
+    // Create new row at the end
+    const newRow = tabla.insertRow(-1);
+
+    const cell1 = newRow.insertCell(0);
+    const cell2 = newRow.insertCell(1);
+
+    cell1.textContent = valor1;
+    cell2.textContent = valor2;
+
+    // Clear inputs after adding
+    document.getElementById("col1").value = "";
+    document.getElementById("col2").value = "";
+}
+```
+
+---
+
+## 🧠 What’s happening
+
+* User types → `"Apple"` and `"10"`
+* Click button → `addRow()` runs
+* A new row is created at the **end** (`-1`)
+* Values go into the cells
+
+---
+
+## 💡 Small improvements (important)
+
+### 1. Prevent empty rows
+
+```js
+if (!valor1 || !valor2) {
+    alert("Please fill both fields");
+    return;
+}
+```
+
+---
+
+### 2. Use `textContent` instead of `innerHTML`
+
+✔ Safer (prevents HTML injection)
+
+---
+
+### 3. Add more columns easily
+
+Just add more inputs + `insertCell()`
+
+---
+
+## 🚀 Result
+
+Each click adds something like:
+
+| Column 1 | Column 2 |
+| -------- | -------- |
+| Apple    | 10       |
+| Banana   | 5        |
+
+---
+
+## 🔥 Next level (if you want)
+
+I can show you how to:
+
+* ❌ Add a **delete button per row**
+* ✏️ Edit rows inline
+* 💾 Save table data (localStorage)
+* 🎯 Make it look like a real app (Bootstrap)
+
+Just tell me 👍

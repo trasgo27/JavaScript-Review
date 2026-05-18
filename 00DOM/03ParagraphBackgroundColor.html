@@ -1,0 +1,56 @@
+<!-- Declaration of HTML document type -->
+<!DOCTYPE html>
+<!-- Start of HTML document -->
+<html>
+<!-- Start of head section -->
+<head>
+<!-- Declaring character encoding -->
+<meta charset=utf-8 />
+<!-- Setting title of the document -->
+<title>Set the background color of a paragraph</title>
+</head>
+<!-- Start of body section -->
+<body>
+    <h1>
+        03. Paragraph Background Color
+    </h1>
+    <p>Write a JavaScript program to set paragraph background color.</p>
+<!-- Button element triggering the set_background function on click -->
+<input type="button" value="Click to set paragraph background color" onclick="set_background()">
+<!-- First paragraph element -->
+<p id="objetivo">w3resource JavaScript Exercises</p>
+<!-- Second paragraph element -->
+<p>w3resource PHP Exercises</p> 
+<script>
+    miParrafo = document.getElementById("objetivo");
+    function set_background(){
+        
+        const miBody = document.getElementsByTagName("body")[0];
+        
+        misHijos = miBody.getElementsByTagName("p");
+        miInput = miBody.getElementsByTagName("input");//TagName posicion [0] collection
+        miParrafo01 = misHijos[0];
+        miParrafo02 = misHijos[1];
+        miParrafo03 = misHijos[2];
+        //Cambiar estilo
+        
+        
+        miParrafo01.style.backgroundColor = "blue";
+        miParrafo02.style.backgroundColor = "lightblue";
+        miParrafo03.style.backgroundColor = "lightblue";
+        setTimeout(()=>{
+            miParrafo.style.backgroundColor = "lightgreen";
+        },3000); 
+        setTimeout(()=>{
+            miParrafo02.style.backgroundColor = "orange";
+        },6000);
+        miBody.style.backgroundColor = "pink";
+        miInput[0].style.fontSize = "30px"; //No va
+
+    }
+
+</script>
+<!-- End of body section -->
+</body>
+<!-- End of HTML document -->
+</html>

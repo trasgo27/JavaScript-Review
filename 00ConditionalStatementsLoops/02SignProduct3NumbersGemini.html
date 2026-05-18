@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>02.- Sign of Product of Three Numbers</h1>
+    <p>Write a JavaScript conditional statement to find the sign of the product of three numbers.
+        <br> Display an alert box with the specified sign.
+        <br> Sample numbers : 3, -7, 2
+        <br> Output : The sign is -
+    </p>
+    <script>
+        // Declare variables to store input values
+        var num1, num2, num3;
+
+        // Uncomment the following lines to take input from the user
+        // num1 = window.prompt("Input the First integer", "0");
+        // num2 = window.prompt("Input the second integer", "0");
+        num1 = Math.floor(Math.random() * 10000 + 1);
+        num2 = Math.floor(Math.random() * 10000 + 1);
+        num3 = Math.floor(Math.random() * 10000 + 1);
+        let signoFinal = "";
+        var vectorNum = [num1, num2, num3];
+        var vectorSigno = [];
+        //Add a sign
+        vectorNum.forEach(num)=> {
+            let signo = (num % 2 == 0) ? -1 : 1;
+            signo = (num % 3 == 0) ? signo : signo * -1;
+            vectorSigno.push(signo);
+        }
+        //Apply sign to the numbers and reduce them
+        for (let i = 0; i < vectorNum.length; i++) {
+            vectorNum[i] = Math.floor(vectorNum[i] / 100 * vectorSigno[i]);
+        }
+        // Compare the values and print the larger or equality message
+        if (num1 < 0 || num2 < 0 || num3 < 0) {
+            signoFinal = "-";
+        } else if (num1 < 0 || (num2 && num3) < 0) {
+            signoFinal = "+";
+        } else if (num1 < 0) {
+            signoFinal = "-";
+        } else {
+            signoFinal = "+";
+        }
+        console.log(`Los numeros son ${num1}, ${num2} y ${num3}`);
+        console.log(`El signo es: ${signoFinal}`);
+    </script>
+</body>
+
+</html>

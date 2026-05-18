@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<h1>02. Get Form Values</h1>
+<p>Write a JavaScript function to get the values
+    <br>of First and Last names of the following form.
+</p>
+
+<body>
+    <!--form id="form1" onsubmit="getFormvalue(event)"-->
+    <form id="form1">
+        First name:
+        <input type="text" name="fname" value="Miguel">
+        <br>
+        Last name:
+        <input type="text" name="lname" value="de Cervantes">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        const miForm = document.getElementById("form1");
+        miForm.addEventListener("submit",getFormvalue);
+        //mi Logica
+        function getFormvalue(event) {
+            
+            if (event) {
+                event.preventDefault();
+            }
+            //var miForm = document.getElementById("form1");
+            let longi = miForm.length;
+            for (let i = 0; i < longi; i++) {
+                if (miForm.elements[i].type === "text") {
+                    console.log(miForm.elements[i].value);
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>

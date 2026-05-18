@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>7.- FizzBuzz</h1>
+    <h2></h2>
+    <p>Write a JavaScript program that iterates integers from 1 to 100.
+        <br> But for multiples of three print "Fizz" instead of the number and for multiples of five print "Buzz".
+        <br> For numbers multiples of both three and five print "FizzBuzz".
+    </p>
+    <script>
+        //variables
+        let report = "= = = Reporte Final = = =\n";
+        //Logica
+        const esFizzBuzz = function (num) {
+            if (num % 3 == 0 && num % 5 == 0) {
+                return "FizzBuzz";
+            } else if (num % 3 == 0) {
+                return 'Fizz';
+            } else if (num % 5 == 0) {
+                return 'Buzz';
+            } else {
+                return num;
+            }
+        }
+
+        for (let i = 1; i < 101; i++) {
+            report += esFizzBuzz(i) + "\n"; //how to append a string            
+        }
+        console.log(report);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div-contenedor{
+            border: 2px black solid;
+            width:1000px;
+            height: 500px;
+            position: relative;
+            padding: 0px;
+        }
+        #cuadrado-N{
+            top:0px;
+            left:450px;
+        }
+        #cuadrado-E{
+            top:200px;
+            left:900px;
+        }
+        #cuadrado-S{
+            top:400px;
+            left:450px;
+        }
+        #cuadrado-O{
+            top:200px;
+            left:0px;
+        }
+        #cuadrado-Centro{
+            top:200px;
+            left:450px;
+            border:dotted;
+        }
+
+        .cuadrado{
+            border: solid black 1px;
+            width:100px;
+            height: 100px;
+            position: absolute;
+            text-align: center;                        
+        }
+    </style>
+</head>
+<body>
+    <div id="div-contenedor" class="">
+        <div id="cuadrado-N" class="cuadrado">Norte</div>
+        <div id="cuadrado-E" class="cuadrado">Este</div>
+        <div id="cuadrado-S" class="cuadrado">Sur</div>
+        <div id="cuadrado-O" class="cuadrado">Oeste</div>
+        <div id="cuadrado-Centro" class="cuadrado">Target</div>
+    </div>
+    <div id="div-Resultado">Resultado</div>
+<script>
+    //Limites de DIV Contenedor
+    const contenedor = document.getElementById("div-contenedor");
+    //const contePosi = contenedor.getClientRects();
+    //const contePosiIzq = contePosi.left;
+    //const contePosiDer = contePosi.left + 1000;
+    //const contePosiArri = contePosi.top;
+    //const contePosiAbaj = contePosi.top + 500;
+    //LOGICA
+    const cambiarDiv = function(){
+
+    }
+    const cambiarMovimiento = function(){
+        
+    }
+    const cambiarSeleccionar = function(){
+
+    }
+    const cambiarDesSeleccionar = function(){
+
+    }
+    //Clase
+    //conectar con id con el HTML
+    //ATRIBUTOS
+    //posicion Inicial
+    //posicion Actual
+    //estaEnFoco? Boolean
+    //METODOS
+    //Seleccionar clicando sobre él
+    //Moverlo
+    //Des-seleccionarlo
+    class Caja {
+        constructor(id){
+            this.id = id;
+            this.enFoco = false;
+            this.caja = document.getElementById(id);
+            this.puntoInicio = this.caja.getBoundingClientRect();
+            //eventListener
+            this.caja.addEventListener('mousedown',(e)=>{
+                this.seleccionar(e);
+            });
+            window.addEventListener('mousemove',(e)=>{
+                this.mover(e);
+            });
+            window.addEventListener('mouseup',(e)=>{
+                this.desseleccionar(e);
+            });
+        }
+        //Metodos
+        seleccionar(e){
+            this.enFoco = true;
+            //Cambiar Estilo
+            cambiarSeleccionar();
+            //Cambiar Puntero
+            cambiarDiv();
+                      
+        }
+        mover(e){
+            if(!this.enFoco) return;
+            this.contenedor = document.getElementById("div-contenedor");
+            this.contRect = this.contenedor.getBoundingClientRect();
+            //Dimensiones Caja
+            const cajaAncho = this.caja.offsetWidth;
+            const cajaAlto  = this.caja.offsetHeight;
+            console.log("const cajaAlto  = this.caja.offsetHeight: " + this.caja.offsetHeight);
+            //Posicion RELATIVA
+            let RelativaX = (e.clientX-this.contRect.left) - cajaAncho/2;
+            let RelativaY = (e.clientY-this.contRect.top)  - cajaAlto/2;
+             
+            //Dentro de los limites
+            RelativaX = Math.max(0,Math.min(RelativaX,this.contRect.width  - cajaAncho ));
+            RelativaY = Math.max(0,Math.min(RelativaY,this.contRect.height - cajaAlto  ));
+            
+            //Mover
+            this.caja.style.left = RelativaX + "px";
+            this.caja.style.top   = RelativaY + "px";
+
+            //Cambiar Estilo
+            cambiarMovimiento();
+            this.caja.style.backgroundColor="pink";
+            this.caja.style.zIndex=10;
+        }
+        desseleccionar(e){
+            if(!this.enFoco) return;
+            this.enFoco = false;
+            //Cambiar Estilo
+            cambiarDesSeleccionar();
+            this.caja.style.backgroundColor="white";
+
+            //Crear Promesa
+            const miPromesa = new Promise((resolve,reject)=>{
+                this.posiCaja   = this.caja.getBoundingClientRect();
+                this.posiTarget = document.getElementById("cuadrado-Centro").getBoundingClientRect();
+                this.hueco = 
+                    this.posiCaja.right < this.posiTarget.left  ||
+                    this.posiCaja.left  > this.posiTarget.right ||
+                    this.posiCaja.bottom < this.posiTarget.top  ||
+                    this.posiCaja.top    > this.posiTarget.bottom;
+                if(!this.hueco){
+                    resolve("CONSEGUIDO!!!"); 
+                }else{
+                    reject("Nooo!!!");
+                }
+            });  
+            miPromesa
+            .then((e)=>{
+                this.caja.style.backgroundColor='lightgreen';
+                console.log(e);
+            })
+            .catch((e)=>{
+                this.caja.style.backgroundColor='red';
+                console.log(e);
+            });
+        }
+    }
+    //Instancia
+    const cN = new Caja("cuadrado-N");
+    const cE = new Caja("cuadrado-E");
+    const cS = new Caja("cuadrado-S");
+    const cO = new Caja("cuadrado-O");
+    //Logica
+    
+</script>
+</body>
+</html>

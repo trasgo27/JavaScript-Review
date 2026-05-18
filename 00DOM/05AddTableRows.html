@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <h1>Add Table Rows</h1>
+</head>
+<body>
+    <table id = "miTabla">
+        <tr>
+            <td>Row01 cell01</td>
+            <td>cell02</td>
+        </tr>
+        <tr>
+            <td>Row02 cell01</td>
+        </tr>
+        <tr>
+            <td>Row03 cell01</td>
+        </tr>
+    </table>
+    <br>
+    <input type="button" onclick="miFuncion()" value="miFuncion">
+    <script>
+        function miFuncion(){
+            const miTabla = document.getElementById("miTabla");
+            //Once I have the object, I can apply built-in methods to it
+            const miFila00 = miTabla.insertRow(0); //This method is not suggested
+            const miFila01 = miTabla.insertRow(1);
+            const miCelda0000 = miFila00.insertCell(0); //This method is not suggested and I have to remember it
+            const miCelda0001 = miFila00.insertCell(1);
+            const miCelda0100 = miFila01.insertCell(0);
+            const miFila02 = document.getElementById("miTabla").insertRow(2);
+            miCelda0000.innerHTML = "Nueva Fila 00 / Nueva Celda 00";
+            miCelda0001.innerHTML = "Nueva Celda 01";
+            miCelda0100.innerHTML = "Nueva Fila 01 / Nueva Celda 00";
+
+        }
+    </script>    
+</body>
+</html>

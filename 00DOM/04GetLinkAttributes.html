@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+    <h1>04. Get Link Attributes</h1>
+    <p>Here is a sample HTML file with a submit button. 
+    <br> Write a JavaScript function to get the value of the 
+    <br> href, hreflang, rel, target, and type attributes of the specified link.</p>
+    <p><a id="w3r" class="a" type="text/html" hreflang="en-us" rel="nofollow" target="_self" href="https://www.w3resource.com/">w3resource</a></p>
+    <button onclick="conseguirAtributos()">Click here to get  attributes value</button>
+    <script>
+        function conseguirAtributos(){
+        const misEnlaces = document.getElementsByClassName("a");
+        const miEnlace = misEnlaces[0];
+        const miHref = miEnlace.href;
+        //const miHreflang = miEnlace.hreflang
+        alert(`Usando getElementsByClassName ${miHref}`);
+        const myEnlace = document.getElementById("w3r");
+        const myHref = myEnlace.href;
+        alert(`Usando getElementById ${myHref}`);
+        alert(miEnlace.hreflang);
+        alert(miEnlace.rel);
+        alert(miEnlace.target);
+        alert(miEnlace.type);
+        }
+        
+    </script>
+
+
+
+</body>
+</html>

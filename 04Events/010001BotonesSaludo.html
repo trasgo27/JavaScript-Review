@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="contenedorBotones">
+        <button class="botonRojo">Monika</button>
+        <br><br>
+        <button class="botonRojo">Paula</button>
+        <br><br>
+        <button class="botonRojo">Rut</button>
+    </div>
+    <script>
+        //Create Object
+        const contenedor = document.querySelector('#contenedorBotones');//long name are more error prone
+        contenedor.addEventListener('click', function (event) {
+            if (event.target.tagName === 'BUTTON') {
+                const nombre = event.target.innerText;
+                alert('Hola ' + nombre);
+                };    
+            });
+    </script>
+</body>
+</html>

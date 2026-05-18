@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Inverted Right Alligned Pyramid</h1>
+    <label for="cuantos">Elegir Niveles</label>
+    <br><br>
+    <input type="text" name="" id="cuantos">
+    <br><br>
+    <button onclick="ejecutar()">Ejecutar</button>
+    <script>
+        //Dos bucles para 
+        let x, y = 0;
+        const col = 10;
+        let cadena = "";
+        let espacio = "";
+        let total = "";
+        for (let i = 0; i <= col; i++) {//loop exterior
+            for (let s = 0; s < i; s++) {//loop estrella
+                espacio += "   ";
+            }
+            total = espacio;
+            for (let j = col - i; j >= 0; j--) {//loop estrella
+                cadena += " * ";
+
+            }
+            total += cadena;
+            cadena = "";
+            espacio = "";
+            console.log(total);
+            total = "";
+        }
+        function crearPiramiInvertAlineaDere() {
+            let cadena = "";
+            let espacio = "";
+            let total = "";
+            const niveles = capturarInput();
+            for (let i = 0; i <= niveles; i++) {
+                for (let s = 0; s < i; s++) {
+                    espacio += "   ";
+                }
+                total = espacio;
+                espacio = "";
+                for (let j = niveles - i; j >= 0; j--) {
+                    cadena += " * ";
+                }
+                total += cadena;
+                console.log(total);
+                cadena = "";
+                total = "";
+            }
+
+        }
+
+        function capturarInput() {
+            const input = document.getElementById('cuantos');
+            const niveles = Number(input.value);
+            return niveles;
+        }
+        //Ejecutar
+        function ejecutar() {
+            //console.log(`Ejecutar() ${capturarInput()}`);
+
+            crearPiramiInvertAlineaDere();
+        }
+    </script>
+</body>
+
+</html>

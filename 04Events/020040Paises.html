@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>Desplegable con opciones de países. <br>
+        Cuando el usuario seleccione
+        uno, <br>“Has seleccionado: [país]”.</p>
+    <div id="myDIV">
+        <label for="paises">Seleccionar un Pais</label>
+        <br><br>
+        <select name="paises" id="paises">
+            <option value="">--Choose Country---</option>
+            <option class="paises" value="* * * IRAN * * *">Iran</option>
+            <option class="paises" value="* * * NORTH KOREA * * *">North Korea</option>
+            <option class="paises" value="* * * CHINA * * *">China</option>
+            <option class="paises" value="* * * RUSIA * * *">Rusia</option>
+        </select>
+    </div>
+    <script>
+        const midiv = document.querySelector('#myDIV');
+        midiv.addEventListener('change', function (event) {
+            if (event.target.querySelector('.paises')) {
+                const pais = document.querySelector('.paises').value;
+                alert("Pais seleccionado: " + pais);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

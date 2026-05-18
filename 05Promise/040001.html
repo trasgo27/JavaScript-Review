@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>4. Json con objetos tipo disco con la siguiente información:
+        <br> Nombre del disco.
+        <br> Grupo de música o cantante.
+        <br> Año de publicación.
+        <br> Tipo de música (podrá ser “rock”, “pop”, “punk”, “electrónica” o “indie”);
+        <br> Localización: almacenará un número de estantería.
+        <br> Prestado: almacenará un valor booleano. Por defecto será false. - - -
+        <br>Imprimir por consola los de tipo indie.
+        <br>Ordenarlos por nombre del grupo
+        <br>Separarlos en dos según sean de antes de 1970 o de después.
+    </p>
+
+<script>
+    //Create JSON Object
+    const d1 = { nombre: "I want to be Free", grupo: "Queen", anyo: 1985, tipoM: "rock", localizacion: 1, prestado: true };
+    const d2 = { nombre: "Indie Album", grupo: "Big Boots", anyo: 1989, tipoM: "indie", localizacion: 2, prestado: true };
+    const d3 = { nombre: "Avenue Road", grupo: "The Beatles", anyo: 1952, tipoM: "pop", localizacion: 1, prestado: false };
+    const libreria = [d1, d2, d3];
+    //Functions
+    const esIndie = function(disco){
+        return disco.tipoM ==="indie";
+    } 
+    //Ordenar Por Nombre
+    
+    //d1.localeCompare(d2.grupo)
+    //sort()-1 first before, 1 first after, 0 equal
+    const ordenarNombre = function(a,b){
+        return a.grupo.localeCompare(b.grupo);
+    } 
+
+    //Separar por 2 grupos antes/despues 1970
+    const esAnterior70 = function(d){
+        return (d.anyo<1970);
+    }
+    const esPosterior70 = function(d){
+        return (d.anyo>=1970);
+    }
+
+    const libreriaAntes70 = libreria.filter(esAnterior70);
+    const libreriaDespues70 = libreria.filter(esPosterior70);
+    //haciendo algo mal con ordenar año
+    ordenarAnyo = function(a,b){
+        return a.anyo-b.anyo;
+    }
+      
+    //Imprimir por consola indie
+    
+    const gruposIndie = libreria.filter(esIndie);
+    //Promise
+    //Mostrar
+    console.log("Discos Indies: ",gruposIndie);
+    console.log("Ordenar por Año: ",libreria.sort(ordenarAnyo));
+    console.log("Discos Anteriores 70: " ,libreriaAntes70);
+    console.log("Discos Posteriores 70: ", libreriaDespues70);
+    console.log("Libreria Ordenada Nombre: ",libreria.sort(ordenarNombre));
+    //
+    
+
+</script>
+</body>
+</html>

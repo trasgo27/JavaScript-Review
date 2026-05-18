@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .addStyle {
+            color: red;
+            background-color: aliceblue;
+            font-size: 36px;
+            padding: auto;
+        }
+
+        button {
+            padding: 6px;
+            font-size: 30px;
+            background-color: azure;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>1. Style Paragraph</h1>
+    <p id="objetivo">Here is a sample html file with a submit button.
+        <br> Now modify the style of the paragraph text through classList object methods
+        <br> miParrafo.style camelCase and ""
+    </p>
+    <button id="add" onclick="add()"> A ñ a d i r </button>
+    <br><br>
+    <button id="eliminar" onclick="eliminar()"> E l i m i n a r </button>
+    <br><br>
+    <button id="toggle" onclick="toggle()"> T o g g l e </button>
+    <br><br>
+    <button id="CSSText" onclick="csstext()"> C S S  T e x t </button>
+
+    <script>
+        //variable
+        //.style 
+        // classList 
+        // cssText
+
+        function add() {
+            //variables
+            const miParrafo = document.getElementById("objetivo");
+            miParrafo.classList.add("addStyle");
+        }
+        function eliminar() {
+            //variable
+            const miParrafo = document.getElementById("objetivo");
+            miParrafo.classList.remove("addStyle");
+        }
+        function toggle() {
+            const miParrafo = document.getElementById("objetivo");
+            miParrafo.classList.toggle("addStyle");
+        }
+        function csstext(){
+            const miParrafo = document.getElementById("objetivo");
+            miParrafo.style.cssText = "background-color:pink;color:red; font-size:50px;"
+        }
+    </script>
+</body>
+
+</html>

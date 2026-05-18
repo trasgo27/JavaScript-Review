@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divBotones {
+            padding: 10px;
+            background-color: lightgoldenrodyellow;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+
+        #divResultados {
+            padding: 10px;
+            background-color: lightgreen;
+            border: solid 2px grey;
+            border-radius: 5px;
+            font-size: larger;
+        }
+
+        button {
+            background-color: aliceblue;
+            font-size: large;
+            padding: 5px;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+
+        #btnAdd10 {
+            padding: 10px;
+            font-size: larger;
+            font-weight: bolder;
+            /*color: blue;*/
+            /*Los colores no pueden ser deshabilitados*/
+        }
+
+        #btnSubst10 {
+            padding: 12px;
+            font-size: larger;
+            font-weight: bolder;
+            /*color: red;*/
+            /*Los colores no se pueden deshabilitar*/
+        }
+
+        h3 {
+            color: red;
+        }
+
+        .desaparecer {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Window Object</h1>
+    <h2>LocalStorage Property</h2>
+    <h3>No Admite:
+        <br> NEGATIVOS
+        <br> NI Superior a 100
+        <br>NI por debajo 0
+    </h3>
+    <div id="divBotones">
+        <button id="btnAdd">Increase!</button>
+        <button id="btnAdd10">+ 10 ! ! !</button>
+        <br><br>
+        <button id="btnSubst">Reduce!</button>
+        <button id="btnSubst10">- 10 ! ! !</button>
+        <br><br>
+        <button id="btnDelete">Delete!</button>
+    </div>
+    <br><br>
+    <p>Click and see the counter go up</p>
+    <p>If you close the browser or the tab, and click again the counter doesn't start from zero. It keeps its
+        previous value</p>
+    <br><br>
+    <p>It allows addition and substraction as long as contador doesn't go below the limiteInf or above limiteSup
+        <br> it shouldn't be allowed
+    </p>
+    <div id="divResultados">
+
+    </div>
+    <script>
+        //Globales
+        var contador = 0;
+        var limiteInf = 0;
+        var limiteSup = 100;
+        let vector = [];//In JS Arrays accept all kinds of elements event mixed ones
+        //Escuchadores
+        const miSumar = document.getElementById('btnAdd');
+        const miRestar = document.getElementById('btnSubst');
+        const miBorrar = document.getElementById('btnDelete');
+        const miSumar10 = document.getElementById('btnAdd10');
+        const miRestar10 = document.getElementById('btnSubst10');
+
+        // ✅ Initialize
+        let almacenado = localStorage.getItem('contador');
+        if (almacenado != null) {
+            contador = parseInt(almacenado);
+        }
+        mostrar();
+        miSumar.addEventListener('click', (e) => {
+            historiar(e);
+            sumar(1);
+            mostrar();
+        });//Then EventListener controls flow
+        miSumar10.addEventListener(('click'), function(e) {
+            historiar(e);
+            sumar(10);
+            mostrar();
+        });
+        miRestar.addEventListener('click', (e) => {
+            historiar(e);
+            restar(1);
+            mostrar();
+        });
+        miRestar10.addEventListener('click', (e) => {
+            historiar(e);
+            restar(10);
+            mostrar();
+        });
+        miBorrar.addEventListener('click', (e) => {
+            historiar(e);
+            borrar();
+            mostrar();
+        });
+        //Logica
+        //vector declared with globals above
+        //tengo que crear Obj event.target timeStamp
+        //generalLiteral
+        
+//historiar
+        function historiar(e){
+//cambiar persona a hombre
+            vector.push({
+                id:e.target.id,
+                texto:e.target.innerText,
+                momento:e.timeStamp //timeStamp is a property not a Function
+            });
+             
+        }
+        function mostrar() {
+            //let contadorLetras = localStorage.getItem('contador') || '0';
+            const miMarcador = document.getElementById('divResultados');
+            //serialize or stringify
+            //let stringLector = vector.toString(); 
+            //for objects it becomes [object Object]
+            let stringAlmacen = JSON.stringify(vector,null,2);//globar
+            //  BETTER  //this removes the previous text
+            miMarcador.innerHTML = `
+            <p>Contador: ${contador}</p>
+            <pre>${stringAlmacen}</pre>
+            `;//Instead of raw JSON
+            actualizarBotones();//Why this one
+            
+//historiar
+           
+//transformar a cadena
+
+        }
+         
+
+        function sumar(num) {
+            if (contador + num > limiteSup) {
+                //actualizarBotones();
+                return;
+            }
+            contador += num;
+            localStorage.setItem('contador', contador);
+            //mostrar();
+        }
+
+        function restar(num) {
+            if (contador - num < limiteInf) {
+                //actualizarBotones();
+                return;
+            }
+            contador -= num;
+            localStorage.setItem('contador', contador);
+            //mostrar();
+        }
+
+        function borrar() {
+            localStorage.removeItem('contador');
+            contador = 0;
+            //mostrar(); // Already called by the event listener
+        }
+
+            //Ejecutar
+            function actualizarBotones() {
+            /*btnAdd.disabled = contador >= limiteSup;
+            btnAdd10.disabled = contador + 10 > limiteSup;
+            btnSubst.disabled = contador <= limiteInf;
+            btnSubst10.disabled = contador - 10 < limiteInf;*/ 
+                miSumar.disabled = contador >= limiteSup;
+
+                miSumar10.disabled = contador + 10 > limiteSup;
+
+                miRestar.disabled = contador <= limiteInf;
+
+                miRestar10.disabled = contador - 10 < limiteInf;
+            }   
+        </script>
+</body>
+</html>

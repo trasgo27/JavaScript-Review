@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <style type="text/css">
+        body {
+            margin: 30px;
+        }
+
+        .textoExito {
+            background-color: aquamarine;
+            color: gold;
+        }
+    </style>
+    <title>Count and display items of a dropdown list - w3resource</title>
+</head>
+
+<body>
+    <h1>Count and display number of select options</h1>
+    <h2>Show the results on Target Paragraph</h2>
+    <div id="midiv">
+        <p id="target"></p>
+    </div>
+    <form>
+        Select your favorite Color :
+        <br><br>
+        <select id="mySelect" class="claseselect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>Blue</option>
+            <option>White</option>
+        </select>
+        <br><br>
+        <input type="button" onclick="ejecutar()" value="Count and Output all items">
+    </form>
+    <script>
+        function ejecutar() {
+            const x = document.getElementsByClassName("claseselect");
+            const misOpc = x[0].options; //esto crea otra erray con las opciones si hay mas de una 
+            const long = misOpc.length; //si solo una pues NO
+            var destino = document.getElementsByTagName("p");
+            var texto01 = "El número de Opciones es: " + long + "\n";
+            var texto02 = "El número de Opciones es: " + long + "<br>";
+            var div02 = document.getElementById("midiv");
+            for (let i = 0; i < long; i++) {
+                texto01 += misOpc[i].text + "\n";
+                texto02 += misOpc[i].text + "<br>"
+            }
+            alert(texto01);
+            //texto02 += "<style> font-size:30px;</style>";
+            //wrap everything into an style tag
+            div02 = "<div style=font-size:30px;>" + destino[0] + "</div>";//with quotes is a literal
+
+
+            destino[0].innerText = texto02;
+            destino[0].classList.add("textoExito");//El target creo un objeto listaEstilos y añado 
+        }
+
+    </script>
+</body>
+
+</html>

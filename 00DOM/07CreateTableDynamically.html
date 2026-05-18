@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Change the content of a cell</title>
+    <style type="text/css">
+        body {
+            margin: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>07. Create Table Dynamically</h1>
+    <p>Write a JavaScript function to create a table,
+        <br> accept row and column numbers,
+        <br>and input row-column numbers as cell content (e.g. Row-0 Column-0).
+    </p>
+    <table id="myTable" border="1">
+    </table>
+    <form>
+        <br>
+        <input type="button" onclick="crearTabla()" value="Create the table">
+        <script>
+            function crearTabla() {
+                let r = Number(prompt(`Introduce Filas: `)) ;
+                let c = Number(prompt(`Introduce Columnas: `));
+                let text = " . * . ";
+                const mitabla = document.getElementById('myTable');
+                //Clear the previous table 
+                mitabla.innerHTML = "";
+                for (let i = 0; i < r; i++) {
+                    mitabla.insertRow(i);
+                    for (let j = 0; j < c; j++) {
+                        let micelda = mitabla.rows[i].insertCell(j); //Case Sensitive y no las detecta
+                        micelda.textContent = text + `Fila: ${i} Columna: ${j}` +text;
+                    }
+                }
+            }
+        </script>
+    </form>
+</body>
+
+</html>

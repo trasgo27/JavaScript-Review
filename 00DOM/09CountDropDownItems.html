@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <style type="text/css">
+        body {
+            margin: 30px;
+        }
+    </style>
+    <title>Count and display items of a dropdown list - w3resource</title>
+</head>
+
+<body>
+    <form>
+        Select your favorite Color :
+        <br><br>
+        <select id="mySelect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>Blue</option>
+            <option>White</option>
+        </select>
+        <br><br>
+        <input type="button" onclick="contarOpciones()" value="Count and Output all items">
+    </form>
+    <script>
+        function contarOpciones() {
+            var x = document.getElementById("mySelect");
+            var texto01 = "Numero de Items ...";
+            texto01 = `El numero de opciones es: ` + x.length + "\n";
+            for (let i = 0; i < x.length; i++) {
+                texto01 += x.options[i].text + "\n"; //Careful with arrays plural
+            }
+            alert(texto01);
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        Today is : Tuesday. <br>
+Current time is : 10 PM : 30 : 38
+    </p>
+    <script>
+        //variables
+        const Fecha = new Date();//new es un objeto Date
+        const diaSema = Fecha.getDay();
+        const vectorDia = ["Lunes","Marte","Miercoles","Jueves","Viernes","Sabado","Domingo"];
+        let hora = Fecha.getHours();
+        const min = Fecha.getMinutes();
+        const seg = Fecha.getSeconds();
+        let marMedio = "";
+        //Logica
+        (hora >= 12)? marMedio = " PM " :marMedio = " AM ";
+        hora = (hora >= 12) ? hora-12 : hora;
+        
+        //midnight 
+        if(hora == 0 && marMedio ==" PM "){
+            if(min == 0 && seg == 0){
+                hora = 12;
+                marMedio = "Media Noche";
+            }else{
+                hora = 12;
+                marMedio = " PM ";
+
+            }
+        }
+        //midday
+        if(hora == 12 && marMedio == " AM "){
+            if(min == 0 && seg == 0){
+                hora = 12;
+                marMedio = "Medio Día";
+            }else{
+                hora = 12;
+                marMedio = AM;
+            }
+        }
+        //mostrar
+        console.log(diaSema);
+        console.log(`Hoy es: ${vectorDia[diaSema-1]}.`);
+        console.log(`La hora actual es: ${hora}${marMedio}: ${min} : ${seg}`);
+
+    </script>
+</body>
+</html>

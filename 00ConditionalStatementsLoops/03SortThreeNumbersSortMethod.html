@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>03.- Sort Three Numbers</h1>
+    <p>Write a JavaScript conditional statement to sort three numbers. Display an alert box to show the results.
+
+        <br> Sample numbers : 0, -1, 4
+
+        <br> Output : 4, 0, -1
+    </p>
+    <script>
+        //Conseguir el signo 
+        let num1 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num2 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let num3 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let vectorOri = [num1, num2, num3];
+        let cadena = "";
+
+        //Mostrar por consola
+        setTimeout(() => { console.log(num1) }, 1000);
+        setTimeout(() => { console.log(num2) }, 2000);
+        setTimeout(() => { console.log(num3) }, 3000);
+        setTimeout(() => { console.log(`Vector Original: ${vectorOri}`) }, 4000);
+
+        //Logica 
+        let vectorOrden = [...vectorOri].sort((a, b) => a - b);//With curly braces you need return
+        setTimeout(() => { console.log(`Vector Ordenado ASCENDENTE: ${vectorOrden}`) }, 5000);
+        let vectorOrdenDESCENDENTE = [...vectorOri].sort((a, b) => { return b - a });
+        setTimeout(() => { console.log(`Vector Ordenado DESCENDENTE: ${vectorOrdenDESCENDENTE}`) }, 6000);
+
+
+
+
+    </script>
+</body>
+
+</html>

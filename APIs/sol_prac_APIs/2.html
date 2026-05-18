@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grabar Video</title>
+  </head>
+  <body>
+    <h1>Grabar Video con MediaRecorder</h1>
+    <button id="startRecording">Iniciar Grabación</button>
+    <button id="stopRecording" disabled>Detener Grabación</button>
+    <video
+      id="preview"
+      autoplay
+      playsinline
+      style="width: 100%; max-width: 600px; border: 1px solid black"
+    ></video>
+    <a id="downloadLink" style="display: none">Descargar Video</a>
+    <script src="scripts/2.js"></script>
+  </body>
+</html>

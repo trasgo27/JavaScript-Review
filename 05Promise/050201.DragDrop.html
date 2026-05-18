@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="container" style="position: relative; width: 500px; height: 300px; border: 2px solid #333; overflow: hidden;">
+    <!-- The Target (White Box) -->
+    <div id="target" style="position: absolute; right: 50px; top: 100px; width: 100px; height: 100px; background-color: white; border: 2px dashed #ccc;">
+        Target
+    </div>
+
+    <!-- The Draggable (Yellow Box) -->
+    <div id="dragMe" style="position: absolute; left: 50px; top: 100px; width: 100px; height: 100px; background-color: yellow; cursor: grab; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid #000;">
+        Drag Me
+    </div>
+</div>
+<p id="status">Status: Waiting...</p>
+<script>
+let yellowBox = document.getElementById("dragMe");
+let whiteBox = document.getElementById("target");
+let statusText = document.getElementById("status");
+
+let isDragging = false;
+
+// 1. The "Grab" Logic
+yellowBox.onmousedown = function(e) {
+    isDragging = true;
+    yellowBox.style.cursor = "grabbing";
+    yellowBox.style.backgroundColor = "#FF0000";
+};
+
+// 2. The "Movement" Logic
+document.onmousemove = function(e) {
+    if (!isDragging) return;
+
+    // Adjust position based on mouse movement
+    // We subtract a bit to keep the mouse in the center of the box
+    yellowBox.style.left = e.pageX - 50 + "px";
+    yellowBox.style.top = e.pageY - 50 + "px";
+};
+
+// 3. The "Drop" Logic (Using a Promise)
+document.onmouseup = function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    yellowBox.style.cursor = "grab";
+
+    // Create a Promise to check if the drop was successful
+    checkDrop()
+        .then((msg) => {
+            statusText.innerText = "Status: " + msg;
+            yellowBox.style.backgroundColor = "#00FF00"; // Turn Green on success
+        })
+        .catch((err) => {
+            statusText.innerText = "Status: " + err;
+            // Reset position if failed
+            yellowBox.style.left = "50px";
+            yellowBox.style.top = "100px";
+        });
+};
+
+function checkDrop() {
+    return new Promise((resolve, reject) => {
+        // Get the boundaries of both boxes
+        let yellowRect = yellowBox.getBoundingClientRect();
+        let whiteRect = whiteBox.getBoundingClientRect();
+
+        // Basic collision detection: Is the center of yellow inside white?
+        let isOverlapping = !(
+            yellowRect.right < whiteRect.left ||
+            yellowRect.left > whiteRect.right ||
+            yellowRect.bottom < whiteRect.top ||
+            yellowRect.top > whiteRect.bottom
+        );
+
+        if (isOverlapping) {
+            resolve("Mission Accomplished!");
+        } else {
+            reject("Missed! Try again.");
+        }
+    });
+}
+
+
+</script>
+</body>
+</html>

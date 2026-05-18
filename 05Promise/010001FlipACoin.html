@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Crear una promesa que simule el lanzamiento de una moneda al aire. <br>
+         La promesa se resolverá si sale cara (un 0 ) y se rechazará si sale cruz (un 1). 
+         <br> Usar las funciones de Javascript Math.floor y Math. Random
+</p>
+<script>
+    //Function
+    const lanzarMoneda = function(){
+        const caraCruz = Math.floor(Math.random()*2);
+        return caraCruz;
+    }
+    //Promesa
+    const miMonedaPromesa = new Promise((resolve,reject)=>{
+        const monedaValor = lanzarMoneda();
+        if(monedaValor===0){
+            resolve("Bien, salió cara");
+        }else{
+            reject("Mal, salio cruz");
+        }
+    }
+    );
+    //Mostrar
+    miMonedaPromesa
+    .then((mensaje)=>console.log(mensaje))
+    .catch((fallo)=>console.log(fallo));
+    //console.log(lanzarMoneda());
+</script>
+</body>
+</html>

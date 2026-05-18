@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Square Challenge - Premium Edition</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --container-bg: rgba(30, 41, 59, 0.7);
+            --accent-primary: #38bdf8;
+            --accent-secondary: #818cf8;
+            --success: #4ade80;
+            --error: #f87171;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+        }
+
+        #div-contenedor {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: var(--container-bg);
+            backdrop-filter: blur(12px);
+            width: 1000px;
+            height: 500px;
+            position: relative;
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        #div-Resultado {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 80px;
+            width: 1000px;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            transition: all 0.3s ease;
+        }
+
+        #div-Resultado.success {
+            color: var(--success);
+            border-color: var(--success);
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        #div-Resultado.error {
+            color: var(--error);
+            border-color: var(--error);
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        #div-Controles {
+            width: 1000px;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-reset { background: #475569; color: white; }
+        .btn-save { background: var(--accent-primary); color: #0f172a; }
+        .btn-delete { background: var(--error); color: white; }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .cuadrado {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 16px;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.1s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .cuadrado:active {
+            cursor: grabbing;
+        }
+
+        .cuadrado.dragging {
+            z-index: 100;
+            transform: scale(1.5);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            opacity: 0.5;
+        }
+
+        #cuadrado-N { background: #60a5fa; top: 20px; left: 450px; }
+        #cuadrado-E { background: #fbbf24; top: 200px; left: 880px; }
+        #cuadrado-S { background: #f472b6; top: 380px; left: 450px; }
+        #cuadrado-O { background: #2dd4bf; top: 200px; left: 20px; }
+
+        #cuadrado-Target {
+            top: 200px;
+            left: 450px;
+            border: 3px dashed rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            width: 120px;
+            height: 120px;
+            margin-left: -10px;
+            margin-top: -10px;
+            border-radius: 20px;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .target-active {
+            border-color: var(--accent-primary) !important;
+            background: rgba(56, 189, 248, 0.1) !important;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Micro-interactions */
+        .success-flash {
+            animation: success-bg 0.5s ease;
+        }
+
+        @keyframes success-bg {
+            0% { background-color: transparent; }
+            50% { background-color: rgba(74, 222, 128, 0.3); }
+            100% { background-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Square Logic Challenge</h1>
+
+    <div id="div-contenedor">
+        <div id="cuadrado-Target">Target Area</div>
+        <div id="cuadrado-N" class="cuadrado">NORTH</div>
+        <div id="cuadrado-E" class="cuadrado">EAST</div>
+        <div id="cuadrado-S" class="cuadrado">SOUTH</div>
+        <div id="cuadrado-O" class="cuadrado">WEST</div>
+    </div>
+
+    <div id="div-Resultado">Drag a square to the target area...</div>
+
+    <div id="div-Controles">
+        <button class="btn-reset" onclick="manager.volverAlInicio()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Reset
+        </button>
+        <button class="btn-save" onclick="manager.guardar()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save
+        </button>
+        <button class="btn-delete" onclick="manager.borrar()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            Clear Storage
+        </button>
+    </div>
+
+<script>
+    /**
+     * Feedback UI utility
+     */
+    const UI = {
+        updateResultado(text,type ='info'){
+            const res = document.getElementById("div-Resultado");
+            res.textContent = text;            
+            res.className  = type;//div-Resultado se sobreescribe la clase
+
+            if(type === 'success'){
+                const conte = document.getElementById("div-contenedor");
+                conte.classList.add("success-flash");
+                setTimeout(()=>{conte.classList.remove("success-flash")},500);
+            }
+        },
+        toggleTarget(active){
+            document.getElementById("cuadrado-Target").classList.toggle('target-active',active);
+        }
+    };
+
+    /**
+     * Draggable Box Class
+     */
+    class Caja {
+        constructor(id){
+            this.id = id;
+            //No se pone entre comillas, es parametro
+            this.caja = document.getElementById(id);
+            this.estaSeleccionada = false;
+            this.posicionInicial = {izq:0,arriba:0,colorCaja:""};//wrong shape
+            this.compensacion = {x:0,y:0};
+            this.contenedor = document.getElementById('div-contenedor');
+            //Posicion Inicial this.posicionInicial
+            this.posicionInicial = {
+                izq:this.caja.style.left||getComputedStyle(this.caja).left,
+                arriba:this.caja.style.top||getComputedStyle(this.caja).top,
+                colorCaja:  getComputedStyle(this.caja).backgroundColor    
+            };
+            this.iniciarEventList();
+        //Atributos
+        }
+        //Metodos
+        iniciarEventList(){
+           // this.caja.addEventListener('mouseover',(e)=>this.cambiarMouse(e));
+            this.caja.addEventListener('mousedown',(e)=>this.seleccionarCaja(e));
+            window.addEventListener('mousemove',(e)=>{this.moverCaja(e)});
+            window.addEventListener('mouseup',(e)=>{this.dejarCaja(e)});
+        }
+        seleccionarCaja(e){
+            this.estaSeleccionada = true;
+            this.caja.classList.add('dragging');
+            //backticks instead of single quotes
+            UI.updateResultado(`Moviendo ${this.id.split('-')[1]}...`,'info');
+            const recti = this.caja.getBoundingClientRect();
+            this.compensacion = {
+                //Both values are referred to the viewport
+                //e is my finger and recti is the sticky note
+                x:e.clientX - recti.left,
+                y:e.clientY - recti.top
+            };
+        } 
+
+        moverCaja(e){
+            //variables
+            if(!this.estaSeleccionada) return; //this.estaSeleccionada
+            const conteRect  = this.contenedor.getBoundingClientRect();
+            //Nueva Posicion Relativa Container
+            let x = e.clientX - conteRect.left- this.compensacion.x;
+            let y = e.clientY - conteRect.top - this.compensacion.y;
+            // Constrain within bounds
+            const maxX = conteRect.width  - this.caja.offsetWidth;
+            const maxY = conteRect.height - this.caja.offsetHeight;
+            //
+            x = Math.max(0,Math.min(maxX,x)) ;
+            y = Math.max(0,Math.min(maxY,y));
+            //Pasarlo al estilo posicion
+            this.caja.style.left = `${x}px`;
+            this.caja.style.top  = `${y}px`;
+            //Comprobar colision en tiempo real
+            this.comprobarColision() ? UI.toggleTarget(true):UI.toggleTarget(false);
+        
+        }
+        comprobarColision(){
+            const target = document.getElementById('cuadrado-Target').getBoundingClientRect();
+            const caja = this.caja.getBoundingClientRect();
+            //hay hueco no hay hueco
+           return !(target.left  > caja.right ||
+                    target.right < caja.left  ||
+                    target.top    > caja.bottom ||
+                    target.bottom < caja.top);
+        }
+
+        async dejarCaja(){ //missing guards, cleanup and validation
+            if(!estaSeleccionada) return;
+            this.estaSeleccionada = false;
+            this.caja.classList.remove('dragging');
+            UI.toggleTarget(false);
+
+            try {
+                const message = await this.validarDrop();
+                UI.updateResultado(message, 'success');
+                this.caja.style.backgroundColor = 'var(--success)';
+            } catch (err){
+                UI.updateResultado(err,'error');
+                this.caja.style.backgroundColor = 'var(--error)';
+                setTimeout(() =>{
+                    this.caja.style.backgroundColor = 
+                    this.posicionInicial.colorCaja;
+                },1000);
+            }
+        }
+        validarDrop() {
+            return new Promise((resolve,reject)=>{
+                if(this.comprobarColision()){
+                    resolve(`Success! ${this.id.split('-')[1]} 
+                    Objectivo alcanzado`);
+                }else{
+                    reject(`Missed!!! Try again.`);
+                }
+            });
+        }
+
+        reset(){
+            this.caja.style.left = this.posicionInicial.izq;
+            this.caja.style.top  = this.posicionInicial.arriba;
+            this.caja.style.backgroundColor = this.posicionInicial.colorCaja;
+        }
+
+        saveState() {
+            return { 
+                izq: this.caja.style.left,
+                arriba: this.caja.style.top,
+                colorCaja: this.caja.style.backgroundColor
+            };
+        }
+        loadState(state) {
+            if(!state) return;
+            this.caja.style.left = state.izq;
+            this.caja.style.top  = state.arriba;
+            this.caja.style.backgroundColor = state.colorCaja;
+        }
+
+    }//Fin Caja Class
+
+    /**
+     * Application Manager
+     */
+    class AppManager {
+        constructor(){
+            this.cajas = {
+                norte: new Caja("cuadrado-N"),
+                oeste: new Caja("cuadrado-O"),
+                sur  : new Caja("cuadrado-S"),
+                este : new Caja("cuadrado-E")
+            };
+            this.load();
+        }
+        //FUNCIONES
+        /*volverAlInicio(){
+            Object.values(this.cajas)
+        } Duplicado Incompleto*/
+        
+        
+        
+        //FUNCIONES
+        volverAlInicio() {
+            Object.values(this.cajas).forEach(c => c.reset());
+            UI.updateResultado("Positions reset to default.");
+        }
+//saveState()=guardarPosicion()=
+        guardar() {
+            const state = {};
+            for (const [key, caja] of Object.entries(this.cajas)) {
+                state[key] = caja.saveState();
+            }
+            localStorage.setItem("posicionesPremium", JSON.stringify(state));
+            UI.updateResultado("All positions saved securely!", "success");
+        }
+//load()=cargadoAL()
+        load() {
+            const saved = localStorage.getItem("posicionesPremium");
+            if (saved) {
+                const state = JSON.parse(saved);
+                for (const [key, data] of Object.entries(state)) {
+                    if (this.cajas[key]) this.cajas[key].loadState(data);
+                }
+                UI.updateResultado("Session restored from local storage.");
+            }
+        }
+
+        borrar() {
+            localStorage.removeItem("posicionesPremium");
+            this.volverAlInicio();
+            UI.updateResultado("Local storage cleared.");
+        }
+    }//Fin AppManager Class
+
+    // Initialize the app
+    const manager = new AppManager();
+
+</script>
+</body>
+</html>

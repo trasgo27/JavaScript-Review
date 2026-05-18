@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #divBotones {
+            padding: 10px;
+            background-color: lightgoldenrodyellow;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+
+        #divResultados {
+            padding: 10px;
+            background-color: lightgreen;
+            border: solid 2px grey;
+            border-radius: 5px;
+            font-size: larger;
+        }
+
+        button {
+            background-color: aliceblue;
+            font-size: large;
+            padding: 5px;
+            border: solid 2px grey;
+            border-radius: 5px;
+        }
+        #btnAdd10{
+            padding: 10px;
+            font-size: larger;
+            font-weight: bolder;
+            color: blue;
+        }
+        #btnSubst10{
+            padding: 12px;
+            font-size: larger;
+            font-weight: bolder;
+            color: red;
+        }
+
+        h3 {
+            color: red;
+        }
+
+        .desaparecer {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>The Window Object</h1>
+    <h2>LocalStorage Property</h2>
+    <h3>No Admite:
+        <br> NEGATIVOS
+        <br> NI Superior a 100
+    </h3>
+    <div id="divBotones">
+        <button id="btnAdd">Increase!</button>
+        <button id="btnAdd10">+ 10 ! ! !</button>
+        <br><br>
+        <button id="btnSubst">Reduce!</button>
+        <button id="btnSubst10">- 10 ! ! !</button>
+        <br><br>
+        <button id="btnDelete">Delete!</button>
+    </div>
+    <br><br>
+    <p>Click and see the counter go up</p>
+    <p>If you close the browser or the tap, and click again the counter doesn't start from cero. It keeps its
+        previous value</p>
+    <br><br>
+    <div id="divResultados">
+
+    </div>
+    <script>
+        //Globales
+        var contador = 0;
+        var limiteInf = 0;
+        var limiteSup = 100;
+        // ✅ Initialize
+        let almacenado = localStorage.getItem('contador');
+        if (almacenado != null) {
+            contador = parseInt(almacenado);
+        }
+        mostrar();
+
+        //Escuchadores
+        const miSumar = document.getElementById('btnAdd');
+        const miRestar = document.getElementById('btnSubst');
+        const miBorrar = document.getElementById('btnDelete');
+        const miSumar10 = document.getElementById('btnAdd10');
+        const miRestar10 = document.getElementById('btnSubst10');
+        miSumar.addEventListener('click', (e) => {
+            sumar(1);
+        });
+        miSumar10.addEventListener(('click'),(e)=>{
+            sumar(10);
+        });
+        miRestar.addEventListener('click', (e) => {
+            restar(1);
+        });
+        miRestar10.addEventListener('click',(e)=>{
+            restar(10);
+        });
+        miBorrar.addEventListener('click', (e) => {
+            borrar();
+        });
+        //Logica
+        function mostrar() {
+            //let contadorLetras = localStorage.getItem('contador') || '0';
+            const miMarcador = document.getElementById('divResultados');
+            //miMarcador.innerText = contadorLetras;
+            //  BETTER  //this removes the previous text
+            miMarcador.innerHTML = `<p>Contador: ${contador}</p>`;
+
+        }
+        function sumar(num) {
+                for (let i = 0; i < num; i++) {
+                    if (contador >= limiteSup) {
+                        quitarBoton();
+                        return;
+                    } else {
+                        contador++;
+                        localStorage.setItem('contador', contador);
+                        document.getElementById('btnSubst').disabled = false;
+                        document.getElementById('btnSubst10').disabled = false;
+                        mostrar();
+                    }
+                }
+            }
+
+            function restar(num) {
+                for (let i = 0; i < num; i++) {
+                    if (contador === limiteInf) {
+                        quitarBoton();
+                        return;
+                    } else {
+                        contador--;
+                        localStorage.setItem('contador', contador);
+                        document.getElementById('btnAdd').disabled = false;
+                        document.getElementById('btnAdd10').disabled = false;
+                        mostrar();
+                    }
+                }
+            }
+
+        function borrar() {
+            localStorage.removeItem('contador');
+            contador = 0;
+            const miBoton = document.getElementById('btnAdd');
+            miBoton.disabled = false;
+            mostrar();
+        }
+
+        function quitarBoton() {
+            if(contador + 10 >= limiteSup){
+                const miBotonSuma10 = document.getElementById('btnAdd10');
+                miBotonSuma10.disabled = true;
+                if(contador == limiteSup){
+                    const miBotonSumaUNO = document.getElementById('btnAdd');
+                    miBotonSumaUNO.disabled = true;
+                }
+            }else if(contador - 10 <= limiteInf){
+                const miBotonResta10 = document.getElementById('btnSubst10');
+                miBotonResta10.disabled = true;
+                if(contador == limiteInf){
+                    const miBotonResta = document.getElementById('btnSubst');
+                    miBotonResta.disabled = true;
+                }
+            }
+            
+        }
+        //El boton de +10 desactivar de 91 en adelante para no pasar 100
+        //Luego activar
+
+        //Ejecutar
+
+
+    </script>
+
+</body>
+
+</html>

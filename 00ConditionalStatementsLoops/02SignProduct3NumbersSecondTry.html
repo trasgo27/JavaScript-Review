@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>02.- Sign of Product of Three Numbers</h1>
+    <p>Write a JavaScript conditional statement to find the sign of the product of three numbers.
+        <br> Display an alert box with the specified sign.
+        <br> Sample numbers : 3, -7, 2
+        <br> Output : The sign is -
+    </p>
+    <script>
+        // Declare variables to store input values
+        var num1, num2, num3, contar;
+        var vector = [num1, num2, num3];
+
+        // Uncomment the following lines to take input from the user
+        //Conseguir el signo 
+        num1 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        num2 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        num3 = Math.floor(Math.random() * 100 + 1) * ((Math.random() < 0.5) ? -1 : 1);
+        let signoFinal = "";
+
+        //Mostrar por consola
+        setTimeout(() => { console.log(num1) }, 1000);
+        setTimeout(() => { console.log(num2) }, 2000);
+        setTimeout(() => { console.log(num3) }, 3000);
+
+        //Logica
+        vector.forEach((num) => {
+            (num < 0) ? contar++ : contar;
+        });
+        var signo = ((contar % 2 == 0) ? "+" : "-");
+
+        //Alerta
+        setTimeout(() => { alert(`El signo es NEGATIVO: ${signo}`); }, 4000);
+
+
+
+
+    </script>
+</body>
+
+</html>
