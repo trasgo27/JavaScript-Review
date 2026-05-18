@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Práctica 2 (Obligatoria) 
+Crea una aplicación web que pida al usuario palabras continuamente hasta que el popup 
+se deje vacío o se cancele. 
+<br>Crear una función que recibirá todas las palabras y devolverá un mapa que contenga 
+como clave cada palabra y cuyo valor será el número de veces que aparece esa palabra 
+en el array. <br>Mostrar los resultados por pantalla. 
+<br>Ayuda: Como en las 2 prácticas se pide introducir las palabras y devolver el resultado 
+de la misma forma, podéis sacar esa parte del código a un script común que utilicen las 
+2 prácticas (main.js).</p>
+<script>
+    //Variables
+    let entrada ="x";
+    const listaEntradas = [];
+    //Loop
+//  while(  (entrada !== null && entrada !=="") 
+//){      
+//        entrada = prompt("Enter Word / Cancel");
+//        console.log(entrada);
+//        listaEntradas.push(entrada);       
+//    }
+    //Loop2
+    while(true) {
+        let entrada = prompt("Enter Word / Cancel: ");
+        if(entrada ===null || entrada === "") break;
+            listaEntradas.push(entrada);
+        
+    }
+    //Logic Create the Set then create the Array again
+    let miSet = new Set(listaEntradas);
+    listaEntradasSet = [...miSet];
+    listaEntradasSet.sort().reverse();
+    //Function
+    const mapear = function(array){
+        let miMapa = new Map();
+        array.forEach(element => {
+            if(miMapa.has(element)){
+                miMapa.set(element,miMapa.get(element)+1);
+            }else{
+                miMapa.set(element,1);
+            }
+        })
+        return miMapa;
+        }
+        
+   
+    
+    //Show Results
+    console.log("Lista Entradas: ", listaEntradas);
+    console.log("Lista Entradas Set: ", listaEntradasSet);
+    console.log("Mi Mapa", mapear(listaEntradas));
+</script>
+</body>
+</html>

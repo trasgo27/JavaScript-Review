@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Create the array
+        const vector01 = [5,8,90,5,43,23,3,2,2412];
+        //Define function numPares
+        function numPares(a){
+            return a % 2 === 0;
+        };
+        //Apply filter method
+        const vector02 = vector01.filter(numPares);
+        //Show
+        console.log(vector01);
+        console.log(vector02);
+    </script>
+</body>
+</html>

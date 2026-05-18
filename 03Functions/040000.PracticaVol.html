@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Generate Random Gebberish Words
+        const generarPalabras = function (){
+            const characters = "abcdefghijklmnopqrstuvwxyz";
+            const longitudMaxima = 10;
+            const numero = 7;
+            let longitud = 0;
+            palabra = "";
+            for (let i = 0; i < numero; i++) {
+                longitud = Math.floor(Math.random() * longitudMaxima) + 3;
+                for (let j = 0; j < longitudMaxima; j++) {
+                    palabra = palabra + characters[Math.floor(Math.random() * characters.length + 1)];
+                }
+            }
+            return palabra;
+        }
+
+        //Mostrar
+        console.log(generarPalabras());
+
+    </script>
+</body>
+</html>

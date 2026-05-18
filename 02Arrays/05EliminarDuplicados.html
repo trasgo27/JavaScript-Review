@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Eliminar Duplicados</h1>
+    <script>
+        //Create the array of numbers
+        const longitud = 20;
+        const vectorNum = [];
+        for(let i=0;i<longitud;i++){
+            vectorNum[i] = Math.floor(Math.random()*10)+1;
+        }
+        //Calculo
+        const vectorNoRep =  [...new Set(vectorNum)];
+        const setNoRepe =  new Set(vectorNum);
+        const vectorNoRep2 = Array.from(setNoRepe);
+
+        //Show the results
+        console.log("Array Inicial: ",vectorNum );
+        console.log("Array Final: ", vectorNoRep);
+        console.log("Array Final 2: ", vectorNoRep2);
+
+    </script>
+</body>
+</html>

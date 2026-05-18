@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="else">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrow Function </title>
+</head>
+<body>
+    <h1>Arrow Function</h1>
+    <h2>Conditional</h2>
+    <script>
+        //Create the Vector
+        const longitud = 30;
+        const vectorNum = [];
+        for(let i=0;i<longitud;i++){
+            vectorNum[i] = Math.floor(Math.random()*1000)+1;
+        }
+        //Use reduce() 
+        const valorMax = vectorNum.reduce((acumula,actual)=>{
+        return    (actual > acumula) ? actual : acumula
+        } ,vectorNum[0]);
+        //Show the results
+        console.log("La Matriz Inicial: "+vectorNum);
+        console.log("El valor maximo: " +valorMax);
+    </script>
+</body>
+</html>

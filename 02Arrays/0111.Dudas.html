@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Parametros
+        const vectorN = [2,4,54,3,2,77,8,6];
+        //Funciones
+        const contarPares = function(array){
+            let contadorPares = 0;
+            if(array instanceof Array){
+                for(elemento of array){
+                    if(elemento%2===0){
+                        contadorPares++;
+                    }
+                }
+            }
+            return contadorPares;
+        }
+        //Mostrar
+        console.log(vectorN);
+        console.log("El total pares es: ",contarPares(vectorN));
+    </script>    
+</body>
+</html>

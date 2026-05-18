@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //Crear Variable Aleatoria
+    const numAl = Math.floor(Math.random()*10)+1;
+    //Logic
+    const valorPar = (numero) =>{
+        if(numero % 2 === 0){
+            return true;
+        }else 
+        return false;
+    };
+    //Show 
+    console.log("El numero aleatorio: ",numAl);
+    console.log("Par: ",valorPar(numAl) )
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayor Arrow Function</title>
+</head>
+<body>
+    <h1>Bigger Number of an Array</h1>
+    <h2>Arrow Function</h2>
+    <script>
+        //Create the Number Array
+        const long = 10;
+        const vectorNum = [];
+        let maximo = 0;
+        for(let i=0;i<long;i++){
+            vectorNum[i] = Math.floor(Math.random()*100)+1; 
+        if(vectorNum[i]>maximo){
+            maximo = vectorNum[i];
+        }
+        }
+        console.log("La Matriz de Numeros es: ",vectorNum  );
+        console.log("El valor máximo es: ", maximo);
+        
+    </script>    
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>structuredClone</h1>
+    
+    <script>
+        //Constantes
+        const productos = [ { nombre: "Camiseta", precio: 20 }, { nombre: "Pantalón", 
+precio: 30 }, { nombre: "Zapatos", precio: 50 } ]; 
+        let copia = [...productos];
+        //Deep-copy
+        let copia2 = structuredClone(productos);
+        //Logic incrementar()
+               const incrementar = function(array){
+                for(ropa of array){
+                    ropa.precio *=1.1;                    
+                }
+                return array;
+               }
+       //Logic with Map() method
+       let productos2 = productos.map( function(pieza){
+        const pieza2 = {...pieza};
+        pieza2.precio = pieza.precio*1.1;
+        return pieza2;
+       } 
+       );
+         
+        
+
+        //Show on Screen
+        console.log("Arreglo Inicial: ",productos)
+        console.log("Arreglo Incrementado con Funcion y structuredClone(): ",incrementar(copia2))
+        console.log("Incrementado con map: ",productos2 );
+    </script>
+</body>
+</html>

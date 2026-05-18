@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Funcion Anonima Autoinvocada </h1>
+    <h2>(function(p1){})(Parametro);)</h2>
+    <p>Función anónima autoinvocada que defina una variable llamada 
+contador y la incremente en cada invocación. Luego, intenta acceder a la 
+variable contador fuera de la función y observa lo que sucede. </p>
+    <script>
+        //Logic
+        (function(){let counter; return counter++;})();
+        //Mostrar
+        //console.log((function(){return contador++;}()()));
+        //console.log(counter);
+
+    </script>
+</body>
+</html>

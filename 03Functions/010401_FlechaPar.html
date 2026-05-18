@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Función flecha que sirva para devolver verdadero si un número es 
+par o falso si no lo es. Asigna esa función a una variable y prueba la función 
+para ver que responde correctamente.</p>
+    <script>
+        //Variables
+        const generarNum = function(){return Math.floor(Math.random()*10)+1;}; 
+        let entrada = Math.floor(Math.random()*10)+1;
+        let longitud = 10;
+        //Vector
+        let vectorNumeros =[];
+        let vectorNumeros2 =[];
+        for(let i=0;i<longitud;i++){
+        vectorNumeros.push(entrada = Math.floor(Math.random()*10)+1);
+        vectorNumeros2.push(generarNum());
+        }
+
+        //Funcion
+        const esPar = function(numero){
+            if(numero % 2 === 0){
+                return true;
+            }else{
+                return false;
+            }
+        };
+        //Mostrar
+        console.log("Valor Inicial: ", entrada );
+        console.log(esPar(entrada));
+        console.log("Vector Inicia: ", vectorNumeros);
+        console.log("Filtrar: ",vectorNumeros.filter(esPar));
+        console.log("Vector 2: ", vectorNumeros2);
+        console.log()
+    </script>
+</body>
+</html>

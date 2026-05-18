@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Usa una combinación de los métodos map(), reduce() y filter() para procesar 
+un array de objetos. Tienes un array de personas con sus nombres y edades, 
+filtra a las personas mayores de 18, multiplica su edad por 2, y luego suma 
+todas las edades. </p>
+</body>
+<script>
+    //Constantes
+    const personas = [ { nombre: "Juan", edad: 17 }, { nombre: "Ana", edad: 
+22 }, { nombre: "Pedro", edad: 19 }, { nombre: "Laura", edad: 16 } ]; 
+    //let sumaEdad = 0;
+    let personasMayores = [];
+    //Logic
+    let totalEdad = personas.reduce(function(acc,persona){
+        return acc += persona.edad;
+    },0);
+    //map() multiply by 2
+    let personasMayoresMulti = personas.map(function(persona){
+        persona2 = {...persona};
+        persona2.edad = persona.edad*2;
+        return persona2;
+    });
+    //filtrar older than 
+    personasMayores = personas.filter(persona=>persona.edad>=18);
+    //filter Older than
+    let personasMayores2 = personas.filter(function(persona){return persona.edad>=18});
+    //Screen
+    console.log("Array Inicial: ", personas);
+    console.log("Total Edad: ",totalEdad);
+    console.log("Personas Mayores: ", personasMayores);
+    console.log("Personas Mayores2: ", personasMayores2);
+    console.log("Personas Mayores Multiplica: ",personasMayoresMulti);
+</script>
+</html>

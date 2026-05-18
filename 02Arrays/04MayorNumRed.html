@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function </title>
+</head>
+<body>
+    <h1>Function</h1>
+    <h2>without arrow function</h2>
+    <script>
+        //Create Number Array
+        const longitud = 20;
+        const arrayNumeros = [];
+        
+        for(let i=0;i<longitud;i++){
+            arrayNumeros[i]=Math.floor(Math.random()*100)+1;
+        };
+        //Define function max
+        function buscarMax(vector){
+            let valorMax = vector[0];
+            for(let i=0; i< vector.length; i++){
+                if(vector[i]>valorMax){
+                    valorMax = vector[i];
+                }
+            };
+            return valorMax;
+        };
+        //Aplicar
+        const valorMax =  buscarMax(arrayNumeros);
+        const sent01 = "Array de Numeros: "+ arrayNumeros;
+        const sent02 = `Valor Maximo: ${valorMax}`;
+        console.log(sent01);
+        console.log(sent02);
+    </script>
+</body>
+</html>

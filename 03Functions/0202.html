@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>structuredClone</h1>
+
+    <script>
+        //Constantes
+        const productos = [ { nombre: "Camiseta", precio: 20 }, { nombre: "Pantalón", 
+precio: 30 }, { nombre: "Zapatos", precio: 50 } ]; 
+        let copia = [...productos];
+        //Deep-copy
+        let copia2 = structuredClone(productos);
+        //Logic
+        const incrementar = function(array){            
+            for(let elemento of array){
+                elemento.precio *=1.1;
+            }
+            return array;
+        }
+        
+        
+        //Show on Screen
+        console.log("Arreglo Inicial: ",productos)
+        console.log("Arreglo Inicial: ",incrementar(copia2))
+    </script>
+</body>
+</html>

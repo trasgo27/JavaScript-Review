@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>main.js</h1>
+    <p>Crea una función que se llame filtro y que reciba un array y una función callback. La 
+función callback se entenderá que sólo tiene un parámetro. Esta función se aplicará a 
+cada elemento del array y el resultado volverá a guardarse en el mismo array. 
+Por ejemplo: Array [1,2,3,4] 
+función = multiplicar por 2 
+Resultado: [2, 4, 6, 8] 
+Crear otros dos casos:  - - 
+Dado un array de palabras en minúsculas, pasarlas a mayúsculas. 
+Dado un array de números, calcular el factorial de cada uno</p>
+</body>
+<script>
+    //Create an Array
+    const longitud = 20;
+    const miVectorNum = [];
+    const nom = Math.floor(Math.random()*10)+1;
+    for(let i=0;i<longitud;i++){
+        miVectorNum.push(Math.floor(Math.random()*10)+1);
+    }
+    //Mi Funcion
+    const factorizar = function(numero){
+        let resultado = 1;
+        for(let i = numero;i>1;i--){
+            resultado=resultado*i;
+        }
+        return resultado;
+    }
+    //Mostrar 
+    console.log("El factor de: ", nom);
+    console.log("es:" , factorizar(nom));
+    console.log("Vector:",miVectorNum);
+    console.log("Factor Vector: ", miVectorNum.map(factorizar))
+</script>
+</html>

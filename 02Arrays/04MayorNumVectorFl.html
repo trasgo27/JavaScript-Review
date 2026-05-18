@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funct Arrow Num Max Vector</title>
+</head>
+<body>
+    <h1>Function Arrow</h1>
+    <h2>Choose the max</h2>
+    <script>
+        //Create the Number Arrow
+        const longitud = 40;
+        const vectorNum = [];
+        for(let i = 0; i<longitud; i++){
+            vectorNum[i] = Math.floor(Math.random()*100)+1;
+        };
+        //Arrow function
+        let numMax = vectorNum.reduce((max,valorActual)=>{
+            if(valorActual>max){
+                return valorActual;
+            }else{
+                return max;
+            }
+        },vectorNum[0]);
+        //Show the results
+        console.log("La Matriz de Numeros: ", vectorNum);
+        console.log("El numero maximo es: " + numMax);
+    </script>
+</body>
+</html>

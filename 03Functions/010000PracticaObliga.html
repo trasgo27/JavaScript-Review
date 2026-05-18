@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Práctica 1 (Obligatoria) 
+Crea una aplicación web que pida al usuario palabras continuamente hasta que el popup 
+se deje vacío o se cancele. 
+A continuación, se eliminarán todas las palabras repetidas y además se ordenarán en orden inverso (de la Z a la A) y se mostrará el resultado por pantalla. 
+Utilizar funciones flecha si se considera apropiado. 
+Ayuda: cancelar el popup devuelve null. </p>
+<h2>Insertar Palabra</h2>
+<script>
+    //Variables
+    let entrada ="x";
+    const listaEntradas = [];
+    //Loop
+    while(  (entrada !== null && entrada !=="") 
+){      
+        entrada = prompt("Enter Word / Cancel");
+        console.log(entrada);
+        listaEntradas.push(entrada);
+       
+    }
+    //Logic Create the Set then create the Array again
+    let miSet = new Set(listaEntradas);
+    listaEntradasSet = [...miSet];
+    listaEntradasSet.sort().reverse();
+    //Show Results
+    console.log("Lista Entradas: ", listaEntradas);
+    console.log("Lista Entradas Set: ", listaEntradasSet);
+</script>
+</body>
+</html>

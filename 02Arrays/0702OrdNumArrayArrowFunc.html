@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Number Array</title>
+</head>
+<body>
+    <h1>Order a Number Array</h1>
+    <h2>Bubble, <br>Arrow Function</h2>
+    <h3>Sort in Ascending Order</h3>
+    <script>
+        //Create Random Number Array
+        const longitud = 20;
+        const vectorNum = [];
+        for (let i=0;i<longitud;i++){
+            vectorNum[i] = Math.floor(Math.random()*10000)+1;
+        }
+        //Create Arrow Bubble Function
+        const copy = [...vectorNum];
+
+        const vectorOrde =(arr)=>{
+                //outer loop
+                let n = arr.length;
+                for (let i = 0; i < n; i++) {
+
+                    //inner loop
+                    for (let j = 0; j < n - 1; j++) {
+                        let pivote;
+                        if (arr[j] > arr[j + 1]) {
+                            pivote = arr[j];
+                            arr[j] = arr[j + 1];
+                            arr[j + 1] = pivote;
+                        }
+                    }
+                }   
+                return arr;             
+            };
+         
+        //Show Results
+        console.log("Matriz Inicial: ",copy);
+        console.log("Matriz Ordenada: ",vectorOrde(vectorNum));
+    </script>    
+</body>
+</html>

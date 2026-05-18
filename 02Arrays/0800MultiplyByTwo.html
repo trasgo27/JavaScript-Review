@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiply by 2</title>
+</head>
+<body>
+    <!--Description : Given an array of numbers, multiply each element by 2 and return the result in a new array.-->
+    <h1>Multiply a Number Array by 2</h1>
+    <h2>  <br>Arrow Function</h2>
+    <h3></h3>
+    <script>
+        //Create Random Number Array
+        const longitud = 20;
+        const long_baja = 10;
+        const vectorNum = [];
+        for (let i=0;i<longitud-long_baja;i++){
+            vectorNum[i] = Math.floor(Math.random()*100)+1;
+        }
+        //Create low Numbers
+        for (let i=longitud-long_baja;i<longitud;i++){
+            vectorNum[i] = Math.floor(Math.random()*10)+1;
+        }
+        //Create Arrow Bubble Function
+        const copy = [...vectorNum];
+
+        const vectorDoble = (arr)=>{                
+                for(let i=0;i<arr.length;i++){
+                    arr[i] = arr[i] *2;
+                }
+                   return arr;
+            };
+         //Call Function
+             
+        //Show Results
+        console.log("Matriz Inicial: ",vectorNum);
+        console.log("Matriz Ordenada: ",vectorDoble(copy));
+    </script>    
+</body>
+</html>

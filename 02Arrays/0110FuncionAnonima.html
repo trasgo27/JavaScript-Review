@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Funcion Anonima</h1>
+    <h2>const fAnonima = function(){}</h2>
+    <h2>y Autoinvocada</h2>
+    <h2>const fAnonima = function(){return;}</h2>
+    <h2>Funcion Flecha quitas function {} return</h2>
+    <script>
+        //parameters
+        const a=3;
+        const b=4;
+        const vector =[12,3,6,58,9,10];
+        //Functions
+        const sumaAnonima = function (a,b){
+            return a+b;
+        }
+        const restaAno = function(a,b){
+            return a-b;
+        }
+        //Arrow Functions
+        const triplicar = (num)=>num*3;
+        const saludar =()=>{
+            console.log("Hola");
+        }
+        const contadorPares =(vector)=>{
+            let nPares = 0;
+            for(elemento of vector){
+                if(elemento%2===0){
+                    nPares++;
+                }
+            }
+            return nPares;
+        }
+        //Show Results
+        saludar();
+        console.log("La suma es: " , sumaAnonima(a,b));
+        console.log("La resta anonima es: ", restaAno(a,b));
+        (function(){alert("Funcion Anonima Autoinvocada");}());
+        console.log("Anonima AutoInvo: " +(function(s1,s2){return s1+s2;}(10,40)));
+        console.log("Flecha Triple: ", triplicar(9));
+        console.log(vector," tiene: ",contadorPares(vector)+" pares");
+    </script>
+</body>
+</html>

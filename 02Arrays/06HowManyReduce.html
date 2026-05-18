@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Contar</h1>
+    <h2>Mi Metodo</h2>
+    <h3>Aparece 3</h3>
+    <script>    
+    //Create the Array
+    const longitud = 20;
+    const vectorNum = [];
+    for(let i=0;i<longitud;i++){
+        vectorNum[i]=Math.floor(Math.random()*5)+1
+    }
+    //Logica Reduce()
+        let contador = vectorNum.reduce((contador, act) => {
+            if (act === 3) {
+                contador++;
+            }
+            return contador
+        }, 0);
+
+    //Mostrar por Pantalla
+    console.log("Matriz Inicial: ",vectorNum);
+    console.log("El valor 3 aparece: ", contador);
+    </script>    
+</body>
+</html>

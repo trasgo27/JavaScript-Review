@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Number Array</title>
+</head>
+<body>
+    <h1>Order a Number Array</h1>
+    <h2>My way, <br>no js methods</h2>
+    <h3>Order from lower to upper value</h3>
+    <p>Gemini ha dicho
+The reason both your "Initial" and "Ordered" arrays look the same in the console is because of how JavaScript handles Objects and Arrays.
+
+In your code, the line let vectorOrdenado = vectorNum; does not create a new array; it creates a reference (a shortcut) to the original one. Since the .sort() method is "destructive" (it modifies the original array in place), both variables end up pointing to the same sorted data.</p>
+<p>Cuando se usa vector.sort() ordena solo por el primer elemento</p>
+    <script>
+        //Create Random Number Array
+        const longitud = 20;
+        const vectorNum = [];
+        for (let i=0;i<longitud;i++){
+            vectorNum[i] = Math.floor(Math.random()*1000)+1;
+        }
+        //Logic
+        //let vectorOrdenado = vectorNum;
+        //vectorOrdenado.sort((a,b)=>a-b);
+        let vectorOrdenado2 = [... vectorNum];
+        vectorOrdenado2.sort((a,b)=>a-b);
+        //Show Results
+        console.log("Matriz Inicial: ",vectorNum);
+        //console.log("Matriz Ordenada: ", vectorOrdenado);
+        console.log("Matriz Ordenada: ", vectorOrdenado2);
+    </script>    
+</body>
+</html>
