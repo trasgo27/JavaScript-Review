@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas</title>
+    <style>
+        #divLista {
+            border: solid lightseagreen 3px;
+            min-height: 50px;
+            padding: 8px;
+        }
+        #divFiltro {
+            border: solid tomato 3px;
+            min-height: 50px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Catálogo de Películas</h1>
+
+    <h3>Agregar película</h3>
+    <input type="text" id="inputTitulo" placeholder="Título">
+    <input type="text" id="inputGenero" placeholder="Género">
+    <input type="number" id="inputAnio" placeholder="Año">
+    <button id="btnAgregar">Agregar</button>
+
+    <br><br>
+
+    <h3>Filtrar por género</h3>
+    <div id="divBotones">
+        <button value="Acción">Acción</button>
+        <button value="Comedia">Comedia</button>
+        <button value="Drama">Drama</button>
+        <button value="Ciencia Ficción">Ciencia Ficción</button>
+        <button value="Terror">Terror</button>
+    </div>
+
+    <br>
+    <div id="divLista"><strong>Todas las películas:</strong></div>
+    <br>
+    <div id="divFiltro"><strong>Filtradas:</strong></div>
+
+    <script src="peliculas.js"></script>
+</body>
+</html>

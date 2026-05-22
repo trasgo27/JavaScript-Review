@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas</title>
+    <style>
+        #divLista {
+            border: solid lightseagreen 3px;
+            min-height: 50px;
+            padding: 8px;
+        }
+        #divFiltro {
+            border: solid tomato 3px;
+            min-height: 50px;
+            padding: 8px;
+        }
+        form{
+            border: solid skyblue 3px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Catálogo de Películas</h1>
+
+    <h3>Agregar película</h3>
+    <form action="">
+        <input type="text" id="inputTitulo" placeholder="Título" required>
+        <br><br>
+        <label for="filtrarGenero" style="font-weight: bold;font-size: 20px;color:rebeccapurple">G E N E R O : </label>
+        <select name="genero" id="inputGenero" required>
+            <option value="">Seleccionar...</option>
+            <option value="accion">Acción</option>
+            <option value="comedia">Comedia</option>
+            <option value="drama">Drama</option>
+            <option value="ficcion">Sci-Fi</option>
+            <option value="terror">Terror</option>
+        </select>
+        <br><br>
+        <input type="number" id="inputDuracion" placeholder="Duracion minutos" required>
+        <input type="number" id="inputAnio" placeholder="Año" required>
+        <input type="number" id="inputRating" placeholder="Rating 0/10" required>
+        <br><br>
+        <label for="vistaYa">Vista YA!!!</label>
+        <input type="radio" name="vistaYa" id="vistaYa" value="true">true
+        <input type="radio" name="vistaYa" id="vistaYa" value="false">false
+        <br><br>
+        <input type="text" id="inputCast" placeholder="Reparto (separado por coma)" required>
+        <br><br>
+        <input type="number" id="inputBudget" placeholder="Presupuesto (USD)" required>
+        <input type="number" id="inputRevenue" placeholder="Recaudación (USD)" required>
+        <br><br>
+        <button id="btnAgregar">Enviar</button>
+    </form>
+
+
+    <br><br>
+
+    <h3>Filtrar por género</h3>
+    <label for="genero" style="font-weight: bolder; font-size: 20px; color:rebeccapurple ">G E N E R O : </label>
+    <select name="genero" id="selectGenero">
+    <option value="">Seleccionar...</option>
+    <option name="genero" value="accion">Acción</option>
+    <option name="genero" value="comedia">Comedia</option>
+    <option name="genero" value="drama">Drama</option>
+    <option name="genero" value="ficcion">Sci-Fi</option>
+    <option name="genero" value="terror">Terror</option>        
+    </select> 
+    <br><br>
+    <div id="divLista"><strong>Todas las películas:</strong></div>
+    <br>
+    <div id="divFiltro"><strong>Filtradas:</strong></div>
+
+    <script src="domRefs.js"></script>
+    <script src="catalogoData.js"></script>
+    <script src="peliculas.js"></script>
+</body>
+</html>

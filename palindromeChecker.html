@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+        input {
+            width: 250px;
+            margin-right: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .palindrome-true {
+            color: green;
+            font-weight: bold;
+        }
+        .palindrome-false {
+            color: red;
+        }
+        .error {
+            color: red;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Palindrome Checker</h1>
+
+    <div>
+        <input type="text" id="wordInput" placeholder="Type a word...">
+        <button onclick="addWord()">Add word</button>
+        <button onclick="clearAll()">Clear</button>
+    </div>
+    <div id="error" class="error"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Word</th>
+                <th>Palindrome</th>
+                <th>Is palindrome?</th>
+            </tr>
+        </thead>
+        <tbody id="wordList"></tbody>
+    </table>
+
+    <script>
+        const words = [];
+
+        function addWord() {
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim();
+            const errorEl = document.getElementById('error');
+
+            errorEl.textContent = '';
+
+            if (word === '') {
+                errorEl.textContent = 'Please enter a word.';
+                return;
+            }
+
+            if (words.includes(word)) {
+                errorEl.textContent = `"${word}" is already in the list.`;
+                input.value = '';
+                return;
+            }
+
+            words.push(word);
+            input.value = '';
+            render();
+        }
+
+        function render() {
+            const tbody = document.getElementById('wordList');
+            tbody.innerHTML = '';
+
+            for (const word of words) {
+                const reversed = word.split('').reverse().join('');
+                const isPalindrome = word === reversed;
+
+                const tr = document.createElement('tr');
+
+                const tdWord = document.createElement('td');
+                tdWord.textContent = word;
+
+                const tdReversed = document.createElement('td');
+                tdReversed.textContent = reversed;
+
+                const tdResult = document.createElement('td');
+                tdResult.textContent = isPalindrome;
+                tdResult.className = isPalindrome ? 'palindrome-true' : 'palindrome-false';
+
+                tr.appendChild(tdWord);
+                tr.appendChild(tdReversed);
+                tr.appendChild(tdResult);
+                tbody.appendChild(tr);
+            }
+        }
+
+        function clearAll() {
+            words.length = 0;
+            document.getElementById('error').textContent = '';
+            render();
+        }
+
+        document.getElementById('wordInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                addWord();
+            }
+        });
+    </script>
+
+</body>
+</html>

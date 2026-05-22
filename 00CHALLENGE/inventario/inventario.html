@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Inventario</title>
+  <style>
+    #divLista, #divFiltro, #divStats { border: solid 2px; padding: 8px; min-height: 40px; margin: 6px 0; }
+    #divLista { border-color: cornflowerblue; }
+    #divFiltro { border-color: darkorange; }
+    #divStats { border-color: mediumseagreen; }
+    
+  </style>
+</head>
+<body>
+  <h1>📦 Gestión de Inventario</h1>
+
+  <h3>Agregar producto</h3>
+  <input type="text" id="inputProd" placeholder="Producto">
+  <input type="text" id="inputCat" placeholder="Categoría">
+  <input type="number" id="inputPrecio" placeholder="Precio">
+  <input type="number" id="inputStock" placeholder="Stock">
+  <button id="btnAgregar">Agregar</button>
+
+  <br><br>
+
+  <h3>Filtrar por categoría</h3>
+  <div id="divBotones">
+    <button value="Electrónica">Electrónica</button>
+    <button value="Ropa">Ropa</button>
+    <button value="Hogar">Hogar</button>
+    <button value="Deportes">Deportes</button>
+  </div>
+
+  <h3>Buscar producto</h3>
+  <input type="text" id="inputBuscar" placeholder="Nombre del producto">
+  <button id="btnBuscar">Buscar</button>
+
+  <div id="divLista"><strong>Todos los productos:</strong></div>
+  <div id="divFiltro"><strong>Filtrados:</strong></div>
+  <div id="divStats"><strong>Estadísticas:</strong></div>
+
+  <script src="inventario.js"></script>
+</body>
+</html>
