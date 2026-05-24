@@ -78,3 +78,9 @@ function getFormvalue(event){
 ---
 
 If you want, I can turn this into a small exercise where you print the values on the page instead of the console (more real-world frontend behavior).
+
+---
+
+## `event.preventDefault()`
+
+You don't always need `preventDefault()`. Only call it when you're handling the form with JavaScript (`fetch`/`XMLHttpRequest`) and want to stop the browser's default page-reload behavior. If the form should submit normally (navigation to an action URL), you don't need it.

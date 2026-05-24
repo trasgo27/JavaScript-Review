@@ -26,30 +26,30 @@
 
     <h3>Agregar película</h3>
     <form action="">
-        <input type="text" id="inputTitulo" placeholder="Título" required>
+        <input type="text" id="inputTitulo" placeholder="Título" value="Inception" required>
         <br><br>
         <label for="filtrarGenero" style="font-weight: bold;font-size: 20px;color:rebeccapurple">G E N E R O : </label>
         <select name="genero" id="inputGenero" required>
             <option value="">Seleccionar...</option>
-            <option value="accion">Acción</option>
-            <option value="comedia">Comedia</option>
-            <option value="drama">Drama</option>
-            <option value="ficcion">Sci-Fi</option>
-            <option value="terror">Terror</option>
+            <option value="Action">Acción</option>
+            <option value="Comedy">Comedia</option>
+            <option value="Drama">Drama</option>
+            <option value="Sci-Fi" selected>Sci-Fi</option>
+            <option value="Horror">Terror</option>
         </select>
         <br><br>
-        <input type="number" id="inputDuracion" placeholder="Duracion minutos" required>
-        <input type="number" id="inputAnio" placeholder="Año" required>
-        <input type="number" id="inputRating" placeholder="Rating 0/10" required>
+        <input type="number" id="inputDuracion" placeholder="Duracion minutos" value="120" required>
+        <input type="number" id="inputAnio" placeholder="Año" value="2024" required>
+        <input type="number" id="inputRating" placeholder="Rating 0/10" min="0" max="10" step="0.5" value="7.5" required>
         <br><br>
         <label for="vistaYa">Vista YA!!!</label>
-        <input type="radio" name="vistaYa" id="vistaYa" value="true">true
-        <input type="radio" name="vistaYa" id="vistaYa" value="false">false
+        <input type="radio" name="vistaYa" id="vistaYaTrue" value="true">true
+        <input type="radio" name="vistaYa" id="vistaYaFalse" value="false" checked>false
         <br><br>
-        <input type="text" id="inputCast" placeholder="Reparto (separado por coma)" required>
+        <input type="text" id="inputCast" placeholder="Reparto (separado por coma)" value="Leonardo DiCaprio, Elliot Page" required>
         <br><br>
-        <input type="number" id="inputBudget" placeholder="Presupuesto (USD)" required>
-        <input type="number" id="inputRevenue" placeholder="Recaudación (USD)" required>
+        <input type="number" id="inputBudget" placeholder="Presupuesto (USD)" value="1000000" required>
+        <input type="number" id="inputRevenue" placeholder="Recaudación (USD)" value="5000000" required>
         <br><br>
         <button id="btnAgregar">Enviar</button>
     </form>
@@ -61,11 +61,11 @@
     <label for="genero" style="font-weight: bolder; font-size: 20px; color:rebeccapurple ">G E N E R O : </label>
     <select name="genero" id="selectGenero">
     <option value="">Seleccionar...</option>
-    <option name="genero" value="accion">Acción</option>
-    <option name="genero" value="comedia">Comedia</option>
-    <option name="genero" value="drama">Drama</option>
-    <option name="genero" value="ficcion">Sci-Fi</option>
-    <option name="genero" value="terror">Terror</option>        
+    <option value="Action">Acción</option>
+    <option value="Comedy">Comedia</option>
+    <option value="Drama">Drama</option>
+    <option value="Sci-Fi">Sci-Fi</option>
+    <option value="Horror">Terror</option>
     </select> 
     <br><br>
     <div id="divLista"><strong>Todas las películas:</strong></div>
