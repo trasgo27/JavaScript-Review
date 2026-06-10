@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>The Element Object</h1>
+    <h2>createElement()</h2>
+    <p>Presiona el Boton para Crear Nuevo Parrafo</p>
+    Next Item: 
+    <br><br>
+    <input type="text" id="miInput">
+    <br><br>
+    <button id="miBoton">P R E S I O N A R</button>
+    <p>Lista de la Comprar</p>
+    <ul id="lista"></ul>
+    <script>
+        function miFuncion(elemento){
+            const miItem = document.createElement('li');
+            miItem.textContent = elemento.value;
+            const miLista = document.getElementById('lista');
+            miLista.appendChild(miItem);
+            console.table(miItem);
+        };       
+            
+        miBoton.addEventListener('click',(e)=>{
+            const miItem = document.getElementById('miInput');
+            miFuncion(miItem);            
+        });
+    </script>
+</body>
+</html>

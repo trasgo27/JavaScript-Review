@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Insert Adjacent HTML element</h1>
+    <div id="div01">
+        <input type="text" id="input">
+        <br><br>
+        <button id="bAgregar">A G R E G A R</button>
+        <button id="bEliminar">E L I M I N A R</button>
+        <button id="bTodo">E L I M I = T O D O</button>
+        Posicion: <input type="text" id="iPosicion">
+        <button id="bPosicion">P O S I C I O N</button>
+    </div>
+    
+    <ol id="oProductos">PRODUCTOS</ol>
+    <script>
+        const miInput   = document.getElementById('input');
+        const agregar   = document.getElementById('bAgregar');
+        const eliminar  = document.getElementById('bEliminar');
+        const todo      = document.getElementById('bTodo'); 
+        const posicion  = document.getElementById('bPosicion');
+        const iPosicion = document.getElementById('iPosicion');
+
+        function obtenerLista(){
+            let lista = document.getElementById('oProductos');
+            if(!lista){
+                lista = document.createElement('ol');
+                lista.id = 'oProductos';
+                lista.textContent = 'PRODUCTOS';
+                document.body.insertAdjacentElement('beforeend', lista);
+            }
+            return lista;
+        }
+
+        function removerPosicion(num){
+            const lista = obtenerLista();
+            lista.remove(1);
+        }
+
+        posicion.addEventListener('click',(e)=>{
+            const lista = obtenerLista();
+            if(iPosicion <0 || !iPosicion){
+                console.log('Valores NO VALIDOS');
+                return;
+            }
+            const longi = lista.length;
+            if(+iPosicion < longi-1 || +iPosicion > longi ){
+                console.log('Longitud NO Valida');
+                return;
+            }
+
+            removerPosicion(0);
+        });
+        agregar.addEventListener('click',(e)=>{
+            const lista = obtenerLista();
+            if(miInput.value.trim() ==""){
+                console.log('Valor no valido')
+                return;
+            } 
+            const miItem = document.createElement('li');
+            miItem.innerText = miInput.value;
+            lista.insertAdjacentElement("beforeend",miItem)
+        });
+        eliminar.addEventListener('click',(e)=>{
+            const lista = obtenerLista();
+            if(lista.lastElementChild) lista.lastElementChild.remove();
+        });
+        todo.addEventListener('click',(e)=>{
+            const lista = obtenerLista();
+            lista.replaceChildren();
+        });
+    </script>
+</body>
+</html>

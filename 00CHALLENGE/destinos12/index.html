@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinos12 — Premium Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #dBotones2{
+            border: solid 3px seagreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <svg style="width: 32px; height: 32px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>
+        Destinos12 18:15
+    </h1>
+    <h2>África • Asia • Europa • Oceanía • Norte América • Sudamérica</h2>
+
+    <div class="app-container">
+        <!-- Left Side: Inputs & Filters -->
+        <div class="card">
+            <div class="card-header-label">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+                Gestión de Destinos
+            </div>
+            
+            <div id="dInputs">
+                <div class="input-group">
+                    <label for="iDestino">Destino</label>
+                    <input type="text" id="iDestino" placeholder="Ej. París, Tokio, El Cairo...">
+                </div>
+                
+                <div class="input-group">
+                    <label for="iContinente">Continente</label>
+                    <input type="text" id="iContinente" placeholder="Ej. Europa, Asia, África...">
+                </div>
+                
+                <button id="bEnviar">
+                    <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Añadir Destino
+                </button>
+            </div>
+
+            <!-- Status Alerts inside input panel -->
+            <div id="alertBox" class="alert-box"></div>
+
+            <div class="card-header-label" style="margin-top: 2rem;">
+                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                Filtrar por Continente
+            </div>
+            
+            <div id="dBotones">
+                <div id="dBotones1">
+                <button id="África" value="África">África</button>
+                <button id="Asia" value="Asia">Asia</button>
+                <button id="Europa" value="Europa">Europa</button>
+                <button id="Oceanía" value="Oceanía">Oceanía</button>
+                <button id="Norte América" value="Norte América">Norte América</button>
+                <button id="Sudamérica" value="Sudamérica">Sudamérica</button>
+                </div>
+                <div id="dBotones2">
+                    <button id="bOrdenar">O R D E N A R</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Side: Lists & Viewers -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+            <!-- All Destinations -->
+            <div class="card">
+                <div id="dMostrar" class="card-header-label">
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                    Todos los Destinos
+                </div>
+                <ul id="ul1"></ul>
+            </div>
+
+            <!-- Filtered Destinations -->
+            <div class="card">
+                <div id="dMostrar2" class="card-header-label">
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="12 2 2 22 22 22"></polygon>
+                    </svg>
+                    Destinos Filtrados
+                </div>
+                <ul id="ul2"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="dom.js"></script>
+    <script src="catalogo.js"></script>
+    <script src="destinos.js"></script>
+</body>
+</html>

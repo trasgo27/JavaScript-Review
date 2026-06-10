@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            padding: 10px;
+            border: solid 3px rebeccapurple;
+            border-radius: 10px;
+            margin-bottom: 5px;
+        }
+        #divSeleccionar{
+            padding: 10px;
+            border: solid 3px gold;
+            border-radius: 10px;
+            height: 100px;
+            margin-bottom: 5px;
+        }
+        #divMostrar{
+            padding: 10px;
+            border: solid 3px lightgreen;
+            border-radius: 10px;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <form action="" id="formAgregar">
+        <label for="inputDestino">Destino:</label>
+        <br><br>
+        <input type="text" id="inputDestino" required>
+        <br><br>
+        <label for="inputContinente">Continente</label>
+        <br><br>
+        <input type="text" id="inputContinente">
+        <br><br>
+        <button id="btnEnviar">Enviar</button>
+    </form>
+    <div id="divSeleccionar">
+        <select name="" id="selectContinente">
+            <option value="">Elige Continente ...</option>
+            <option value="Africa">África</option>
+            <option value="Asia">Asia</option>
+            <option value="Europa">Europa</option>
+            <option value="America del Norte">América del Norte</option>
+            <option value="America del Sur">América del Sur</option>
+            <option value="Oceania">Oceania</option>
+            <option value="Antartida">Antartida</option>
+        </select>
+    </div>
+    <div id="divMostrar"></div>
+     
+     
+
+    <script src ="domElements.js"></script>
+    <script src="catalogo.js"></script>
+    <script src= "destinos.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dSeleccion{
+            border: 5px, solid, slategrey;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #dMostrar{
+            border: 5px, solid, rgb(246, 225, 228);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #dMostrar3{
+            border: 5px, solid, lightblue;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        #resultadoFiltro{
+            border: 5px, solid, green;
+            padding: 10px;
+            border-radius: 10px;
+            min-height: 10px;
+        }
+        #resultadoFiltro2{
+            border: 5px, solid, lightgray;
+            padding: 10px;
+            border-radius: 10px;
+            min-height: 10px;
+        }
+        #dMostrar4{
+            border: 5px, solid, lightpink;
+            padding: 10px;
+            border-radius: 10px;
+            min-height: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="dSeleccion">
+    <label for="iNombre">Nombre:</label>    
+    <input type="text" name="" id="iNombre" required>
+    <br><br>
+    <label for="iSexo">Sexo:</label>
+    <select name="" id="iSexo">
+        <option value="">Seleccionar ...</option>
+        <option value="masculino">Masculino</option>
+        <option value="femenino">Femenino</option>
+        <option value="Bebe">Bebe</option>
+        <option value="Travesti">Travesti</option>
+        <option value="Privado">Privado</option>
+
+    </select>
+    <br><br>
+    <button id="bEnviar">E N V I A R</button>
+    <br><br>
+    <div id="resultadoFiltro">
+
+    </div>
+    </div>
+    <br><br>
+    <div id="dMostrar">dMostrar</div>
+    <br><br>
+    <div id="dMostrar2"></div>
+    <ol id="listaMostrar"></ol>
+    <div id="dMostrar3">
+         
+        <button id="iMascu" value="Masculino">Masculino</button>
+        <br><br>         
+        <button id="iFeme" value="Femenino">Femenino</button>
+        <br><br>
+        <button id="iBebe" value="Bebe">Bebe</button>
+        <br><br>         
+        <button id="iTravesti" value="Travesti">Travesti</button>
+        <br><br>
+        <button id="iPrivado" value="Privado">Privado</button>
+        <br><br>  
+        <div id="dMostrar4">
+            dMostrar4
+            <button id="bOrdenar" value="ordenar">O R D E N A R</button>
+            <button id="bInvertir" value="invertir">O R D E N --- I N V</button>
+        </div> 
+        <br><br>     
+        
+        <div id="resultadoFiltro2">
+
+        </div>
+    </div>
+        <h3>MixtoOptimizado en olMixto</h3>
+        <ol id="olMixto"></ol>
+    
+    <script src="dom.js"></script>
+    <script src="catalogo.js"></script>
+    <script src="invitados.js"></script>
+</body>
+</html>

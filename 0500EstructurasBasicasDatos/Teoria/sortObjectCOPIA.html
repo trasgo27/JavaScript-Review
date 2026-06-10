@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sort Objects</title>
+    <style>
+        .box {
+            border: 3px solid skyblue;
+            border-radius: 10px;
+            padding: 10px;
+            min-height: 40px;
+            margin-bottom: 10px;
+        }
+        #sortedBox {
+            border-color: darkorange;
+        }
+        button {
+            padding: 8px 16px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        h2{
+            color:blueviolet
+        }
+    </style>
+</head>
+<body>
+
+<h2> MI Catalogo — Modificado / Sort by Attribute</h2>
+
+<div class="box" id="originalBox">
+    <strong>Original</strong><br>
+    <span id="original"></span>
+</div>
+
+<div class="box" id="sortedBox">
+    <strong>Sort Age / Name</strong><br>
+    <span id="sorted"></span>
+</div>
+
+<div>
+    <button id="btnAge">Age</button>
+    <button id="btnName">Name</button>
+</div>
+
+<script>
+const catalogo = [
+    { name: "Carlos", age: 30 },
+    { name: "Ana", age: 25 },
+    { name: "Beatriz", age: 35 },
+    { name: "David", age: 28 },
+    { name: "Elena", age: 22 },
+];
+
+function render(original, sorted) {
+    document.getElementById("original").textContent =
+        original.map(p => `${p.name} (${p.age})`).join(", ");
+    document.getElementById("sorted").textContent =
+        sorted.map(p => `${p.name} (${p.age})`).join(", ");
+}
+function ordenarPor(atributo){
+    let catalogo2 = [...catalogo];
+    catalogo2.sort((a,b)=>{
+        if( typeof a[atributo] === "string"){ //a.age a.name
+            return a[atributo].localeCompare(b[atributo]);
+        }else{
+            return a[atributo] - b[atributo];
+        }
+    });
+}
+const btnEdad = document.getElementById('btnAge');
+const btnNombre = document.getElementById('btnNombre');
+btnEdad.addEventListener('click',()=>ordenarPor("age"));
+btnNombre.addEventListener('click',()=>ordenarPor("name") );
+
+render(catalogo, catalogo);
+</script>
+
+</body>
+</html>

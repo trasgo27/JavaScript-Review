@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pop() / shift() Demo</title>
+    <style>
+        #demo{
+            border: 3px solid skyblue;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+        #demo1{
+            border: 3px solid darkorange;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+        #demo2{
+            border: 3px solid rebeccapurple;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>The shift() and pop() Methods</h2>
+
+<p>pop() removes the last element of an array, 
+<br> shift() removes the first.</p>
+<div id="div">
+    Remove the First Day
+    <br><br>
+    <button id="bShift" value="shift">S H I F T</button>
+    <br><br>
+    Remove the Last Day:
+    <br><br>
+    <button id="bPop" value="pop">P O P</button>
+    <br><br>
+</div>
+
+<p id="demo"></p>
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+const miDiv = document.getElementById('div');
+miDiv.addEventListener('click', (e) => {
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    document.getElementById("demo").innerHTML = days;
+
+    let removed;
+    if (e.target.value === "shift") {
+        removed = days.shift();
+    } else if (e.target.value === "pop") {
+        removed = days.pop();
+    }
+    document.getElementById("demo1").innerHTML = removed;
+    document.getElementById("demo2").innerHTML = days;
+});
+</script>
+</body>
+</html>

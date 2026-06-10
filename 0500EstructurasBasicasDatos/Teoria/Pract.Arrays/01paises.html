@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>miArray.shift()</h2>
+    <div id="div"></div>
+    <div id="div2"></div>
+    <div id="div3"></div>
+    <script>
+        const miDiv = document.getElementById('div');
+        const miDiv2 = document.getElementById('div2');
+        const miDiv3 = document.getElementById('div3');
+        const paises = ["España", "Francia", "Alemania", "Italia"];
+        let html = "";
+        paises.forEach((p)=>{
+                return html +=p +"<br>";                
+        }         
+    );
+    //Eliminar primer valor shift()
+    const paisElimi = paises.shift();
+    let html2 = "";
+    paises.forEach((p)=>{
+        return html2 += p + "<br>";
+    }); 
+    //Añadir al principio unshift()
+    //const paisElimi = paises.shift();
+    let html3 = "";
+    paises.unshift(paisElimi);
+    paises.forEach((p)=>{
+        return html3 += p + "<br>";
+    }); 
+            miDiv.innerHTML = "<h3>Primera Vuelta:</h3> " + html;
+            miDiv2.innerHTML = "<h3>Segunda Vuelta:</h3><h4>paises.shift()</h4> " + html2 + `<br>pais eliminado: ${paisElimi} `;
+            miDiv3.innerHTML = `<h3>Tercera Vuelta:</h3><h4>paises.unshift(${paisElimi})</h4>` + html3 + `<br>pais añadido: ${paisElimi} `;
+    </script>
+</body>
+</html>

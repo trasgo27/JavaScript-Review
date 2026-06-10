@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Arrays</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f4f4f9;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin: 10px 0;
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+        text-decoration: none;
+        color: #0076ff;
+        font-weight: bold;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    p.enunciado {
+        margin: 8px 0 0 0;
+        /* Adds a bit of space above the paragraph, below the link */
+        font-size: 14px;
+        /* Makes the text slightly smaller than the link */
+        color: #555;
+        /* Changes the text color to a softer gray */
+        line-height: 1.4;
+        /* Improves readability */
+    }
+
+    a.vscode {
+        display: inline-block;
+        margin-top: 8px;
+        font-size: 12px;
+        color: #888;
+        font-weight: normal;
+    }
+
+    a.vscode:hover {
+        color: #555;
+    }
+</style>
+</head>
+
+<body>
+    <h1>Panel de Ejercicios JavaScript</h1>
+    <p class="enunciado">Haz clic en cualquier ejercicio para ver el código fuente en el navegador:</p>
+    <ul>
+        <li>
+            <a href="01Ejer.js" target="_blank">01Ejer.js</a>
+            <p><strong>1.</strong> Crea un array llamado paises que contenga: "España", "Francia", "Alemania", "Italia". Recorre el array e imprime el nombre de cada país. Después, elimina el primer país del array y vuelve a recorrerlo e imprimir el array de nuevo.</p>
+             
+        </li>
+        <li>
+            <a href="02letras.html" target="_blank">02letras</a>
+            <p><strong>2.</strong> Crea un array vacío llamado letras. Inserta al principio del array las letras A, B y C. Luego, inserta al final las letras D y E. Finalmente, elimina el primer elemento y el último, e imprime el array final.</p>
+             
+        </li>
+        <li>
+            <a href="03nombres.html" target="_blank">03nombres</a>
+            <p><strong>3.</strong> Crea el siguiente array:
+<br>let data = [
+{name: "Nacho", telephone: "966112233", age: 40},
+{name: "Ana", telephone: "911223344", age: 35},
+{name: "Mario", phone: "611998877", age: 15},
+{name: "Laura", telephone: "633663366", age: 17}
+];
+
+<br>a)	Añade dos elementos al final:
+{name: "Pedro", telephone: "611944444", age: 25},
+{name: "Julia", phone: "633232323", age: 37}
+
+<br>b)	Comprueba con console.log (data) que se han añadido.
+
+<br>c)	Ordena el vector por edad, comprueba el resultado.
+
+<br>d)	Ordena el vector por nombre, comprueba el resultado.
+
+<br>e)	Crea y muestra un nuevo vector que contenga solo los mayores de 30 años.
+</p>            
+        </li>
+        <li>
+            <a href="04desestructurar.html" target="_blank">04desestructurar</a>
+            <p><strong>4.</strong> Crea un array numeros con seis números. Usa desestructuración para obtener los primeros dos números en variables individuales y almacena el resto de los números en un array llamado resto.</p>
+            <a class="vscode" href="vscode://file/D:/00_JavaScript_Review/0500EstructurasBasicasDatos/Teoria/Pract.Arrays/04desestructurar.html">📂 Abrir HTML en VSCode</a>
+            <a class="vscode" href="vscode://file/D:/00_JavaScript_Review/0500EstructurasBasicasDatos/Teoria/Pract.Arrays/04desestructurar.md" style="margin-left: 12px;">📂 Abrir MD en VSCode</a>
+            <a class="vscode" href="04desestructurar.md" style="margin-left: 12px;" target="_blank">📂 desestructuración</a>
+        </li>
+        <li>
+            <a href="05set.html" target="_blank">05set</a>
+            <p><strong>5.</strong> Crea un array llamado valores que contenga números, algunos de los cuales son duplicados. Utiliza un Set para crear un nuevo array que contenga solo los números únicos y luego imprímelo.</p>
+            
+        </li>
+        <li>
+            <a href="06map.html" target="_blank">06map</a>
+            <p><strong>6.</strong> Crea un Map que almacene nombres como claves y edades como valores. Luego, agrega algunos nombres y edades, actualiza la edad de uno de ellos, y finalmente imprime todos los nombres con sus edades.</p>           
+        </li>
+        <li>
+            <a href="06map.html" target="_blank">06map</a>
+            <p><strong>6.</strong> Crea un Map que almacene nombres como claves y edades como valores. Luego, agrega algunos nombres y edades, actualiza la edad de uno de ellos, y finalmente imprime todos los nombres con sus edades.</p>           
+        </li>
+        <li>
+            <a href="07primitiva.html" target="_blank">07primitiva</a>
+            <p><strong>7.</strong> Mostrar por consola 50 combinaciones aleatorias de la lotería primitiva. Las combinaciones son 6 números del 1 al 49, pero debe tenerse en cuenta que no se pueden repetir los números en una misma combinación.</p>           
+        </li>
+         <li>
+            <a  href="07Primi2.html" target="_blank">07primitiva-II</a>
+            <p><strong>7.</strong> Mostrar por consola 50 combinaciones aleatorias de la lotería primitiva. Las combinaciones son 6 números del 1 al 49, pero debe tenerse en cuenta que no se pueden repetir los números en una misma combinación.</p>           
+        </li>
+        <li>
+            <a  href="08random.html" target="_blank">08random</a>
+            <p><strong>7.</strong> Mostrar por consola 50 combinaciones aleatorias de la lotería primitiva. Las combinaciones son 6 números del 1 al 49, pero debe tenerse en cuenta que no se pueden repetir los números en una misma combinación.</p>           
+        </li>
+    </ul>
+
+
+</body>
+
+</html>

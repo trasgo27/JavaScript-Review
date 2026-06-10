@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1{
+            border: solid 5px rebeccapurple;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+        }
+        .divCatalogo{
+            background-color: aliceblue;
+            transition: background,.7s;
+            
+        }
+        .divCatalogo:hover{
+            font-size: 30px;
+            font-weight: bolder;
+            background-color: yellow;
+            color: red;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Destinos 17:47</h1>
+    Destino: 
+    <input type="text" id="inputDestino" required>
+    <br><br>
+    Continente: 
+    <input type="text" id="inputContinente" required>
+    <br><br>
+    <button id="boton">Enviar</button>
+    <br><br>
+    <div id="div1">div1 Mostrar Catalogo
+    </div>
+    <br><br>
+    <div id="div2">div2 Botones
+        <br><br>
+        <button id="bAfrica" value="África">África</button>
+        <button id="bAsia" value="Asia">Asia</button>
+        <button id="bEuropa" value="Europa">Europa</button>
+        <button id="bNorte" value="Norte América">Norte América</button>
+        <button id="bSuda" value="Sudamérica">Sudamérica</button>
+        <button id="bAfrica" value="Oceanía">Oceanía</button>
+    </div>
+    <br><br>
+    <div id="div3">div3 Seleccion</div>
+    <script src="dom.js"></script>
+    <script src="catalogo.js"></script>
+    <script src="destinos.js"></script>
+</body>
+</html>

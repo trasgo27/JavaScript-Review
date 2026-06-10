@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Añadir a la lista Ordena</p>    
+    <label for="miInput">Tarea:</label>
+    <br><br>
+    <input type="text" id="miInput">
+    <br><br>
+    <button id="miEnviar">E N V I A R</button>
+    <br><br>
+    <ol id="miLista"></ol>
+    <script>
+        function miFuncion(tarea){
+            const miListItem = document.createElement('li');
+            miListItem.textContent = tarea.value;
+            const miLista = document.getElementById('miLista');
+            miLista.appendChild(miListItem);
+        }
+        const miEnviar = document.getElementById('miEnviar');
+        miEnviar.addEventListener('click',(e)=>{
+            const tarea = document.getElementById('miInput');
+            miFuncion(tarea);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>The Element Object</h1>
+    <h2>InsertAdjacentHTML()</h2>
+    <p>Presiona el Boton para Crear Nuevo Parrafo</p>
+    <button id="miBoton">P R E S I O N A R</button>
+    <script>
+        const miBoton = document.getElementById("miBoton");
+        miBoton.addEventListener('click',(e)=>{
+            const miParrafo = document.createElement('p');
+            miParrafo.innerHTML = `<span style="color:red;font-size:30px;font-weight:bolder;">Un Párrafo Nuevo ...</span>`;
+            document.body.appendChild(miParrafo);
+        });
+    </script>
+</body>
+</html>

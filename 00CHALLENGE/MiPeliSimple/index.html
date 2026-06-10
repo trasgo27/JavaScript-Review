@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            border: 2px solid rebeccapurple;
+            border-radius: 10px;
+            padding: 15px;
+            width:80%;
+            max-width: 600px;
+            margin-bottom: 10px;
+        }
+        #divSeleccionar{
+            
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 15px;
+            width:80%;
+            max-width: 600px;
+        }
+        #divMostrar{
+           border: 2px solid greenyellow;
+            border-radius: 10px;
+            padding: 15px;
+            width:80%;
+            max-width: 1600px; 
+            margin-bottom: 10px;
+        }
+        #divMostrar2{
+           border: 2px solid green;
+            border-radius: 10px;
+            padding: 15px;
+            width:80%;
+            max-width: 1600px; 
+        }
+    </style>
+</head>
+<body>
+    <div id="divInput">
+        <h3>Agregar</h3>
+        <form action="" id="form">
+            <label for="">Titulo</label>
+            <br>
+            <input type="text" id="inputTitulo" required value="Rainman">
+            <br>
+            <label for="" id="">Cast, 2 actores ','</label>
+            <br>
+            <input type="text" name="" id="inputCast" value="Tom Hans, Antonio Bandera">
+            <br>
+            <label for="">Budget</label>
+            <br>
+            <input type="text" id="inputBudget" value="20">
+            <br>
+            <label for="">Taquilla</label>
+            <br>
+            <input type="text" id="inputTaquilla" value="20">
+            <br>
+            <label for="">Ano</label>
+            <br>
+            <input type="text" id="inputAno" value="1988">
+            <br>
+            <label for="">Genero:</label>
+            <select name="" id="inputGenero" value="comedia">
+                <option value="accion">Acción</option>
+                <option value="comedia">Comedia</option>
+                <option value="drama">Drama</option>
+                <option value="ficcion">Ficción</option>
+                <option value="terror">Terror</option>
+            </select>
+            <br><br>
+            <button id="btnEnviar">Enviar</button>
+        </form>
+    </div>
+    <div id="divSeleccionar">
+        <h3>Seleccionar Genero</h3>
+        <label for="">Genero:</label>
+            <select name="" id="selectGenero">
+                <option value="">Seleccionar uno</option>
+                <option value="accion">Acción</option>
+                <option value="comedia">Comedia</option>
+                <option value="drama">Drama</option>
+                <option value="ficcion">Ficción</option>
+                <option value="terror">Terror</option>
+            </select>
+    </div>
+            <br><br>
+            <div id="divMostrar">
+
+            </div>
+            <div id="divMostrar2">
+
+            </div>
+    
+    <script src="domElement.js"></script>
+    <script src="catalogo.js"></script>
+    <script src="pelis.js"></script>
+</body>
+</html>

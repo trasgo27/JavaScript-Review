@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>JavaScript JSON</h1>
+<h2>Creating an Object from JSON</h2>
+
+<p id="demo"></p>
+
+<script>
+const txt = '{"name":"John", "age":30, "city":"New York"}'
+const myObj = JSON.parse(txt);
+
+document.getElementById("demo").innerHTML = myObj["name"] + ", " + myObj.age;
+</script>
+
+</body>
+</html>

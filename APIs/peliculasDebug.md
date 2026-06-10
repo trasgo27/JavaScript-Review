@@ -991,3 +991,373 @@ This is **dead code** — `pelicula` and `boxOffice` are never used anywhere.
 | ⚪ | Dead template code | `peliculas.js:1-11` |
 
 Ready to fix any of these when you are.
+
+---
+
+## Analysis of your `.map()` callback
+
+### 🔴 Bug 1 — `${}` inside `if()` (not in template literal)
+
+```js
+if ((${Number(p.anio)}) > 2000) {  // ❌ $ {} only works inside backticks
+```
+
+The `${}` syntax is only valid inside backtick template literals. Here it's in plain JS before the `return` → syntax error or unexpected identifier.
+
+✅ **Fix:**
+```js
+if (p.anio > 2000) {
+```
+
+### 🟡 Bug 2 — `color1` never declared
+
+```js
+color1 = "darkgreen";   // ❌ implicit global
+```
+
+No `let`, `const`, or `var`. In strict mode this throws `ReferenceError`.
+
+✅ **Fix:** `let color1 = "darkgreen";`
+
+### 🟡 Bug 3 — `color1` set but never used
+
+You assign `color1` but never apply it to any element (e.g., no `style.color = color1`). Dead assignment.
+
+✅ **Fix:** Either use it:
+```js
+return `<strong style="color:${color1}">${i+1}.- ...`;
+```
+Or remove it entirely if coloring isn't needed.
+
+### ✅ Everything else is fine
+
+| Expression | Status |
+|---|---|
+| `p.genero.toUpperCase()` | ✅ works (string method) |
+| `p.cast.join(', ')` | ✅ works (array method) |
+| `$${p.boxOffice.budget}` | ✅ correct — `$$` renders `$`, `${}` interpolates value |
+| `Number(p.anio)` | ✅ safe conversion (though `p.anio` is already a number) |
+
+### Recommended cleaner version
+
+```js
+catalogo.map((p, i) => {
+  const color = p.anio > 2000 ? "darkgreen" : "red";
+  return `<strong style="color:${color}">${i + 1}.- Titulo: ${p.titulo}</strong>, 
+  Año: ${p.anio}, Genero: ${p.genero.toUpperCase()}, 
+  Cast: ${p.cast.join(', ')}, 
+  Presupuesto: $${p.boxOffice.budget} millones, 
+  Recaudación: $${p.boxOffice.taquilla} millones`;
+})
+```
+
+Want me to apply this fix when we exit plan mode? @peliculasDebug.md
+
+---
+
+## `<style>` vs `<span style>` — inline styling
+
+The problem is `<style>` is not an HTML tag for inline styling — it's the CSS block tag used in `<head>`. You want a `<span>` (or any element) with the `style` attribute:
+
+```js
+const color1 = p.anio >= 2000 ? "darkgreen" : "red";
+return `<strong>${i + 1}.- Titulo: ${p.titulo}</strong>, 
+<span style="color:${color1}">Año: ${p.anio}</span>, 
+Genero: ${p.genero.toUpperCase()}, 
+Cast: ${p.cast.join(', ')}, 
+Presupuesto: $${p.boxOffice.budget} millones, 
+Recaudación: $${p.boxOffice.taquilla} millones<br>`;
+```
+
+| | Your approach | Correct approach |
+|---|---|---|
+| Syntax | `<style="color:red">Año</style>` | `<span style="color:red">Año</span>` |
+
+Want me to apply the fix to your file?
+
+---
+
+## Plan for `agregar` function in MiPeliSimple
+
+**Current state:** No event listener exists yet. The form button has no id.
+
+### Changes needed
+
+**1. `index.html`** — Add `id="btnAgregar"` to the submit button:
+```html
+<button id="btnAgregar">Enviar</button>
+```
+
+**2. `domElement.js`** — Add the button reference:
+```js
+const btnAgregar = document.getElementById('btnAgregar');
+```
+
+**3. `pelis.js`** — Extract a `renderCatalogo()` function, then add the click handler:
+
+```js
+function renderCatalogo() {
+  const html = catalogo.map((p, i) => {
+    const color = p.anio >= 2000 ? "darkgreen" : "red";
+    return `<strong>${i + 1}.- Titulo: ${p.titulo}</strong>
+<span style="color:${color}">Año: ${p.anio}</span>
+Genero: ${p.genero.toUpperCase()}
+Cast: ${p.cast.join(', ')}
+Presupuesto: $${p.boxOffice.budget} millones
+Recaudación: $${p.boxOffice.taquilla} millones<br>`;
+  }).join("");
+  divMostrar.innerHTML = "<h3>Catalogo Completo</h3>" + html;
+}
+
+btnAgregar.addEventListener('click', (ev) => {
+  ev.preventDefault();
+
+  const titulo = inputTitulo.value.trim();
+  const genero = inputGenero.value;
+  const cast = inputCast.value.trim();
+  const budget = Number(inputBudget.value);
+  const taquilla = Number(inputTaquilla.value);
+  const anio = Number(inputAnio.value);
+
+  // validation
+  if (titulo === "" || genero === "" || cast === "" || !(anio > 0) || budget <= 0 || taquilla <= 0) {
+    alert("Fill up the form PROPERLY ...");
+    return;
+  }
+
+  // check duplicate
+  if (catalogo.some(p => p.titulo.toLowerCase() === titulo.toLowerCase())) {
+    alert(`${titulo} ya está en CATÁLOGO`);
+    return;
+  }
+
+  // add movie
+  catalogo.push({
+    titulo,
+    genero,
+    anio,
+    cast: cast.split(',').map(a => a.trim()),
+    boxOffice: { budget, taquilla }
+  });
+
+  renderCatalogo();
+
+  // clear inputs
+  inputTitulo.value = "";
+  inputCast.value = "";
+  inputBudget.value = "";
+  inputTaquilla.value = "";
+  inputAnio.value = "";
+  inputGenero.value = "accion";
+});
+
+// initial render
+renderCatalogo();
+```
+
+Also need to **remove** the existing standalone `.map()` + `.join("")` at the bottom of `pelis.js` (lines 1-17) since it becomes part of `renderCatalogo()`.
+
+---
+
+## Six bugs in `pelis.js`
+
+### 🔴 Bug 1 — `renderCatalogo()` template broken (pelis.js:12-15)
+
+```js
+function renderCatalogo(){
+    let html = "";
+    return html = catalogo.map((p,i)=>{
+        `<strong>${i+1}.- Titulo: p.titulo,</strong> ...`
+//                          ^^^^^^^^^ literal text, NOT interpolated
+    })
+}
+```
+
+Three errors:
+
+| Issue | Line | Wrong |
+|-------|------|-------|
+| Missing `${}` | 14 | `p.titulo,` (literal) |
+| Wrong property | 14 | `p.presupuesto` |
+| Wrong property | 14 | `p.budget` |
+| Missing `.join()` | 15 | returns array |
+
+### 🔴 Bug 2 — Double `.split()` on cast (pelis.js:23 + :42)
+
+```js
+// Line 23 — already splits into array
+const cast = inputCast.value.trim().split(',');
+// Line 42 — tries to split an array → TypeError
+cast: cast.split(',').map((p)=>p.trim()),
+```
+
+`cast` is already an `["Tom", "Hans"]` array after line 23. You call `.split()` on it again which doesn't exist on arrays.
+
+✅ **Fix:** Use `cast.map(a => a.trim())` (no split), or do it all on line 23:
+```js
+const cast = inputCast.value.trim().split(',').map(a => a.trim());
+// then line 42: cast: cast,
+```
+
+### 🔴 Bug 3 — `catalogo.includes(titulo)` always false (pelis.js:34)
+
+```js
+if(catalogo.includes(titulo)){   // ❌ always false
+```
+
+`includes()` compares by reference (`===`). A string `"RockyIV"` is never `===` to an object `{ titulo:"RockyIV", ... }`. This check never catches duplicates.
+
+✅ **Fix:**
+```js
+if (catalogo.some(p => p.titulo.toLowerCase() === titulo.toLowerCase())) {
+```
+
+### 🟡 Bug 4 — Weak validation (pelis.js:30)
+
+```js
+const valido = (titulo!=="" && anio >= 1900)? true:false;
+```
+
+Only checks `titulo` and `anio`. Missing `cast`, `budget`, `taquilla`, `genero`. A movie with empty cast or zero budget passes validation.
+
+✅ **Fix:**
+```js
+const valido = titulo !== "" && cast.length > 0 && anio >= 1900 && budget > 0 && taquilla >= 0;
+```
+
+### 🟡 Bug 5 — Genre mismatch (HTML vs catalogo.js)
+
+| File | Value |
+|------|-------|
+| `index.html:70,84` | `<option value="ficcion">` |
+| `catalogo.js:48` | `"The Matrix"` has `genero: "ciencia ficcion"` |
+
+`"The Matrix"` has `genero: "ciencia ficcion"` but the filter selects `"ficcion"`. `p.genero === generoS` → `false`, so it never appears when filtering by Ficción.
+
+✅ **Fix:** Change HTML to `<option value="ciencia ficcion">Ficción</option>` in both selects.
+
+### 🟡 Bug 6 — Duplicate rendering paths (pelis.js:1-9 + :54 vs :11-16)
+
+Lines 1-9 and 54 render the catalog on page load:
+```js
+const texto = catalogo.map(...).join("<br>");
+divMostrar.innerHTML = "<h3>Catalogo Completo</h3>" + texto;
+```
+
+But `renderCatalogo()` on line 11-16 exists but is broken (Bug 1). After fixing Bug 1, you should pick **one** rendering path — replace lines 1-9 + 54 with a call to `renderCatalogo()`, and remove the duplicate.
+
+### ✅ Clean fixed structure (proposed)
+
+```js
+// pelis.js
+function renderCatalogo() {
+  const html = catalogo.map((p, i) => {
+    const color = p.anio >= 2000 ? "darkgreen" : "red";
+    return `<strong>${i + 1}.- Titulo: ${p.titulo}</strong>
+<span style="color:${color}">Año: ${p.anio}</span>
+Genero: ${p.genero.toUpperCase()}
+Cast: ${p.cast.join(', ')}
+Presupuesto: $${p.boxOffice.budget} millones
+Recaudación: $${p.boxOffice.taquilla} millones<br>`;
+  }).join("");
+  divMostrar.innerHTML = "<h3>Catalogo Completo</h3>" + html;
+}
+
+btnEnviar.addEventListener('click', (ev) => {
+  ev.preventDefault();
+
+  const titulo = inputTitulo.value.trim();
+  const genero = inputGenero.value;
+  const cast = inputCast.value.trim().split(',').map(a => a.trim());
+  const budget = Number(inputBudget.value);
+  const taquilla = Number(inputTaquilla.value);
+  const anio = Number(inputAnio.value);
+
+  if (titulo === "" || cast.length === 0 || !(anio >= 1900) || budget <= 0 || taquilla <= 0) {
+    alert("Valores NO validos ...");
+    return;
+  }
+
+  if (catalogo.some(p => p.titulo.toLowerCase() === titulo.toLowerCase())) {
+    alert(`${titulo} ya está incluida en CATALOGO ...`);
+    return;
+  }
+
+  catalogo.push({ titulo, genero, anio, cast, boxOffice: { budget, taquilla } });
+  renderCatalogo();
+
+  // clear form
+  inputTitulo.value = "";
+  inputCast.value = "";
+  inputBudget.value = "";
+  inputTaquilla.value = "";
+  inputAnio.value = "";
+  inputGenero.value = "accion";
+});
+
+renderCatalogo();
+```
+
+| Priority | Bug |
+|----------|-----|
+| 🔴 | `renderCatalogo()` template broken |
+| 🔴 | Double `.split()` on cast |
+| 🔴 | `includes()` can't find duplicates |
+| 🟡 | Weak validation |
+| 🟡 | Genre mismatch `"ficcion"` vs `"ciencia ficcion"` |
+| 🟡 | Duplicate rendering paths |
+
+Ready to apply these fixes?
+
+---
+
+## Found the bugs — `pelis.js` fix analysis
+
+### Current messy state of `pelis.js`
+
+The file has multiple conflicting attempts at `renderCatalogo()` (three versions stacked), duplicate event listeners, and dead code.
+
+### Bug fixes applied
+
+| Bug | Details | Fix |
+|-----|---------|-----|
+| `return` + newline → ASI returns `undefined` | `return` followed by a template literal on a new line triggers automatic semicolon insertion | Put `return` and the value on the same line |
+| `.map()` without `.join()` | Renders `[object Object]` | Add `.join("<br>")` or `.join("")` |
+| Duplicate initial render code | `texto` + `divMostrar.innerHTML` at bottom duplicates `renderCatalogo()` | Pick one — call `renderCatalogo()` |
+| `console.table` with `.join()` | `console.table(catalogo.join(', '))` shows `[object Object]` | Use `console.table(catalogo)` |
+| Redundant `? true : false` | `const valido = (cond) ? true : false` | `const valido = cond` |
+| `cast.split()` then `cast.map()` | Already split on line 23, split again on line 42 → `TypeError` | Do it once: `cast.split(',').map(a => a.trim())` |
+| Weak validation | Only checks `titulo` and `anio` | Add `cast`, `budget`, `taquilla` |
+| Form not clearing after add | Inputs keep old values after successful push | Reset all inputs after `catalogo.push()` |
+
+---
+
+## Two classic bugs — ASI after `return` + wrong parameter name
+
+### Bug 1 — ASI after `return`
+
+```js
+return        // ← JS inserts `;` here → returns undefined
+`${i+1}.- ${peli.titulo}, ...
+```
+
+A line break after `return` triggers **automatic semicolon insertion (ASI)**. The function returns `undefined`. The template literal on the next line is dead code.
+
+### Bug 2 — Wrong parameter name in `.map()`
+
+```js
+catalogoG.map((p, i) => {     // ← parameter is p
+    return `${i+1}.- ${peli.titulo}, ...`  // ← peli is not defined
+```
+
+You named the parameter `p` but reference `peli` inside — `peli` is `undefined`.
+
+### Fix
+
+```js
+const html = catalogoG.map((peli, i) =>
+    `${i+1}.- ${peli.titulo}, ${peli.genero}`
+).join(`<br>`);
+```
+
+**Key:** Use **implicit return** (no `{}`, no `return` keyword) to avoid the ASI trap entirely. Match the parameter name to what you reference in the body.

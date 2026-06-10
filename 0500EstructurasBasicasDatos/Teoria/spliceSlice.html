@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>splice() / slice() Demo</title>
+    <style>
+        #demo{
+            border: 3px solid skyblue;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+        #demo1{
+            border: 3px solid darkorange;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+        #demo2{
+            border: 3px solid rebeccapurple;
+            border-radius: 10px;
+            min-height: 50px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>splice() Method, is used to replace the original values</h2>
+
+<p>catalogo.splice(n1,n2?,n3 ...) 
+<br>n1 Starting Index, 
+<br>n2 how many items to remove from that point onward. Warning, if you omit it ALL from n1 onward are removed
+<br>n3 forward new items
+<br>splice() a) Modifies the original array and b) returns an array with the removed items.
+</p>
+<div id="div">
+    <h3>
+    removed = days.splice(1,2,"M A R T E S","M I E R C O L E S");
+    </h3>
+    <p>
+        slice(n1,n2) takes two parameter that are the indexes.
+        <br>
+        a) it DOESN'T modify the original array
+        <br>
+        b) it returns a new SUBARRAY from n1 to n2 (not included)  
+    </p>
+     
+    <button id="bsplice" value="splice">S P L I C E</button>
+    <br><br>
+    <h3>
+    removed = days.slice(1,4)
+    </h3>     
+    <button id="bslice" value="slice">S L I C E</button>
+    <br><br>
+</div>
+
+<p><strong>Original:</strong> <span id="demo"></span></p>
+<p><strong>Returned (removed / slice copy):</strong> <span id="demo1"></span></p>
+<p><strong>Modified array:</strong> <span id="demo2"></span></p>
+
+<script>
+const miDiv = document.getElementById('div');
+miDiv.addEventListener('click', (e) => {
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    document.getElementById("demo").innerHTML = days;
+
+    if (e.target.value !== "splice" && e.target.value !== "slice") return;
+
+    let removed;
+    if (e.target.value === "splice") {
+        removed = days.splice(1,2,"M A R T E S","M I E R C O L E S");
+    } else if (e.target.value === "slice") {
+        removed = days.slice(1,4);
+    }
+    document.getElementById("demo1").innerHTML = removed;
+    document.getElementById("demo2").innerHTML = days;
+});
+</script>
+</body>
+</html>

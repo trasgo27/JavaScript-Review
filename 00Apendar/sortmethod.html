@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const a = [100,25,5,62,89,1000];
+        console.table(a.sort());
+        const b = [...a];
+        b.sort((a,b)=> a-b);
+        console.table(b);
+        console.table(a);
+    </script>
+</body>
+</html>

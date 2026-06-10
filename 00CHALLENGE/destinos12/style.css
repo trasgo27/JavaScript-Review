@@ -1,0 +1,429 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #06080f 100%);
+    --card-bg: rgba(15, 22, 42, 0.6);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-glow: rgba(99, 102, 241, 0.05);
+    --primary: #6366f1; /* Indigo */
+    --primary-hover: #4f46e5;
+    --primary-glow: rgba(99, 102, 241, 0.35);
+    --accent: #a855f7; /* Purple */
+    --success: #10b981; /* Emerald */
+    --success-glow: rgba(16, 185, 129, 0.2);
+    --error: #f43f5e; /* Rose Red */
+    --error-glow: rgba(244, 63, 94, 0.2);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --glass-blur: blur(24px);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    overflow-x: hidden;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Layout Containers */
+.app-container {
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Headers */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+h2 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+/* Glassmorphic Cards */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: var(--glass-blur);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, var(--card-glow), transparent 60%);
+    pointer-events: none;
+}
+
+.card:hover {
+    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.05);
+}
+
+/* Section Header Labels inside Cards */
+.card-header-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 0.75rem;
+}
+
+/* Forms */
+#dInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+input[type="text"] {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition);
+    width: 100%;
+}
+
+input[type="text"]:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* Primary Button style */
+button#bEnviar {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+button#bEnviar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+button#bEnviar:active {
+    transform: translateY(0);
+}
+
+/* Toast/Alert Messages Box */
+.alert-box {
+    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+    margin-top: 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-box.success {
+    display: flex;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    color: #34d399;
+}
+
+.alert-box.error {
+    display: flex;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid var(--error);
+    color: #fb7185;
+}
+
+/* Continent Filter Buttons Grid */
+#dBotones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 500px) {
+    #dBotones {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+#dBotones button {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    padding: 0.75rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dBotones button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-main);
+    transform: translateY(-1px);
+}
+
+#dBotones button.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--primary);
+    color: white;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+}
+
+/* Result Lists */
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+li {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+    animation: fadeIn 0.4s ease-out;
+}
+
+li:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(3px);
+}
+
+/* List Content Wrapper */
+.li-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.li-index {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--primary);
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.li-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.li-destination {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.li-continent {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Continent Badges */
+.badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+}
+
+.badge-europa { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.badge-asia { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-africa { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-oceania { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+.badge-norteamerica { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.badge-sudamerica { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+.badge-default { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.15); }
+
+/* Delete Action Button */
+.btn-delete {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 8px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete:hover {
+    color: var(--error);
+    background: rgba(244, 63, 94, 0.1);
+}
+
+.btn-delete svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* Empty State Styling */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-top: 1rem;
+    gap: 0.5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.empty-state svg {
+    width: 32px;
+    height: 32px;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.empty-state span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

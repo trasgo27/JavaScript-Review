@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinos11</title>
+    <style>
+        li { cursor: pointer; }
+        li:hover { background: lightyellow; font-weight: bold; color: red; font-size:larger;font-weight:bolder}
+        ul { border: 2px solid rebeccapurple; border-radius: 8px; padding: 10px; list-style: decimal; }
+    </style>
+</head>
+<body>
+    <h1>Destinos 11</h1>
+    <h3>África, Asia, Europa, Oceanía, Norte América, Sudamérica</h3>
+    Destino:
+    <input type="text" id="iDestino">
+    <br><br>
+    Continente:
+    <input type="text" id="iContinente">
+    <br><br>
+    <button id="bEnviar">Enviar</button>
+    <div id="dMostrar">
+        <ul id="listaCatalogo"></ul>
+    </div>
+    <div id="dBotones">
+        <button value="África">África</button>
+        <button value="Asia">Asia</button>
+        <button value="Europa">Europa</button>
+        <button value="Norte América">Norte América</button>
+        <button value="Sudamérica">Sudamérica</button>
+        <button value="Oceanía">Oceanía</button>
+    </div>
+    <div id="dSeleccion">
+        <ul id="listaSeleccion"></ul>
+    </div>
+    <script src="dom.js"></script>
+    <script src="catalogo.js"></script>
+    <script src="destinos.js"></script>
+</body>
+</html>
