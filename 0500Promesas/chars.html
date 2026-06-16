@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Chars</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script>
+        const data = [
+            { nombre: "The Dark Side of the Moon", grupo: "Pink Floyd", año: 1973, tipo: "rock", precio: "£25" },
+            { nombre: "Abbey Road", grupo: "The Beatles", año: 1969, tipo: "rock", precio: "€30" },
+            { nombre: "Blue in Green", grupo: "Miles Davis", año: 1959, tipo: "indie", precio: "¥4000" }
+        ];
+
+        // Console output with \n
+        console.log("=== CONSOLE (\\n) ===");
+        data.forEach(d => console.log(`nombre: ${d.nombre}\ngrupo: ${d.grupo}\naño: ${d.año}\n---`));
+
+        // DOM output with <br> and entities
+        const html = data.map(d =>
+            `nombre: ${d.nombre}<br>grupo: ${d.grupo}<br>año: ${d.año}<br>precio: ${d.precio}<br>${"&lt;"} ${"&gt;"} ${"&amp;"} ${"&quot;"}<br><br>`
+        ).join('');
+
+        document.getElementById('output').innerHTML = html;
+    </script>
+</body>
+</html>
