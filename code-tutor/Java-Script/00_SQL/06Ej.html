@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 06: CLI Todo List with SQLite</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+      font-size: 1.5rem;
+    }
+    p, li {
+      color: var(--text-muted);
+    }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      color: #e2e8f0;
+      padding: 0;
+    }
+    .hint-box {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .hint-title {
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+    }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    .btn-back:hover {
+      transform: translateX(-5px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="btn-back">← Back to Exercises</a>
+  <h1>Exercise 06: Build a CLI Todo List with SQLite</h1>
+  <p>Combine your JavaScript CLI logic (using Node's <code>readline</code>) with SQLite queries to build a persistent command-line application.</p>
+
+  <h2>App Specification</h2>
+  <p>The application should store tasks in a <code>todos</code> table with columns: <code>id</code>, <code>task</code>, and <code>completed</code> (0 for false, 1 for true).</p>
+  
+  <h2>Interactive Commands</h2>
+  <ul>
+    <li><code>add &lt;task name&gt;</code> — Inserts a new uncompleted task.</li>
+    <li><code>list</code> — Lists all tasks with their completion status.</li>
+    <li><code>complete &lt;id&gt;</code> — Marks a task as completed (updates <code>completed</code> to 1).</li>
+    <li><code>delete &lt;id&gt;</code> — Deletes a task by ID.</li>
+    <li><code>exit</code> — Closes the database and exits the application.</li>
+  </ul>
+
+  <h2>Your Tasks</h2>
+  
+  <h3>Task 1: Table Initialization</h3>
+  <p>Initialize the <code>todos</code> table inside `06Ej.js`. Ensure columns use appropriate data types (e.g., <code>completed INTEGER DEFAULT 0</code>).</p>
+
+  <h3>Task 2: Implement listTasks()</h3>
+  <p>Write a function to read all rows from the database and print them nicely to the terminal. If the database is empty, display a friendly message.</p>
+
+  <h3>Task 3: Implement addTask(name)</h3>
+  <p>Write the statement to insert a task. Log a confirmation message showing the new ID.</p>
+
+  <h3>Task 4: Implement completeTask(id)</h3>
+  <p>Update the status of a task. Verify if the task actually existed (check <code>changes === 0</code> to handle invalid IDs).</p>
+
+  <h3>Task 5: Implement deleteTask(id)</h3>
+  <p>Delete the row from the database. Output a message indicating success or failure.</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 Readline Integration</div>
+    <p>We've already set up the <code>readline</code> interface in the template. Focus on replacing the SQL comments with active statements inside each function block!</p>
+  </div>
+
+  <h2>Expected CLI Experience</h2>
+  <pre><code>=== SQLite CLI Todo List ===
+Commands:
+  add <task>      - Add a new task
+  list            - List all tasks
+  complete <id>   - Mark a task as completed
+  delete <id>     - Delete a task
+  exit            - Exit application
+
+> list
+No tasks found. Add some!
+
+> add Learn SQLite
+Added task: "Learn SQLite" (ID: 1)
+
+> add Build REST API
+Added task: "Build REST API" (ID: 2)
+
+> list
+[ ] 1: Learn SQLite
+[ ] 2: Build REST API
+
+> complete 1
+Task 1 marked as completed!
+
+> list
+[x] 1: Learn SQLite
+[ ] 2: Build REST API
+
+> delete 2
+Task 2 deleted successfully.
+
+> list
+[x] 1: Learn SQLite</code></pre>
+
+  <p><strong>To start:</strong> open and edit <code>06Ej.js</code>, then run <code>node 06Ej.js</code> in your terminal.</p>
+</div>
+
+</body>
+</html>

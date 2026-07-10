@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: Sum Elements with reduce()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Sum Elements with reduce()</h1>
+    
+    <section>
+        <h2>Code Explanation</h2>
+        <p>The original code in <code>01SumElemets.html</code> does the following:</p>
+        <pre><code>const vector = [4, 90, 78, 33];
+
+function add(a, b) {
+    return a + b;
+}
+
+const summatory = vector.reduce(add, 0);
+console.log(summatory); // 205</code></pre>
+        
+        <h3>How it works</h3>
+        <ul>
+            <li><strong>Line 1:</strong> Creates an array <code>[4, 90, 78, 33]</code></li>
+            <li><strong>Lines 3-5:</strong> Defines a named function <code>add</code> that takes two parameters and returns their sum</li>
+            <li><strong>Line 7:</strong> Calls <code>reduce()</code> with the <code>add</code> function and initial value <code>0</code></li>
+            <li><strong>Trace:</strong> <code>0 + 4 = 4</code> → <code>4 + 90 = 94</code> → <code>94 + 78 = 172</code> → <code>172 + 33 = 205</code></li>
+        </ul>
+
+        <h3>Key Concepts</h3>
+        <ul>
+            <li><code>reduce()</code> iterates through the array, calling <code>add(acc, current)</code> for each element</li>
+            <li>The initial value <code>0</code> is passed as the first <code>acc</code></li>
+            <li>The callback function's return value becomes the next <code>acc</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Sum with a named function</h3>
+        <p>Reproduce the original code: define a named function <code>sumar</code> and pass it to <code>reduce()</code> to sum <code>numbers</code>. Log the result.</p>
+
+        <h3>Task 2: Sum with an inline anonymous function</h3>
+        <p>Rewrite Task 1 using an anonymous function directly inside <code>.reduce()</code> instead of a named function.</p>
+
+        <h3>Task 3: Sum with an arrow function</h3>
+        <p>Rewrite Task 1 using an arrow function: <code>(acc, current) => acc + current</code>.</p>
+
+        <h3>Task 4: Try without an initial value</h3>
+        <p>Call <code>.reduce()</code> on <code>numbers</code> with the arrow function but <strong>without</strong> the initial value <code>0</code>. Log the result. What is the difference?</p>
+
+        <h3>Task 5: Sum with a different initial value</h3>
+        <p>Use <code>.reduce()</code> with an initial value of <code>100</code>. Log the result. Does it match <code>sum + 100</code>?</p>
+
+        <h3>Task 6: Product of all numbers</h3>
+        <p>Use <code>.reduce()</code> to <strong>multiply</strong> all numbers together. What initial value should you use? (Hint: not <code>0</code>!)</p>
+
+        <h3>Task 7: Sum only even numbers with reduce</h3>
+        <p>Chain <code>.filter()</code> and <code>.reduce()</code> to sum only the even numbers from <code>numbers</code>.</p>
+        <pre><code>// Expected: 12 + 8 + 130 + 44 + 150 = 344</code></pre>
+
+        <h3>Task 8: Concatenate strings with reduce</h3>
+        <p>Given <code>const words = ["Hello", " ", "World", "!"]</code>, use <code>.reduce()</code> to concatenate them into <code>"Hello World!"</code>.</p>
+
+        <h3>Task 9: Count elements with reduce</h3>
+        <p>Use <code>.reduce()</code> to count how many numbers are greater than 50 in <code>numbers</code>. (Do not use <code>.filter()</code> or <code>.length</code>.)</p>
+
+        <h3>Task 10: Average with reduce (Bonus)</h3>
+        <p>Use <code>.reduce()</code> to calculate the average of <code>numbers</code>. The average is <code>sum / length</code>. Can you calculate both in a single <code>.reduce()</code> call? (Hint: return an object <code>{ sum, count }</code> as the accumulator.)</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining why providing an initial value to <code>.reduce()</code> is important, especially when summing numbers. What could go wrong if you omit it?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference (reduce signature)</h2>
+        <pre><code>array.reduce((accumulator, currentValue, index, array) => {
+    return newAccumulator;
+}, initialValue);
+
+// Without initialValue:
+//   - First call: acc = array[0], current = array[1]
+//   - Requires array to have at least 1 element
+// With initialValue:
+//   - First call: acc = initialValue, current = array[0]
+//   - Safe for empty arrays</code></pre>
+    </section>
+</body>
+</html>

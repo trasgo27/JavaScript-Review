@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 03: UPDATE and DELETE Records</title>
+  <style>
+    :root {
+      --bg-color: #0f172a; --card-bg: rgba(30,41,59,0.7);
+      --accent-color: #38bdf8; --text-main: #f8fafc;
+      --text-muted: #94a3b8; --border-color: rgba(255,255,255,0.1);
+      --code-bg: #1e293b;
+    }
+    body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 20px; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; background: var(--card-bg); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    h1 { color: var(--accent-color); font-size: 2.2rem; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
+    h2 { color: #e2e8f0; margin-top: 30px; border-left: 4px solid var(--accent-color); padding-left: 12px; font-size: 1.5rem; }
+    p, li { color: var(--text-muted); }
+    code { background: var(--code-bg); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 0.9em; }
+    pre { background: #0b0f19; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; overflow-x: auto; }
+    pre code { background: transparent; color: #e2e8f0; padding: 0; }
+    .hint-box { background: rgba(56,189,248,0.1); border-left: 4px solid var(--accent-color); padding: 15px; border-radius: 4px; margin: 20px 0; }
+    .hint-title { font-weight: bold; color: var(--accent-color); margin-bottom: 5px; }
+    .btn-back { display: inline-block; margin-bottom: 20px; color: var(--accent-color); text-decoration: none; font-weight: 500; transition: transform 0.2s; }
+    .btn-back:hover { transform: translateX(-5px); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back" id="back-link">← Back to SQL Mastery</a>
+  <h1>Exercise 03: UPDATE and DELETE Records</h1>
+  <p>Learn to modify existing records and safely delete entries while tracking how many rows were affected.</p>
+
+  <h2>Your Tasks</h2>
+
+  <h3>Task 1: Update a user's email</h3>
+  <p>Update Bob's email from <code>bob@example.com</code> to <code>bob.smith@example.com</code>. Log <code>info.changes</code>.</p>
+
+  <h3>Task 2: Price increase (Inflation)</h3>
+  <p>Increase the price of all <code>electronics</code> products by 10%. Hint: <code>SET price = price * 1.1</code>.</p>
+
+  <h3>Task 3: Restock an item</h3>
+  <p>Add 15 to the stock of <code>Jeans</code>. Hint: <code>SET stock = stock + ?</code>.</p>
+
+  <h3>Task 4: Delete users by age limit</h3>
+  <p>Delete all users under 25 years old. Log how many were removed.</p>
+
+  <h3>Task 5: Delete out-of-stock products</h3>
+  <p>Delete all products with a stock of 0. Log how many rows were affected.</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 Key Hints</div>
+    <ul>
+      <li><code>UPDATE</code> and <code>DELETE</code> use <code>stmt.run(...)</code> and return <code>{ changes, lastInsertRowid }</code>.</li>
+      <li>Always include a <code>WHERE</code> clause! Omitting it modifies <strong>every row</strong> in the table.</li>
+    </ul>
+  </div>
+
+  <h2>Expected Terminal Output</h2>
+  <pre><code>=== Task 1: Update Bob's email ===
+Bob's email updated. Changes: 1
+
+=== Task 2: Increase electronics prices by 10% ===
+Prices increased. Affected items: 3
+
+=== Task 3: Restock Jeans ===
+Jeans restocked. Affected items: 1
+
+=== Task 4: Delete users under 25 ===
+Deleted users. Count: 1
+
+=== Task 5: Delete out-of-stock products ===
+Deleted products. Count: 1</code></pre>
+
+  <p><strong>To start:</strong> open and edit <code>03Ej.js</code>, then run <code>node 03Ej.js</code> in your terminal.</p>
+</div>
+</body>
+</html>

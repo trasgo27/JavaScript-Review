@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQLite CLI Mastery</title>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 30, 49, 0.7);
+      --accent-color: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(56, 189, 248, 0.4);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.6;
+      background-image: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+
+    .back-link:hover {
+      transform: translateX(-5px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: var(--text-main);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 10px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    .exercise-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      width: 100%;
+    }
+
+    .exercise-link:hover {
+      color: var(--accent-color);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .exercise-link:hover .status-badge {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .done .status-badge {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    .db-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1px 8px;
+      border-radius: 4px;
+      margin-left: auto;
+      font-family: 'Fira Code', Consolas, monospace;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="../index.html" class="back-link">← Back to SQL + JS Mastery</a>
+
+  <header>
+    <h1>SQLite CLI Exercises</h1>
+    <p>Master the <code>sqlite3</code> command-line tool — write SQL directly in the terminal, no JavaScript needed.</p>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>How to Use</h2>
+      <ul>
+        <li>
+          <span class="exercise-link">
+            <span class="status-badge">1</span>
+            Open a terminal in this folder
+          </span>
+        </li>
+        <li>
+          <span class="exercise-link">
+            <span class="status-badge">2</span>
+            Type <code>sqlite3 &lt;db-file&gt;.db</code>
+          </span>
+        </li>
+        <li>
+          <span class="exercise-link">
+            <span class="status-badge">3</span>
+            Copy-paste the SQL from each exercise
+          </span>
+        </li>
+        <li>
+          <span class="exercise-link">
+            <span class="status-badge">4</span>
+            Type <code>.quit</code> to exit
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Exercises</h2>
+      <ul>
+        <li>
+          <a class="exercise-link" href="01-intro.html">
+            <span class="status-badge">01</span>
+            Intro &amp; Navigation
+            <span class="db-tag">intro.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="02-select-where.html">
+            <span class="status-badge">02</span>
+            SELECT &amp; WHERE
+            <span class="db-tag">store.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="03-create-insert.html">
+            <span class="status-badge">03</span>
+            CREATE TABLE &amp; INSERT
+            <span class="db-tag">school.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="04-update-delete.html">
+            <span class="status-badge">04</span>
+            UPDATE &amp; DELETE
+            <span class="db-tag">store.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="05-order-aggregate.html">
+            <span class="status-badge">05</span>
+            ORDER BY &amp; Aggregates
+            <span class="db-tag">store.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="06-joins.html">
+            <span class="status-badge">06</span>
+            JOINs
+            <span class="db-tag">joins.db</span>
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="07-import-export.html">
+            <span class="status-badge">07</span>
+            Import &amp; Export
+            <span class="db-tag">import.db</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

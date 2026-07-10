@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 - SELECT &amp; WHERE | SQLite CLI</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+    }
+    h3 { color: var(--accent-color); margin-top: 25px; }
+    p, li { color: var(--text-muted); }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code { background: transparent; color: #e2e8f0; padding: 0; }
+    .cmd { color: #38bdf8; }
+    .output { color: #94a3b8; }
+    .comment { color: #22c55e; }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn-back:hover { transform: translateX(-5px); }
+    .task-box {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .task-box strong { color: var(--accent-color); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back">← Back to CLI Exercises</a>
+  <h1>02 — SELECT &amp; WHERE</h1>
+  <p>Filter data with conditions, pattern matching, and ranges.</p>
+
+  <div class="task-box">
+    <strong>Database file:</strong> <code>store.db</code>. First copy-paste the seed SQL below to populate it.
+  </div>
+
+  <h2>Step 0: Seed the Database</h2>
+  <p>Run this entire block to create tables and insert sample data:</p>
+  <pre><code><span class="cmd">sqlite3 store.db</span>
+<span class="comment">-- Then copy-paste this inside the sqlite&gt; prompt:</span>
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  age INTEGER
+);
+
+CREATE TABLE products (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  price REAL,
+  stock INTEGER DEFAULT 0,
+  category TEXT
+);
+
+INSERT INTO users (name, email, age) VALUES
+  ('Alice', 'alice@example.com', 30),
+  ('Bob', 'bob@example.com', 25),
+  ('Charlie', 'charlie@gmail.com', 35),
+  ('Diana', 'diana@example.com', 28),
+  ('Eve', 'eve@example.com', 22),
+  ('Frank', 'frank@gmail.com', 40),
+  ('Grace', 'grace@example.com', 32);
+
+INSERT INTO products (name, price, stock, category) VALUES
+  ('Laptop', 1200, 10, 'electronics'),
+  ('Phone', 800, 25, 'electronics'),
+  ('Shirt', 30, 100, 'clothing'),
+  ('Jeans', 60, 50, 'clothing'),
+  ('Pizza', 15, 200, 'food'),
+  ('Salad', 10, 150, 'food'),
+  ('JavaScript Book', 45, 30, 'books'),
+  ('SQL Guide', 35, 20, 'books'),
+  ('Mouse', 25, 0, 'electronics');</pre>
+  <p>Set pretty mode: <code>.mode column</code> and <code>.headers on</code></p>
+
+  <h2>Task 1: SELECT All Users</h2>
+  <pre><code><span class="cmd">SELECT * FROM users;</span></pre>
+
+  <h2>Task 2: SELECT Specific Columns</h2>
+  <pre><code><span class="cmd">SELECT name, email FROM users;</span></pre>
+
+  <h2>Task 3: WHERE with Comparison</h2>
+  <pre><code><span class="cmd">SELECT * FROM users WHERE age &gt; 25;</span></pre>
+
+  <h2>Task 4: WHERE with LIKE (Pattern Matching)</h2>
+  <pre><code><span class="cmd">SELECT name, email FROM users WHERE email LIKE '%@gmail.com';</span></pre>
+  <p><code>%</code> matches any sequence of characters.</p>
+
+  <h2>Task 5: WHERE with BETWEEN (Range)</h2>
+  <pre><code><span class="cmd">SELECT name, price FROM products WHERE price BETWEEN 20 AND 100;</span></pre>
+
+  <h2>Task 6: WHERE with IN (Multiple Values)</h2>
+  <pre><code><span class="cmd">SELECT * FROM products WHERE category IN ('electronics', 'books');</span></pre>
+
+  <h2>Task 7: AND / OR Logic</h2>
+  <pre><code><span class="comment">-- Electronics OR cheap products, with stock available</span>
+<span class="cmd">SELECT * FROM products
+WHERE (category = 'electronics' OR price &lt; 50)
+  AND stock &gt; 0;</span></pre>
+
+  <h2>Task 8: DISTINCT (Unique Values)</h2>
+  <pre><code><span class="cmd">SELECT DISTINCT category FROM products;</span></pre>
+
+  <hr>
+
+  <h2>Practice Tasks</h2>
+  <ol>
+    <li>Find all products with <code>stock &lt; 30</code></li>
+    <li>Find users whose name starts with "A" (<code>LIKE 'A%'</code>)</li>
+    <li>Find products named "Laptop" or "Phone" using <code>IN</code></li>
+    <li>Find users aged between 25 and 35 inclusive</li>
+    <li>Find products that are NOT in 'food' category</li>
+  </ol>
+</div>
+</body>
+</html>

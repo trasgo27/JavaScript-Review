@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 16: Retry Logic Mastery</title>
+</head>
+<body>
+    <h1>Retry Logic Mastery</h1>
+    
+    <section>
+        <h2>Exercise 16: Retry Logic with Recursion</h2>
+        <p>Practice building retry mechanisms for async operations using recursive promise chains. Master the pattern of: fetch → filter failures → retry → accumulate.</p>
+        <pre><code>// Core pattern:
+// function retry(failures, successes, attempt) {
+//     if (done) return log(successes);
+//     fetch(failures).then(results => {
+//         extract successes & failures from results;
+//         retry(newFailures, successes.concat(newSuccesses), attempt + 1);
+//     });
+// }</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup (simulated APIs)</h2>
+        <pre><code>// 75% success rate API
+function fetchData(id) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            Math.random() > 0.25
+                ? resolve({ id, data: `Result for ${id}` })
+                : reject(new Error(`Failed: ${id}`));
+        }, 200 + Math.random() * 300);
+    });
+}
+
+// 50% success rate (harder)
+function fragileFetch(id) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            Math.random() > 0.5
+                ? resolve({ id, data: `Fragile result ${id}` })
+                : reject(new Error(`Fragile failed: ${id}`));
+        }, 100 + Math.random() * 200);
+    });
+}
+
+// Fetch all with allSettled
+function fetchAll(ids, fetcher) {
+    return Promise.allSettled(ids.map(id => fetcher(id)));
+}</code></pre>
+        <p>Constants:</p>
+        <pre><code>const MAX_RETRIES = 3;
+const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Basic retry — one shot</h3>
+        <p>Call <code>fetchAll(ids, fetchData)</code>. In the <code>.then()</code>, use <code>.reduce()</code> to extract failed IDs (same pattern as 14Ej). Log both successes and failures.</p>
+
+        <h3>Task 2: One retry round</h3>
+        <p>Take the failed IDs from Task 1 and call <code>fetchAll()</code> again with only those. Merge new successes with the original ones. Log final combined results.</p>
+
+        <h3>Task 3: Recursive retry function</h3>
+        <p>Write a function <code>retryFetch(ids, fetcher, maxRetries)</code> that retries failed items recursively.</p>
+        <pre><code>// Signature:
+// retryFetch(ids, fetcher, maxRetries)
+//   → Promise that resolves with ALL successful results (accumulated across retries)</code></pre>
+        <p>Use <code>fetchData</code> as the fetcher, <code>MAX_RETRIES = 3</code>. Log the final array.</p>
+
+        <h3>Task 4: Retry with fragile service</h3>
+        <p>Call <code>retryFetch(ids, fragileFetch, 5)</code>. The fragile service has only 50% success rate. Observe how many retries it takes. Log final array and total attempts used.</p>
+
+        <h3>Task 5: Max retries exceeded — partial results</h3>
+        <p>Call <code>retryFetch([1, 2, 3], fragileFetch, 2)</code> with only 2 max retries. Log the partial results — some items should remain failed. Include a message like <code>"Retries exhausted. X items still failed."</code></p>
+
+        <h3>Task 6: Retry with success callback (Bonus)</h3>
+        <p>Modify your retry function to accept an optional callback <code>onRetry(failures, attempt)</code> that's called before each retry. Use it to log: <code>"Retry 2 for: 1, 3, 7"</code>.</p>
+
+        <h3>Task 7: Retry with exponential backoff (Bonus)</h3>
+        <p>Modify your retry function to wait before each retry using a delay that grows exponentially: <code>delay = 100 * 2^attempt</code> ms. Implement by wrapping the fetch in a <code>setTimeout</code> inside a Promise.</p>
+        <pre><code>function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}</code></pre>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining why a recursive function works better than a <code>while</code> loop when retrying asynchronous operations.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference (the retry pattern)</h2>
+        <pre><code>function retry(items, fetcher, maxRetries, onRetry) {
+    const MAX = maxRetries ?? 3;
+
+    function attempt(list, results, tries) {
+        if (list.length === 0 || tries > MAX) {
+            console.log(`Done after ${tries - 1} attempt(s)`);
+            return results;
+        }
+
+        if (onRetry) onRetry(list, tries);
+
+        return fetchAll(list, fetcher).then(resolved => {
+            const newSuccesses = resolved
+                .filter(r => r.status === 'fulfilled')
+                .map(r => r.value);
+
+            const newFailures = resolved.reduce((acc, r, i) => {
+                if (r.status === 'rejected') acc.push(list[i]);
+                return acc;
+            }, []);
+
+            return attempt(newFailures, results.concat(newSuccesses), tries + 1);
+        });
+    }
+
+    return attempt(items, [], 1);
+}</code></pre>
+    </section>
+
+    <script src="16Ej.js"></script>
+</body>
+</html>

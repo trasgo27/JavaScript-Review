@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 02: SELECT with WHERE Conditions</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0; padding: 40px 20px; line-height: 1.6;
+    }
+    .container {
+      max-width: 900px; margin: 0 auto;
+      background: var(--card-bg); backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color); border-radius: 16px;
+      padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    h1 { color: var(--accent-color); font-size: 2.2rem; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
+    h2 { color: #e2e8f0; margin-top: 30px; border-left: 4px solid var(--accent-color); padding-left: 12px; font-size: 1.5rem; }
+    p, li { color: var(--text-muted); }
+    code { background: var(--code-bg); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', Consolas, Monaco, monospace; font-size: 0.9em; }
+    pre { background: #0b0f19; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; overflow-x: auto; }
+    pre code { background: transparent; color: #e2e8f0; padding: 0; }
+    .hint-box { background: rgba(56,189,248,0.1); border-left: 4px solid var(--accent-color); padding: 15px; border-radius: 4px; margin: 20px 0; }
+    .hint-title { font-weight: bold; color: var(--accent-color); margin-bottom: 5px; }
+    .btn-back { display: inline-block; margin-bottom: 20px; color: var(--accent-color); text-decoration: none; font-weight: 500; transition: transform 0.2s; }
+    .btn-back:hover { transform: translateX(-5px); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back" id="back-link">← Back to SQL Mastery</a>
+  <h1>Exercise 02: SELECT with WHERE Conditions</h1>
+  <p>Learn to query and filter SQLite data using specific conditions, logical operators (<code>AND</code>, <code>OR</code>), patterns (<code>LIKE</code>), and ranges (<code>BETWEEN</code>).</p>
+
+  <h2>Your Tasks</h2>
+
+  <h3>Task 1: Fetch users older than 25</h3>
+  <p>Retrieve all columns for users where <code>age > 25</code>. Use <code>db.prepare().all()</code>.</p>
+
+  <h3>Task 2: Find Gmail users</h3>
+  <p>Retrieve the <code>name</code> and <code>email</code> of users whose emails end with <code>@gmail.com</code> using <code>LIKE '%@gmail.com'</code>.</p>
+
+  <h3>Task 3: Search products by price range</h3>
+  <p>Find products priced between $20 and $100 using <code>BETWEEN ? AND ?</code>.</p>
+
+  <h3>Task 4: Wildcard product search</h3>
+  <p>Find products whose names contain "book" or "guide" (case-insensitive). Use <code>LIKE</code> with <code>%</code> wildcard.</p>
+
+  <h3>Task 5: Logical combinations</h3>
+  <p>Retrieve products that are either in the <code>electronics</code> category OR have a price under $50, AND also have stock greater than 0.</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 Key Hints</div>
+    <ul>
+      <li>Use <code>db.prepare(sql).all(...)</code> when you expect multiple rows back.</li>
+      <li>For dynamic values, always use placeholders: <code>db.prepare('SELECT * FROM users WHERE age > ?').all(25)</code>.</li>
+      <li>Concatenate wildcards in JS: <code>stmt.all(`%${searchTerm}%`)</code>.</li>
+    </ul>
+  </div>
+
+  <h2>Expected Terminal Output</h2>
+  <pre><code>=== Task 1: Users older than 25 ===
+[ { id: 1, name: 'Alice', email: 'alice@example.com', age: 30 }, ... ]
+
+=== Task 2: Gmail users ===
+[ { name: 'Charlie', email: 'charlie@gmail.com' }, ... ]
+
+=== Task 3: Products between $20 and $100 ===
+[ { name: 'Shirt', price: 30 }, { name: 'Jeans', price: 60 }, ... ]
+
+=== Task 4: Wildcard product search ===
+[ { name: 'JavaScript Book' }, { name: 'SQL Guide' } ]
+
+=== Task 5: Electronics OR price < 50 (with stock > 0) ===
+[ ... ]</code></pre>
+
+  <p><strong>To start:</strong> open and edit <code>02Ej.js</code>, then run <code>node 02Ej.js</code> in your terminal.</p>
+</div>
+</body>
+</html>

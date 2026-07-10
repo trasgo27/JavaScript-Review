@@ -1,0 +1,44 @@
+#listado{
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:1.25rem;
+}
+@media (min-width: 640px){
+    #listado {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+.movie-card{
+    background:rgba(255,255,255,0.03);
+    border: 1 px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.movie-card:hover {
+    background: rgba(255, 255, 255, 0.07); /* Brightens background on hover */
+    border-color: #6366f1; /* Changes border color to purple */
+    transform: translateY(-4px); /* Moves the card up slightly (3D lift effect) */
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); /* Glow shadow effect */
+}
+body{
+    background: #0f172a;
+    color: #f8fafc;
+    min-height: 100vh;
+    /*Flebos setup to center the container vertically and horizontally*/
+    display: flex;
+    justify-content: center; /*horizontally center */
+    align-items: center;
+    padding: 2rem;
+}
+.container{
+    width: 100%;
+    max-width: 800px;
+    background: rgba(30,41,59.0.4);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+}

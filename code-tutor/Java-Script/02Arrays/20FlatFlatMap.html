@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 20: Master flat() and flatMap()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>flat() and flatMap() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 20: Master flat() and flatMap()</h2>
+        <p>Practice flattening nested arrays with <code>Array.prototype.flat()</code> and <code>Array.prototype.flatMap()</code>: depth control, mapping while flattening, and real-world data.</p>
+        <pre><code>// flat signature:
+// const flatArray = array.flat(depth);
+// depth: how many levels to flatten (default: 1)
+// Returns: a new flattened array
+
+// flatMap signature:
+// const result = array.flatMap((currentValue, index, array) => {
+//     return array | value; // flattens one level after mapping
+// });
+// Equivalent to: array.map(callback).flat(1)</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const nested1 = [[1, 2], [3, 4], [5, 6]];
+const nested2 = [[1, [2, 3]], [4, [5, 6]], [7, [8, 9]]];
+const nested3 = [1, [2, [3, [4, [5]]]]];
+const sentences = ["hello world", "good morning", "how are you"];
+const products = [
+    { name: "Laptop", tags: ["electronics", "computers", "tech"] },
+    { name: "Shirt", tags: ["clothing", "fashion"] },
+    { name: "Phone", tags: ["electronics", "mobile", "tech"] },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Flatten one level</h3>
+        <p>Use <code>.flat()</code> on <code>nested1</code> to flatten it into a single array. Log the result.</p>
+        <pre><code>// Expected: [1, 2, 3, 4, 5, 6]</code></pre>
+
+        <h3>Task 2: Flatten two levels</h3>
+        <p>Use <code>.flat()</code> with depth 2 on <code>nested2</code> to fully flatten it. Log the result.</p>
+
+        <h3>Task 3: Flatten completely with Infinity</h3>
+        <p>Use <code>.flat(Infinity)</code> on <code>nested3</code> to flatten all levels. Log the result.</p>
+
+        <h3>Task 4: Split sentences into words with flatMap</h3>
+        <p>Use <code>.flatMap()</code> on <code>sentences</code> to split each sentence into words and produce a single array of all words.</p>
+        <pre><code>// Expected: ["hello", "world", "good", "morning", "how", "are", "you"]</code></pre>
+
+        <h3>Task 5: Collect all product tags with flatMap</h3>
+        <p>Use <code>.flatMap()</code> on <code>products</code> to collect all tags into a single array. Log it.</p>
+
+        <h3>Task 6: flatMap with transformation</h3>
+        <p>Use <code>.flatMap()</code> on <code>nested1</code> to flatten AND double each number in one step.</p>
+        <pre><code>// Expected: [2, 4, 6, 8, 10, 12]</code></pre>
+
+        <h3>Task 7: Filter and flatten with flatMap</h3>
+        <p>Use <code>.flatMap()</code> on <code>numbers</code> (from previous exercises) to return <code>[n]</code> for even numbers and <code>[]</code> for odd numbers, effectively filtering and keeping only evens.</p>
+        <pre><code>// numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1]
+// Expected: [12, 8, 130, 44, 150]</code></pre>
+
+        <h3>Task 8: flatMap vs map + flat</h3>
+        <p>Rewrite the Task 4 solution using <code>.map()</code> followed by <code>.flat()</code>. Compare the two approaches.</p>
+
+        <h3>Task 9: Unique tags</h3>
+        <p>Use <code>.flatMap()</code> to collect all product tags, then remove duplicates using <code>Set</code> or <code>.filter()</code>.</p>
+        <pre><code>// Expected: ["electronics", "computers", "tech", "clothing", "fashion", "mobile"]</code></pre>
+
+        <h3>Task 10: Deep flatten manual (Bonus)</h3>
+        <p>Write a recursive function <code>deepFlatten(arr)</code> that flattens an array to any depth without using <code>.flat()</code>. Test it on <code>nested3</code>.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining the advantage of <code>.flatMap()</code> over calling <code>.map()</code> then <code>.flat()</code> separately. Why is it more efficient?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.flat(depth = 1);
+// Returns: new flattened array
+
+array.flatMap((currentValue, index, array) => {
+    return item | [items];
+});
+// Returns: mapped then flattened (1 level) array</code></pre>
+    </section>
+</body>
+</html>

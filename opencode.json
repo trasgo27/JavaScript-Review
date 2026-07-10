@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "code-tutor": {
+      "color": "#00FF88"
+    },
+    "spanish-tutor": {
+      "color": "#FF6B35",
+      "prompt": "Espanyol/spanish-tutor.md"
+    }
+  }
+}

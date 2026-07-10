@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07 - Import &amp; Export | SQLite CLI</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+    }
+    h3 { color: var(--accent-color); margin-top: 25px; }
+    p, li { color: var(--text-muted); }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code { background: transparent; color: #e2e8f0; padding: 0; }
+    .cmd { color: #38bdf8; }
+    .output { color: #94a3b8; }
+    .comment { color: #22c55e; }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn-back:hover { transform: translateX(-5px); }
+    .task-box {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px 20px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .task-box strong { color: var(--accent-color); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back">← Back to CLI Exercises</a>
+  <h1>07 — Import &amp; Export</h1>
+  <p>Load CSV files into SQLite, export databases to SQL, and run script files.</p>
+
+  <div class="task-box">
+    <strong>Database file:</strong> <code>import.db</code><br>
+    <strong>CSV files:</strong> <code>data/users.csv</code> and <code>data/products.csv</code> (provided in this folder)
+  </div>
+
+  <h2>Task 1: Create Table Matching CSV Structure</h2>
+  <p>CSV files have headers. You need to create a table with matching columns <em>before</em> importing.</p>
+  <pre><code><span class="cmd">sqlite3 import.db</span>
+
+<span class="cmd">CREATE TABLE users (
+  name TEXT,
+  email TEXT,
+  age INTEGER
+);</span></pre>
+
+  <h2>Task 2: Import CSV into Table</h2>
+  <pre><code><span class="comment">-- Change mode to CSV</span>
+<span class="cmd">.mode csv</span>
+
+<span class="comment">-- Import the file (use the full path or run from this folder)</span>
+<span class="cmd">.import data/users.csv users</span>
+
+<span class="comment">-- Verify</span>
+<span class="cmd">.mode column</span>
+<span class="cmd">.headers on</span>
+<span class="cmd">SELECT * FROM users;</span></pre>
+
+  <h2>Task 3: Import Products CSV</h2>
+  <pre><code><span class="cmd">CREATE TABLE products (
+  name TEXT,
+  price REAL,
+  stock INTEGER,
+  category TEXT
+);</span>
+
+<span class="cmd">.mode csv</span>
+<span class="cmd">.import data/products.csv products</span>
+
+<span class="cmd">.mode column</span>
+<span class="cmd">SELECT * FROM products;</span></pre>
+
+  <h2>Task 4: Export to SQL File</h2>
+  <pre><code><span class="comment">-- Send output to a file instead of the screen</span>
+<span class="cmd">.output backup.sql</span>
+
+<span class="comment">-- Dump the whole database to the file</span>
+<span class="cmd">.dump</span>
+
+<span class="comment">-- Reset output back to the screen</span>
+<span class="cmd">.output stdout</span>
+
+<span class="comment">-- Check the file (in another terminal)</span>
+<span class="cmd">.shell type backup.sql</span></pre>
+
+  <h2>Task 5: Run a SQL Script</h2>
+  <pre><code><span class="comment">-- Exit current session</span>
+<span class="cmd">.quit</span></pre>
+  <p>Now in your terminal (not in sqlite prompt):</p>
+  <pre><code><span class="comment">-- Create a script file with multiple SQL commands</span>
+<span class="cmd">echo CREATE TABLE test (id INT, val TEXT); INSERT INTO test VALUES (1, 'hello'); INSERT INTO test VALUES (2, 'world'); > script.sql</pre></code>
+  <p>(Or create <code>script.sql</code> with a text editor with those contents.)</p>
+  <p>Then run it:</p>
+  <pre><code><span class="cmd">sqlite3 scripted.db .read script.sql</span></code></pre>
+  <p>Open <code>scripted.db</code> to verify:</p>
+  <pre><code><span class="cmd">sqlite3 scripted.db</span>
+<span class="cmd">.mode column</span>
+<span class="cmd">SELECT * FROM test;</span>
+<span class="cmd">.quit</span></pre>
+
+  <h2>Task 6: Export SELECT Results to CSV</h2>
+  <pre><code><span class="cmd">sqlite3 store.db</span>
+<span class="cmd">.headers on</span>
+<span class="cmd">.mode csv</span>
+<span class="cmd">.output electronics.csv</span>
+<span class="cmd">SELECT * FROM products WHERE category = 'electronics';</span>
+<span class="cmd">.output stdout</span>
+<span class="cmd">.quit</span>
+
+<span class="comment">-- View the CSV file (from terminal, not sqlite)</span>
+<span class="cmd">type electronics.csv</span></pre>
+
+  <hr>
+
+  <h2>Quick Reference — Import/Export Commands</h2>
+  <table style="width:100%; border-collapse: collapse; color: var(--text-muted);">
+    <tr><td><code>.mode csv</code></td><td>Switch to CSV mode</td></tr>
+    <tr><td><code>.import file.csv tablename</code></td><td>Import CSV into table (must exist first)</td></tr>
+    <tr><td><code>.output filename.sql</code></td><td>Redirect output to file</td></tr>
+    <tr><td><code>.output stdout</code></td><td>Reset output to screen</td></tr>
+    <tr><td><code>.dump</code></td><td>Export full database as SQL</td></tr>
+    <tr><td><code>.read script.sql</code></td><td>Run SQL commands from a file</td></tr>
+    <tr><td><code>.shell cmd</code></td><td>Run a shell command from inside sqlite3</td></tr>
+  </table>
+
+  <hr>
+
+  <h2>Practice Tasks</h2>
+  <ol>
+    <li>Export the entire <code>store.db</code> database to <code>store-backup.sql</code></li>
+    <li>Create a new database <code>restored.db</code> and run <code>.read store-backup.sql</code> to restore it</li>
+    <li>Export only the <code>users</code> table from <code>store.db</code> as CSV</li>
+    <li>Create a CSV file with 3 of your own records and import it into a new table</li>
+  </ol>
+</div>
+</body>
+</html>

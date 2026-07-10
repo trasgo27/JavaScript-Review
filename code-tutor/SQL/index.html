@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Mastery Center</title>
+  <meta name="description" content="Interactive roadmap to mastering SQL — from raw SQLite CLI commands to JavaScript APIs and Express servers.">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 30, 49, 0.7);
+      --accent-color: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(56, 189, 248, 0.4);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.6;
+      background-image: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+
+    .back-link:hover {
+      transform: translateX(-5px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: var(--text-main);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 10px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    .exercise-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      width: 100%;
+    }
+
+    .exercise-link:hover {
+      color: var(--accent-color);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .exercise-link:hover .status-badge {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .done .status-badge {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    .db-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1px 8px;
+      border-radius: 4px;
+      margin-left: auto;
+      font-family: 'Fira Code', Consolas, monospace;
+      white-space: nowrap;
+    }
+
+    .sol-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .sol-link:hover {
+      color: #a855f7;
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="../index.html" class="back-link" id="back-link">← Back</a>
+
+  <header>
+    <h1>SQL Mastery Center</h1>
+    <p>From raw <code>sqlite3</code> CLI commands to JavaScript APIs and Express servers.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Resources panel -->
+    <div class="card">
+      <h2>Resources</h2>
+      <ul>
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/sqlite-cli/index.html" id="link-sqlite-cli">
+            <span class="status-badge">▶</span>
+            SQLite CLI Exercises
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/sqlite.md" id="link-sqlite-ref">
+            <span class="status-badge">i</span>
+            sqlite.md — Reference Notes
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/example.js" id="link-example-js">
+            <span class="status-badge">▶</span>
+            example.js — Basic Demo
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Exercises panel -->
+    <div class="card">
+      <h2>Exercises</h2>
+      <ul>
+        <!-- Ex 01 -->
+        <li class="done">
+          <a class="exercise-link" href="../Java-Script/00_SQL/01Ej.html" id="link-ex01">
+            <span class="status-badge">✓</span>
+            01. CREATE TABLE &amp; INSERT
+            <span class="db-tag">01ej.db</span>
+          </a>
+          <a class="sol-link" href="../Java-Script/00_SQL/01EjMiSol.html" id="link-ex01-sol">My Sol</a>
+        </li>
+
+        <!-- Ex 02 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/02Ej.html" id="link-ex02">
+            <span class="status-badge">02</span>
+            02. SELECT with WHERE conditions
+            <span class="db-tag">ex02.db</span>
+          </a>
+        </li>
+
+        <!-- Ex 03 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/03Ej.html" id="link-ex03">
+            <span class="status-badge">03</span>
+            03. UPDATE and DELETE records
+            <span class="db-tag">ex03.db</span>
+          </a>
+        </li>
+
+        <!-- Ex 04 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/04Ej.html" id="link-ex04">
+            <span class="status-badge">04</span>
+            04. ORDER BY, LIMIT &amp; Aggregates
+            <span class="db-tag">ex04.db</span>
+          </a>
+        </li>
+
+        <!-- Ex 05 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/05Ej.html" id="link-ex05">
+            <span class="status-badge">05</span>
+            05. JOIN two tables
+            <span class="db-tag">ex05.db</span>
+          </a>
+        </li>
+
+        <!-- Ex 06 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/06Ej.html" id="link-ex06">
+            <span class="status-badge">06</span>
+            06. Build a CLI Todo List with SQLite
+            <span class="db-tag">cli_todo.db</span>
+          </a>
+        </li>
+
+        <!-- Ex 07 -->
+        <li>
+          <a class="exercise-link" href="../Java-Script/00_SQL/07Ej.html" id="link-ex07">
+            <span class="status-badge">07</span>
+            07. Build a Mini CRUD App (Express)
+            <span class="db-tag">myapp.db</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

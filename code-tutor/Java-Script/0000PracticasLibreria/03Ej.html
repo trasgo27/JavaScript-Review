@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p><strong>Objetivo:</strong> Convertir la lógica de Promises a sintaxis async/await.</p>
+        <p><strong>Tu tarea:</strong></p>
+        <p>
+            Escribe una <code>async function verificarEdadAsync(edad)</code>.<br>
+            Dentro de ella, usa <code>await</code> con una Promise que tenga un delay de 1 segundo.<br>
+            Después del delay, verifica la edad:
+        </p>
+        <ul>
+            <li>Si es válida (<code>&gt;= 18</code>), retorna el mensaje de éxito</li>
+            <li>Si no es válida (<code>&lt; 18</code>), lanza un <code>throw new Error</code></li>
+        </ul>
+        <p>
+            Escribe otra <code>async function probarVerificacion()</code> que use <code>try/catch</code> para llamar a <code>verificarEdadAsync</code>.<br>
+            Pruébala con ambas edades (20 y 15).
+        </p>
+    </div>
+    <script src="03Ej.js"></script>
+</body>
+</html>

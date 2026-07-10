@@ -1,0 +1,9 @@
+name,price,stock,category
+Laptop,1200,10,electronics
+Phone,800,25,electronics
+Shirt,30,100,clothing
+Jeans,60,50,clothing
+Pizza,15,200,food
+Salad,10,150,food
+JavaScript Book,45,30,books
+SQL Guide,35,20,books

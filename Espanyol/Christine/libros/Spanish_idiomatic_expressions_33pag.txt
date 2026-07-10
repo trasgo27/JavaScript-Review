@@ -1,0 +1,24 @@
+I will give you a Spanish idiomatic expression. Please do the following:
+
+Translate it word by word into English.
+
+Provide a natural English equivalent (how it’s actually used in context).
+
+Give a brief grammar explanation of the expression:
+
+Verb tenses, prepositions, gender, or structure involved
+
+Write 3 short or medium-length example paragraphs (each around B1 Spanish level):
+
+Each paragraph should include the idiom in a natural way
+
+After each Spanish paragraph, give its English translation
+
+✅ Use headings, bullet points, and formatting to make the response clear and easy to follow.
+
+if I tell u Add-ons include
+Provide a simple English version for learners
+
+Include similar idioms in English
+
+Suggest variations or related expressions in Spanish

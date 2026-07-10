@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL + JS Mastery Center</title>
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(22, 30, 49, 0.7);
+      --accent-color: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(56, 189, 248, 0.4);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 60px 20px;
+      line-height: 1.6;
+      background-image: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 10% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin: 0 0 10px 0;
+      background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: var(--text-main);
+      border-left: 4px solid var(--accent-color);
+      padding-left: 10px;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    .exercise-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      width: 100%;
+    }
+
+    .exercise-link:hover {
+      color: var(--accent-color);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .exercise-link:hover .status-badge {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .done .status-badge {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    .sol-link {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 2px 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .sol-link:hover {
+      color: #a855f7;
+      border-color: rgba(168, 85, 247, 0.4);
+      background: rgba(168, 85, 247, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>SQL + JS Mastery Center</h1>
+    <p>Interactive tutor-led roadmap to mastering SQLite databases, JavaScript APIs, and Express servers.</p>
+  </header>
+
+  <div class="grid">
+    <!-- Reference panel -->
+    <div class="card">
+      <h2>Resources</h2>
+      <ul>
+        <li>
+          <a class="exercise-link" href="sqlite.md">
+            <span class="status-badge">i</span>
+            sqlite.md — Reference Notes
+          </a>
+        </li>
+        <li>
+          <a class="exercise-link" href="example.js">
+            <span class="status-badge">▶</span>
+            example.js — Basic Demo
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Exercises panel -->
+    <div class="card">
+      <h2>Exercises Directory</h2>
+      <ul>
+        <!-- Ex 01 -->
+        <li class="done">
+          <a class="exercise-link" href="01Ej.html">
+            <span class="status-badge">✓</span>
+            01. CREATE TABLE & INSERT
+          </a>
+          <a class="sol-link" href="01EjMiSol.html">My Sol</a>
+        </li>
+
+        <!-- Ex 02 -->
+        <li>
+          <a class="exercise-link" href="02Ej.html">
+            <span class="status-badge">☐</span>
+            02. SELECT with WHERE conditions
+          </a>
+        </li>
+
+        <!-- Ex 03 -->
+        <li>
+          <a class="exercise-link" href="03Ej.html">
+            <span class="status-badge">☐</span>
+            03. UPDATE and DELETE records
+          </a>
+        </li>
+
+        <!-- Ex 04 -->
+        <li>
+          <a class="exercise-link" href="04Ej.html">
+            <span class="status-badge">☐</span>
+            04. ORDER BY, LIMIT & Aggregates
+          </a>
+        </li>
+
+        <!-- Ex 05 -->
+        <li>
+          <a class="exercise-link" href="05Ej.html">
+            <span class="status-badge">☐</span>
+            05. JOIN two tables
+          </a>
+        </li>
+
+        <!-- Ex 06 -->
+        <li>
+          <a class="exercise-link" href="06Ej.html">
+            <span class="status-badge">☐</span>
+            06. Build a CLI Todo List with SQLite
+          </a>
+        </li>
+
+        <!-- Ex 07 -->
+        <li>
+          <a class="exercise-link" href="07Ej.html">
+            <span class="status-badge">☐</span>
+            07. Build a Mini CRUD App (Express)
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

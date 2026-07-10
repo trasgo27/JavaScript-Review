@@ -1,0 +1,13 @@
+a {
+    text-decoration: none;
+}
+
+li {
+    background-color: beige;
+    border: solid 3px blanchedalmond;
+    padding: 10px;
+}
+
+li:hover {
+    font-size: larger;
+}

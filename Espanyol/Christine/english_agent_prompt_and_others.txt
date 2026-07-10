@@ -1,0 +1,90 @@
+"if you don't toe the line" → if you fail to comply, if you don't adhere to expectations, if you step out of line, if you don't play ball
+
+Create a graphic novel-style illustration with a clean white background. The scene is bold and symbolic, inspired by pop art or street art aesthetics.
+
+In the foreground, depict a human foot (wearing a bright, colorful shoe) caught in the motion of stepping decisively forward. Just behind and beneath the foot, draw a solid black line on the ground, representing a clear boundary or rule.
+
+Add a bold, stylized 'OUT' symbol — such as a circle with a diagonal slash or a directional arrow — either floating above the line or embedded in the ground, as if breaking through a confined area.
+
+Use bright, contrasting colors (e.g., red, yellow, cyan, hot pink) for the foot and the OUT symbol to ensure they stand out vividly against the white and black elements.
+
+The overall mood should express rebellion, freedom, and defiance — capturing the idea of someone breaking out of limitations or control. Keep the style dynamic, energetic, and clean, like a frame from a graphic novel or urban mural.
+
+======================
+synonyms sentences.
+======================
+Here is a well-structured **prompt optimized for Google Gemini** (or any advanced language model), designed to transform a sentence into various alternative expressions, organized by idioms, phrasal verbs, and synonyms, while offering both **affirmative and negative sentence structures**:
+
+---
+
+### ✅ **Prompt for Gemini: 
+
+Sentence Rewriting with Idioms, Phrasal Verbs, and Synonyms**
+
+> I will provide a sentence. For that sentence, please do the following:
+>
+> 1. Identify the **core meaning or idea** being expressed.
+>
+> 2. Rewrite the sentence in **multiple alternative forms**, grouped into the following categories:
+>
+> * **Idiomatic expressions**: Replace the original phrase with a common English idiom that conveys the same meaning.
+>
+> * **Phrasal verbs**: Rephrase the sentence using a phrasal verb with the same intent.
+>
+> * **Synonyms**: Rewrite the sentence by replacing the main **verbs** and **nouns** with their most natural synonyms.
+>
+> * **Affirmative/Negative structures**: Provide both an **affirmative** and a **negative** version of the sentence, preserving the original meaning in both cases.
+>
+> 3. Ensure each version remains **grammatically correct**, **natural-sounding**, and suitable for real-life use in either **spoken** or **written** English.
+>
+> Output Format:
+>
+> * **Original sentence**: \[Your sentence here]
+>
+> * **Idiomatic expressions**:
+>
+>   * \[Version 1]
+>   * \[Version 2]
+>
+> * **Phrasal verbs**:
+>
+>   * \[Version 1]
+>   * \[Version 2]
+>
+> * **Synonym-based rephrasing**:
+>
+>   * \[Version 1]
+>   * \[Version 2]
+>
+> * **Affirmative and negative forms**:
+>
+>   * Affirmative: \[Version]
+>   * Negative: \[Version]
+
+=====================================================
+sound
+=====================================================
+"I will provide you with a word. Please find a list of common words that have similar pronunciation or are commonly confused due to their sound or similar spelling. Include homophones, near-homophones, and words that are easily mistaken when spoken. For each word, give a simple definition and an example sentence. Use plain text but feel free to include some emoticons in the explanations to make it friendly."
+
+======
+sound
+======
+they sound or are spelled. Include homophones and near-homophones. For each word, give a simple meaning and an example sentence. Use plain text and add some emoticons to keep it friendly and easy to understand."
+
+=======
+similar sound
+======
+For the given word, identify common modern English words that sound similar or are spelled similarly (including homophones and near-homophones). For each identified word, provide:
+- The word itself.
+- A simple, clear meaning.
+- Two distinct example sentences demonstrating its usage.
+
+Present the output with a main headline, and then a sub-heading for each word. Use emojis to make it friendly and easy to understand.
+
+=====
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 14: Smart Logistics Coordinator</title>
+</head>
+<body>
+    <h1>Logística de Envíos</h1>
+    
+    <section>
+        <h2>Exercise 14: Smart Logistics Coordinator 📦🚚</h2>
+        <p>You are building a shipping coordination module for an e-commerce platform. You need to fetch quotes from multiple shipping carriers, filter the successful ones, analyze the rates, and determine the fastest option.</p>
+    </section>
+
+    <section>
+        <h2>Setup (simulated API)</h2>
+        <details>
+            <summary>Click to view code</summary>
+            <br>
+            <pre><code>// Simulates requesting a shipping quote from a carrier
+function solicitarCotizacion(transportista, destino) {
+    return new Promise((resolve, reject) => {
+        const tiempo = Math.floor(Math.random() * 1500) + 500; // 500ms to 2000ms
+        const precio = Math.floor(Math.random() * 80) + 20; // $20 to $100
+        const diasDeEntrega = Math.floor(Math.random() * 5) + 1; // 1 to 5 days
+        const rate = +(Math.random() * 5).toFixed(1); // Rating 0.0 to 5.0
+
+        setTimeout(() => {
+            // 75% chance of success
+            if (Math.random() > 0.25) {
+                resolve({
+                    carrier: transportista,
+                    destino: destino,
+                    costo: precio,
+                    dias: diasDeEntrega,
+                    rating: rate
+                });
+            } else {
+                reject(new Error(`Error de conexión con ${transportista}`));
+            }
+        }, tiempo);
+    });
+}</code></pre>
+        </details>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Fetch quotes from all carriers</h3>
+        <p>
+            You have an array of carriers. Use <code>Promise.allSettled()</code> to fetch shipping quotes for all of them to the destination <code>"Tokio"</code>.<br>
+            Use <strong>only <code>.then()</code> and <code>.catch()</code></strong> (no <code>async/await</code>) to handle the results.
+        </p>
+        <pre><code>const transportistas = ["FedEx", "DHL", "UPS", "Seur", "Correos"];</code></pre>
+
+        <h3>Task 2: Filter successful quotes & Identify failed ones</h3>
+        <p>
+            From the <code>allSettled</code> results, filter out the fulfilled ones and map them to extract their quote details. Log them in a table.<br>
+            Also, extract a list of carrier names that failed (rejections) to log them as <code>"Failed carriers"</code>.
+        </p>
+
+        <h3>Task 3: Find the fastest shipping option</h3>
+        <p>
+            From the successful quotes, use <code>.reduce()</code> to find the carrier with the lowest <code>dias</code> (delivery time).<br>
+            If there is a tie, choose the one with the lowest <code>costo</code>. Log the winner.
+        </p>
+
+        <h3>Task 4: Sort by price and rating</h3>
+        <p>
+            Create a copy of the successful quotes array and sort it in ascending order by <code>costo</code>.<br>
+            If two carriers have the exact same cost, sort them by <code>rating</code> descending.
+        </p>
+
+        <h3>Task 5: Calculate Average shipping cost</h3>
+        <p>Use <code>.reduce()</code> to calculate the average shipping cost of all successfully retrieved quotes.</p>
+
+        <h3>Task 6: Instant Booking Race & Retry (Bonus)</h3>
+        <p>
+            You need to book a slot instantly with the fastest successful responder. Use <code>Promise.any()</code> to race all carriers.<br>
+            If the race fails (all carriers reject), catch the error and retry the booking using only the list of <strong>failed carriers</strong> you identified in Task 2.
+        </p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>🇬🇧 English Challenge</h2>
+        <p>
+            Write 2-3 sentences in English explaining when it is better to use <code>Promise.any()</code> instead of <code>Promise.race()</code> in a production application.
+        </p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Hints (if stuck)</h2>
+        <details>
+            <summary>Click to expand</summary>
+            <br>
+            <strong>Identifying failed carriers:</strong>
+            <pre><code>const fallidos = resultados
+    .filter(r => r.status === "rejected")
+    .map((r, i) => transportistas[i]); // Match index or parse error message</code></pre>
+            
+            <br>
+            <strong>Task 3 Tie-Breaker:</strong>
+            <pre><code>const masRapido = exitosos.reduce((min, c) => {
+    if (c.dias < min.dias) return c;
+    if (c.dias === min.dias && c.costo < min.costo) return c;
+    return min;
+});</code></pre>
+            
+            <br>
+            <strong>Chaining Task 6:</strong>
+            <pre><code>Promise.any(promesas)
+    .then(ganador => console.log("Booked with:", ganador.carrier))
+    .catch(err => {
+        console.warn("All initial bookings failed. Retrying failed carriers...");
+        // Call your shipping function again passing only the failed carriers
+    });</code></pre>
+        </details>
+    </section>
+
+    <script src="14Ej.js"></script>
+</body>
+</html>

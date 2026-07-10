@@ -1,0 +1,9 @@
+/agents Switch agent
+/connect Connect provider
+/diff	Open diff viewer
+/editor Open editor
+/exit Exit the app
+
+
+
+

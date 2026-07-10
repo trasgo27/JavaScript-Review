@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 15: Master the reduce() Method</title>
+</head>
+<body>
+    <h1>reduce() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 15: Master the reduce() Method</h2>
+        <p>Practice every aspect of <code>Array.prototype.reduce()</code>: accumulator patterns, index usage, and real-world aggregations.</p>
+        <pre><code>// reduce signature:
+// array.reduce((accumulator, currentValue, index, array) => {
+//     // return new accumulator
+// }, initialValue);
+
+// initialValue is optional — but recommended to always provide it</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const products = [
+    { name: "Laptop", price: 1200, category: "electronics", rating: 4.5 },
+    { name: "Phone", price: 800, category: "electronics", rating: 4.7 },
+    { name: "Shirt", price: 30, category: "clothing", rating: 3.8 },
+    { name: "Tablet", price: 500, category: "electronics", rating: 4.2 },
+    { name: "Jeans", price: 60, category: "clothing", rating: 4.0 },
+    { name: "Headphones", price: 150, category: "electronics", rating: 4.6 },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Sum all numbers</h3>
+        <p>Use <code>.reduce()</code> to calculate the total sum of the <code>numbers</code> array. Log the result.</p>
+
+        <h3>Task 2: Find the maximum value</h3>
+        <p>Use <code>.reduce()</code> to find the highest number in <code>numbers</code>. The accumulator should track the current max.</p>
+
+        <h3>Task 3: Count even numbers</h3>
+        <p>Use <code>.reduce()</code> with an object <code>{ even: 0, odd: 0 }</code> as the initial value. For each number, increment the appropriate counter. Log the final object.</p>
+
+        <h3>Task 4: Flatten an array of arrays</h3>
+        <pre><code>const nested = [[1, 2], [3, 4, 5], [6], [7, 8, 9]];</code></pre>
+        <p>Use <code>.reduce()</code> to flatten <code>nested</code> into a single array <code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code>.</p>
+
+        <h3>Task 5: Group products by category</h3>
+        <p>Use <code>.reduce()</code> on <code>products</code> with an initial value of <code>{}</code> to create an object grouped by <code>category</code>:</p>
+        <pre><code>// Expected shape:
+// {
+//     electronics: [{ name: "Laptop", ... }, { name: "Phone", ... }, ...],
+//     clothing: [{ name: "Shirt", ... }, { name: "Jeans", ... }]
+// }</code></pre>
+        <p>Log the grouped object and use <code>console.table()</code> for each group.</p>
+
+        <h3>Task 6: Build a frequency map</h3>
+        <p>Use <code>.reduce()</code> to count how many times each letter appears in the string <code>"javascript is fun"</code> (ignore spaces).</p>
+        <pre><code>// Expected: { j: 1, a: 2, v: 1, s: 2, c: 1, r: 1, i: 2, p: 1, t: 1, f: 1, u: 1, n: 1 }</code></pre>
+
+        <h3>Task 7: Total price per category</h3>
+        <p>Use <code>.reduce()</code> on <code>products</code> with <code>{}</code> as initial value to calculate the total price per category:</p>
+        <pre><code>// Expected: { electronics: 2650, clothing: 90 }</code></pre>
+
+        <h3>Task 8: Running totals (use the index)</h3>
+        <p>Use <code>.reduce()</code> to transform <code>numbers</code> into an array of running totals using the index parameter:</p>
+        <pre><code>// numbers = [5, 12, 8, 130, ...]
+// Expected: [5, 17, 25, 155, ...]</code></pre>
+        <p>Hint: push <code>acc + current</code> into a copy of the accumulator.</p>
+
+        <h3>Task 9: Chunk an array</h3>
+        <p>Use <code>.reduce()</code> to split <code>numbers</code> into chunks of size 3:</p>
+        <pre><code>// Expected: [[5, 12, 8], [130, 44, 3], [27, 9, 150], [1]]</code></pre>
+
+        <h3>Task 10: Longest word (Bonus)</h3>
+        <p>Use <code>.reduce()</code> on <code>words</code> to find the longest word. If there's a tie, return the first one. Log the result.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining the difference between providing an initial value vs omitting it in <code>.reduce()</code>. When should you always provide it?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference (reduce signature)</h2>
+        <pre><code>array.reduce((acc, cur, idx, src) => {
+    // acc: the accumulated result so far
+    // cur: the current element
+    // idx: the current index
+    // src: the original array (rarely used)
+    return newAccumulator;
+}, initialValue);</code></pre>
+    </section>
+
+    <script src="15Ej.js"></script>
+</body>
+</html>

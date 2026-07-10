@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 19: Master some() and every()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>some() and every() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 19: Master some() and every()</h2>
+        <p>Practice testing array conditions with <code>Array.prototype.some()</code> and <code>Array.prototype.every()</code>: partial vs full matches, empty arrays, and compound conditions.</p>
+        <pre><code>// some signature:
+// const hasMatch = array.some((currentValue, index, array) => {
+//     return condition; // stops at first true
+// });
+// Returns: true if AT LEAST ONE element passes
+
+// every signature:
+// const allMatch = array.every((currentValue, index, array) => {
+//     return condition; // stops at first false
+// });
+// Returns: true if ALL elements pass</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const products = [
+    { name: "Laptop", price: 1200, category: "electronics", rating: 4.5 },
+    { name: "Phone", price: 800, category: "electronics", rating: 4.7 },
+    { name: "Shirt", price: 30, category: "clothing", rating: 3.8 },
+    { name: "Tablet", price: 500, category: "electronics", rating: 4.2 },
+    { name: "Jeans", price: 60, category: "clothing", rating: 4.0 },
+    { name: "Headphones", price: 150, category: "electronics", rating: 4.6 },
+];
+
+const emptyArray = [];
+const mixedValues = [0, "", null, "hello", undefined];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Check if any number is greater than 100</h3>
+        <p>Use <code>.some()</code> on <code>numbers</code> to check if there is at least one number greater than 100. Log <code>true</code> or <code>false</code>.</p>
+
+        <h3>Task 2: Check if all numbers are positive</h3>
+        <p>Use <code>.every()</code> on <code>numbers</code> to verify all numbers are greater than 0. Log the result.</p>
+
+        <h3>Task 3: Check if any word is longer than 6 letters</h3>
+        <p>Use <code>.some()</code> on <code>words</code> to check if any word has more than 6 characters. Log the result.</p>
+
+        <h3>Task 4: Check if all products are electronics</h3>
+        <p>Use <code>.every()</code> on <code>products</code> to check if every product has category <code>"electronics"</code>. What does it return and why?</p>
+
+        <h3>Task 5: Check if any product is cheap</h3>
+        <p>Use <code>.some()</code> on <code>products</code> to check if any product costs less than 50. Log the result.</p>
+
+        <h3>Task 6: Check if every product has a rating above 3</h3>
+        <p>Use <code>.every()</code> on <code>products</code> to verify all ratings are above 3. Log the result.</p>
+
+        <h3>Task 7: Test an empty array</h3>
+        <p>Call <code>.some()</code> and <code>.every()</code> on <code>emptyArray</code> with any callback. What does each return? Log both and observe the behavior.</p>
+
+        <h3>Task 8: Check mixed values with some</h3>
+        <p>Use <code>.some()</code> on <code>mixedValues</code> to check if there is any truthy value. Log the result.</p>
+
+        <h3>Task 9: Check mixed values with every</h3>
+        <p>Use <code>.every()</code> on <code>mixedValues</code> to check if every value is truthy. Log the result.</p>
+
+        <h3>Task 10: Compound condition (Bonus)</h3>
+        <p>Use <code>.some()</code> on <code>products</code> to check if there is any product that is BOTH cheap (under 100) AND has a rating above 4. Log the matching product if found, or "none" if not.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining what <code>.some()</code> and <code>.every()</code> return when called on an empty array. Why do they behave this way?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.some((currentValue, index, array) => condition);
+// Returns: true if ANY element passes, false otherwise
+// Empty array → false
+
+array.every((currentValue, index, array) => condition);
+// Returns: true if ALL elements pass, false otherwise
+// Empty array → true</code></pre>
+    </section>
+</body>
+</html>

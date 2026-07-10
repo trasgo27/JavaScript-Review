@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 16: Master the forEach() Method</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>forEach() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 16: Master the forEach() Method</h2>
+        <p>Practice iterating over arrays with <code>Array.prototype.forEach()</code>: side effects, index usage, and working with the original array.</p>
+        <pre><code>// forEach signature:
+// array.forEach((currentValue, index, array) => {
+//     // perform side effect
+// });
+
+// forEach always returns undefined.
+// It is used for side effects (logging, mutating, DOM updates).</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const people = [
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 30 },
+    { name: "Charlie", age: 35 },
+    { name: "Diana", age: 28 },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Log each element</h3>
+        <p>Use <code>.forEach()</code> to log every number in the <code>numbers</code> array to the console.</p>
+
+        <h3>Task 2: Log element and index</h3>
+        <p>Use <code>.forEach()</code> to log each word and its index in the format <code>"index: word"</code>.</p>
+
+        <h3>Task 3: Double values in place</h3>
+        <p>Use <code>.forEach()</code> to double every number in the <code>numbers</code> array directly (mutate the original array). Log the array after.</p>
+
+        <h3>Task 4: Build a new array</h3>
+        <p>Use <code>.forEach()</code> on <code>numbers</code> to push each number multiplied by 3 into a new array <code>tripled</code>. Log <code>tripled</code>.</p>
+
+        <h3>Task 5: Create name tags</h3>
+        <p>Use <code>.forEach()</code> on <code>people</code> to log <code>"Name: X, Age: Y"</code> for each person.</p>
+
+        <h3>Task 6: Filter with forEach</h3>
+        <p>Use <code>.forEach()</code> on <code>numbers</code> to collect all numbers greater than 50 into a new array <code>bigNumbers</code>. Log it.</p>
+
+        <h3>Task 7: Uppercase words</h3>
+        <p>Use <code>.forEach()</code> to uppercase each word in <code>words</code> and store the results in a new array <code>upperWords</code>. Log it.</p>
+
+        <h3>Task 8: Sum with forEach</h3>
+        <p>Use <code>.forEach()</code> to calculate the sum of <code>numbers</code> (without using <code>reduce</code>). Use an external variable.</p>
+
+        <h3>Task 9: Add age groups</h3>
+        <p>Use <code>.forEach()</code> on <code>people</code> to add a property <code>ageGroup</code> to each object: <code>"young"</code> if under 30, <code>"adult"</code> otherwise. Log the modified array.</p>
+
+        <h3>Task 10: forEach vs map (Bonus)</h3>
+        <p>Rewrite Task 4 (tripled numbers) using <code>.map()</code> instead of <code>.forEach()</code>. Compare the two approaches. Which is more appropriate and why?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining the difference between <code>.forEach()</code> and <code>.map()</code>. When would you use one over the other?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference (forEach signature)</h2>
+        <pre><code>array.forEach((currentValue, index, array) => {
+    // perform side effect
+    // return value is ignored
+});
+
+// forEach: undefined
+// map:     new array</code></pre>
+    </section>
+</body>
+</html>

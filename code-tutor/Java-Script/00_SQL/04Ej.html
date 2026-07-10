@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 04: ORDER BY, LIMIT, and Aggregates</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+      font-size: 1.5rem;
+    }
+    p, li {
+      color: var(--text-muted);
+    }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      color: #e2e8f0;
+      padding: 0;
+    }
+    .hint-box {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .hint-title {
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+    }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    .btn-back:hover {
+      transform: translateX(-5px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="btn-back">← Back to Exercises</a>
+  <h1>Exercise 04: ORDER BY, LIMIT, and Aggregates</h1>
+  <p>Learn to sort datasets using <code>ORDER BY</code>, restrict rows returned with <code>LIMIT</code>, and query summary statistics using functions like <code>SUM</code>, <code>AVG</code>, <code>COUNT</code>, and <code>GROUP BY</code>.</p>
+
+  <h2>Your Tasks</h2>
+  
+  <h3>Task 1: Top 3 most expensive products</h3>
+  <p>Retrieve the name and price of the top 3 most expensive products. Sort them descending.</p>
+
+  <h3>Task 2: Total number of products and users</h3>
+  <p>Get the total count of rows in the <code>users</code> table, and also the sum of all product stock in the <code>products</code> table. (Use <code>COUNT(*)</code> and <code>SUM(stock)</code>).</p>
+
+  <h3>Task 3: Youngest user</h3>
+  <p>Query the single user with the lowest age. (Hint: combine <code>ORDER BY age ASC LIMIT 1</code> or use <code>MIN(age)</code>).</p>
+
+  <h3>Task 4: Average price and count per category</h3>
+  <p>Get the <code>category</code>, average price (as <code>avg_price</code>), and total product count (as <code>total_items</code>) for each category using <code>GROUP BY category</code>.</p>
+
+  <h3>Task 5: Aggregate filter (HAVING)</h3>
+  <p>Find the categories that have an average product price greater than $50. (Hint: Use <code>GROUP BY category HAVING avg_price &gt; 50</code>).</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 Key Hints</div>
+    <ul>
+      <li>Use <code>db.prepare(sql).get()</code> when querying scalar values or a single row (like <code>COUNT</code>, <code>MIN</code>, or <code>LIMIT 1</code>).</li>
+      <li>Use <code>db.prepare(sql).all()</code> when grouping records (e.g. <code>GROUP BY</code>).</li>
+    </ul>
+  </div>
+
+  <h2>Expected Terminal Output</h2>
+  <pre><code>=== Task 1: Top 3 most expensive products ===
+┌─────────┬──────────┬───────┐
+│ (index) │   name   │ price │
+├─────────┼──────────┼───────┤
+│    0    │ 'Laptop' │ 1200  │
+│    1    │ 'Phone'  │  800  │
+│    2    │ 'Jeans'  │   60  │
+└─────────┴──────────┴───────┘
+
+=== Task 2: Total counts ===
+Total users: 7
+Total stock available: 585
+
+=== Task 3: Youngest user ===
+Youngest user: Eve (22 years old)
+
+=== Task 4: Average price per category ===
+┌─────────┬───────────────┬───────────┬─────────────┐
+│ (index) │   category    │ avg_price │ total_items │
+├─────────┼───────────────┼───────────┼─────────────┤
+│    0    │ 'books'       │    40     │      2      │
+│    1    │ 'clothing'    │    45     │      2      │
+│    2    │ 'electronics' │   675     │      3      │
+│    3    │ 'food'        │   12.5    │      2      │
+└─────────┴───────────────┴───────────┴─────────────┘
+
+=== Task 5: High value categories ===
+┌─────────┬───────────────┬───────────┐
+│ (index) │   category    │ avg_price │
+├─────────┼───────────────┼───────────┤
+│    0    │ 'electronics' │   675     │
+└─────────┴───────────────┴───────────┘</code></pre>
+
+  <p><strong>To start:</strong> open and edit <code>04Ej.js</code>, then run <code>node 04Ej.js</code> in your terminal.</p>
+</div>
+
+</body>
+</html>

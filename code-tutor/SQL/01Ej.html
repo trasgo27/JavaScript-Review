@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 01: CREATE TABLE &amp; INSERT</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+      font-size: 1.5rem;
+    }
+    p, li { color: var(--text-muted); }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code { background: transparent; color: #e2e8f0; padding: 0; }
+    .hint-box {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .hint-title { font-weight: bold; color: var(--accent-color); margin-bottom: 5px; }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    .btn-back:hover { transform: translateX(-5px); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back" id="back-link">← Back to SQL Mastery</a>
+  <h1>Exercise 01: CREATE TABLE &amp; INSERT</h1>
+  <p>Practice creating tables and inserting data using <code>better-sqlite3</code> in Node.js.</p>
+
+  <h2>Your Tasks</h2>
+
+  <h3>Task 1: Create a users table</h3>
+  <p>Create a table called <code>users</code> with columns: <code>id</code> (INTEGER PRIMARY KEY AUTOINCREMENT), <code>name</code> (TEXT NOT NULL), <code>email</code> (TEXT NOT NULL UNIQUE), <code>age</code> (INTEGER).</p>
+
+  <h3>Task 2: Insert a single user</h3>
+  <p>Insert one user — name "Alice", email "alice@example.com", age 30. Use <code>db.prepare().run()</code>.</p>
+
+  <h3>Task 3: Insert multiple users via transaction</h3>
+  <p>Insert at least 5 users in a loop using an array of objects and <code>db.transaction()</code>.</p>
+  <pre><code>const insert = db.prepare('INSERT INTO users (name, email, age) VALUES (?, ?, ?)');
+const insertMany = db.transaction((list) => {
+    for (const u of list) insert.run(u.name, u.email, u.age);
+});</code></pre>
+
+  <h3>Task 4: Capture lastInsertRowid</h3>
+  <p>Insert one more user and log the auto-generated ID using <code>info.lastInsertRowid</code>.</p>
+
+  <h3>Task 5: Handle a UNIQUE constraint violation</h3>
+  <p>Try inserting a duplicate email. Catch the error and log a friendly message instead of crashing.</p>
+  <pre><code>try {
+    insert.run(...);
+} catch (err) {
+    console.log('Duplicate email:', err.message);
+}</code></pre>
+
+  <h3>Task 6: Create a products table</h3>
+  <p>Create a table called <code>products</code>: <code>id</code> (INTEGER PRIMARY KEY AUTOINCREMENT), <code>name</code> (TEXT), <code>price</code> (REAL), <code>stock</code> (INTEGER DEFAULT 0), <code>category</code> (TEXT).</p>
+
+  <h3>Task 7: Bulk insert products</h3>
+  <p>Insert 8 products across 4 categories (electronics, clothing, food, books) using a transaction.</p>
+
+  <h3>Task 8: Insert with DEFAULT values</h3>
+  <p>Insert a product with only <code>name</code> and <code>price</code>, letting <code>stock</code> default to 0. Verify with a SELECT.</p>
+
+  <h3>Task 9: Create an orders table with FOREIGN KEYs</h3>
+  <p>Create an <code>orders</code> table: <code>id</code>, <code>user_id</code> (FOREIGN KEY → users), <code>product_id</code> (FOREIGN KEY → products), <code>quantity</code>, <code>order_date</code> (TEXT DEFAULT CURRENT_DATE).</p>
+
+  <h3>Task 10: Insert related data</h3>
+  <p>Insert 5 orders linking existing users and products. Handle foreign key violations gracefully.</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 Key Hints</div>
+    <ul>
+      <li>Use <code>db.exec()</code> for DDL statements (CREATE, DROP) — no placeholders.</li>
+      <li>Use <code>db.prepare().run()</code> for DML (INSERT, UPDATE, DELETE) — placeholders <code>?</code> prevent SQL injection.</li>
+      <li>Enable foreign keys at startup: <code>db.pragma('foreign_keys = ON')</code>.</li>
+    </ul>
+  </div>
+
+  <h2>Expected Terminal Output</h2>
+  <pre><code>=== Reset database ===
+=== Task 1: Create users table ===
+users table created
+
+=== Task 2: Insert single user ===
+Inserted user with id: 1
+
+=== Task 3: Insert multiple users (transaction) ===
+Inserted 5 users
+
+=== Task 4: Insert with lastInsertRowid ===
+New user ID: 7
+
+=== Task 5: Handle UNIQUE violation ===
+Caught error: UNIQUE constraint failed: users.email
+
+=== Task 6: Create products table ===
+products table created
+
+=== Task 7: Bulk insert products (transaction) ===
+Inserted 8 products
+
+=== Task 8: Insert with DEFAULT stock ===
+Mouse stock (should be 0): 0
+
+=== Task 9: Create orders table with foreign keys ===
+orders table created
+
+=== Task 10: Insert related data ===
+Inserted 5 orders
+
+=== Verify data ===
+Users: { count: 7 }
+Products: { count: 9 }
+Orders: { count: 5 }
+
+Done. Database: 01ej.db</code></pre>
+
+  <p><strong>To start:</strong> open and edit <code>01Ej.js</code>, then run <code>node 01Ej.js</code> in your terminal.</p>
+</div>
+</body>
+</html>

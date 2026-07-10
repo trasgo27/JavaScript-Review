@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 21: Master slice() and splice()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>slice() and splice() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 21: Master slice() and splice()</h2>
+        <p>Practice copying and modifying arrays with <code>Array.prototype.slice()</code> (non-mutating) and <code>Array.prototype.splice()</code> (mutating).</p>
+        <pre><code>// slice signature (non-mutating):
+// const copy = array.slice(start, end);
+// start: index to begin (default: 0)
+// end: index to end, exclusive (default: array.length)
+// Returns: a NEW array with the selected elements
+
+// splice signature (mutating):
+// const removed = array.splice(start, deleteCount, ...items);
+// start: index to begin
+// deleteCount: how many to remove (0 to just insert)
+// items: elements to insert at the position
+// Returns: array of REMOVED elements</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const letters = ["a", "b", "c", "d", "e", "f", "g", "h"];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Copy the first 3 elements</h3>
+        <p>Use <code>.slice()</code> on <code>numbers</code> to get the first 3 elements. Log the result.</p>
+
+        <h3>Task 2: Copy from index 3 to the end</h3>
+        <p>Use <code>.slice()</code> on <code>numbers</code> to get all elements from index 3 onward. Log the result.</p>
+
+        <h3>Task 3: Copy the last 3 elements</h3>
+        <p>Use <code>.slice()</code> with a negative index to get the last 3 elements of <code>numbers</code>. Log them.</p>
+
+        <h3>Task 4: Copy a portion in the middle</h3>
+        <p>Use <code>.slice()</code> on <code>letters</code> to get indexes 2 through 5 (exclusive). Log the result.</p>
+
+        <h3>Task 5: Remove elements with splice</h3>
+        <p>Use <code>.splice()</code> on a COPY of <code>numbers</code> to remove elements at index 2, deleting 3 items. Log the removed items and the modified array.</p>
+
+        <h3>Task 6: Insert elements with splice</h3>
+        <p>Use <code>.splice()</code> on a COPY of <code>letters</code> to insert <code>["x", "y", "z"]</code> at index 3 without removing anything. Log the modified array.</p>
+
+        <h3>Task 7: Replace elements with splice</h3>
+        <p>Use <code>.splice()</code> on a COPY of <code>words</code> to replace <code>"filter"</code> and <code>"find"</code> with <code>"includes"</code> and <code>"indexOf"</code>. Log the result.</p>
+
+        <h3>Task 8: Verify slice does not mutate</h3>
+        <p>Call <code>.slice()</code> on <code>numbers</code>, then log the original <code>numbers</code> array to confirm it was not modified.</p>
+
+        <h3>Task 9: Verify splice does mutate</h3>
+        <p>Call <code>.splice()</code> on the original <code>letters</code> array, then log <code>letters</code> to confirm it WAS modified. (Comment out this code after testing so later tasks still work.)</p>
+
+        <h3>Task 10: Extract and restructure with splice (Bonus)</h3>
+        <p>Start with <code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code>. Use <code>.splice()</code> in a single call to remove the middle 4 elements and replace them with <code>[100, 200]</code>. Log the removed items and the final array.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining the key difference between <code>.slice()</code> and <code>.splice()</code>. Which one mutates the original array and which one does not?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.slice(start, end);
+// Does NOT mutate
+// Returns: new array with copied elements
+
+array.splice(start, deleteCount, ...items);
+// DOES mutate
+// Returns: array of removed elements</code></pre>
+    </section>
+</body>
+</html>

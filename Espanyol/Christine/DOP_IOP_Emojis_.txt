@@ -1,0 +1,94 @@
+======
+Name of the task: English first. Spanish DO and IO.
+Step 1. Write the English sentence first, then translate it into Spanish.
+Step 2. Write the English sentence first, then the Spanish sentence again, making sure not to omit the direct object (DO) and the indirect object (IO). Highlight the DO in 🔴 red and the IO in 🔵 blue.
+Step 3. If the sentence has a DO, write the English sentence first, then rewrite the Spanish sentence substituting only the direct object with its direct object pronoun (DOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+Step 4. If the sentence has an IO, write the English sentence first, then rewrite the Spanish sentence substituting only the indirect object with its indirect object pronoun (IOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+Step 5. If the sentence has both DO and IO, write the English sentence first, then rewrite the Spanish sentence substituting both with their corresponding pronouns (DOP + IOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+
+At the end, provide a final bilingual breakdown like this example:
+
+The boy gives a flower to his mother.
+El niño le da una flor a su madre.
+
+The boy gives a flower to his mother.
+El niño da 🔴una flor 🔵a su madre.
+
+The boy gives a flower to his mother.
+El niño 🔴la da 🔵a su madre.
+
+The boy gives a flower to his mother.
+El niño 🔵le da 🔴una flor.
+
+The boy gives a flower to his mother.
+El niño 🔵se 🔴la da.
+
+=====
+Name of the task: English first. Spanish DO and IO.
+I will write an English sentence. I want you to do the following:
+
+Step 1. Translate the sentence into Spanish. Provide the English sentence as well.
+Step 2. Write the same Spanish sentence again, making sure not to omit the direct object (DO) and the indirect object (IO). Highlight the DO in 🔴 red and the IO in 🔵 blue. Provide the English translation too.
+Step 3. If the sentence has a DO, rewrite it substituting only the direct object with its direct object pronoun (DOP). Keep the DO in 🔴 red and the IO in 🔵 blue. Provide the English translation.
+Step 4. If the sentence has an IO, rewrite it substituting only the indirect object with its indirect object pronoun (IOP). Keep the DO in 🔴 red and the IO in 🔵 blue. Provide the English translation.
+Step 5. If the sentence has both DO and IO, rewrite it substituting both with their corresponding pronouns (DOP + IOP). Keep the DO in 🔴 red and the IO in 🔵 blue. Provide the English translation.
+Name of the task: DO and IO
+At the end, provide a final bilingual breakdown like this example:
+
+El niño le da una flor a su madre.
+(The boy gives a flower to his mother.)
+
+El niño da 🔴una flor 🔵a su madre.
+(The boy gives 🔴a flower 🔵to his mother.)
+
+El niño 🔴la da 🔵a su madre.
+(The boy gives 🔴it 🔵to his mother.)
+
+El niño 🔵le da 🔴una flor.
+(The boy 🔵gives her 🔴a flower.)
+
+El niño 🔵se 🔴la da.
+(The boy 🔵gives it to her.)
+
+====
+I will write an English sentence. I want you to do the following:
+
+Step 1. Translate the sentence into Spanish.
+Step 2. Write the same Spanish sentence again, making sure not to omit the direct object (DO) and the indirect object (IO). Highlight the DO in 🔴 red and the IO in 🔵 blue.
+Step 3. Rewrite the sentence, but substitute only the direct object with its direct object pronoun (DOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+Step 4. Rewrite the sentence, but substitute only the indirect object with its indirect object pronoun (IOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+Step 5. Rewrite the sentence again, this time substituting both the direct object and the indirect object with their corresponding pronouns (DOP + IOP). Keep the DO in 🔴 red and the IO in 🔵 blue.
+
+At the end, provide a final breakdown like this example:
+
+El niño le da una flor a su madre.
+
+El niño da 🔴una flor 🔵a su madre.
+
+El niño 🔴la da 🔵a su madre.
+
+El niño 🔵le da 🔴una flor.
+
+El niño 🔵se 🔴la da.
+
+
+=====
+Task: Spanish Object Pronoun Practice
+Step 1. Translate the sentence into Spanish.
+Step 2. Write the same Spanish sentence again, making sure not to omit the direct object (DO) and the indirect object (IO).
+Step 3. Rewrite the sentence, but substitute only the direct object with its direct object pronoun (DOP).
+Step 4. Rewrite the sentence, but substitute only the indirect object with its indirect object pronoun (IOP).
+Step 5. Rewrite the sentence again, this time substituting both the direct object and the indirect object with their corresponding pronouns (DOP + IOP).
+=====
+Task: Spanish Object Pronoun Practice
+
+Instructions: Create a single, clear set of four sentences that demonstrates the use of direct and indirect object pronouns in Spanish.
+
+Step 1: Create one B1-level English sentence that has both a direct object noun and an indirect object noun. Provide its Spanish translation.
+
+Step 2: Using the same English and Spanish sentences from Step 1, rewrite the sentences by replacing only the direct object noun with its correct pronoun.
+
+Step 3: Using the same English and Spanish sentences from Step 1, rewrite the sentences by replacing only the indirect object noun with its correct pronoun.
+
+Step 4: Using the same English and Spanish sentences from Step 1, rewrite the sentences by replacing both the direct and indirect object nouns with their correct pronouns.
+

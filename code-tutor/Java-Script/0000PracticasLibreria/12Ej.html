@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Restaurantes</h1>
+    
+    <section>
+        <h2>Exercise 12: Food Delivery Dashboard 🍕🚴</h2>
+        <p>You are building a food delivery app. You need to check orders from multiple restaurants, find out which ones are ready, and calculate the total bill.</p>
+    </section>
+
+    <section>
+        <h2>Setup (simulated API)</h2>
+        <details>
+            <summary>Click to view code</summary>
+            <br>
+            <pre><code>// Simulates checking an order at a restaurant
+function consultarRestaurante(nombre) {
+    return new Promise((resolve, reject) => {
+        const tiempo = Math.floor(Math.random() * 2000) + 500;
+        setTimeout(() => {
+            // 70% chance the order is ready
+            if (Math.random() > 0.3) {
+                resolve({
+                    restaurante: nombre,
+                    platos: ["🍕 Pizza", "🥗 Ensalada", "🍝 Pasta"].slice(0, Math.floor(Math.random() * 3) + 1),
+                    total: Math.floor(Math.random() * 3000) + 500
+                });
+            } else {
+                reject(new Error(`${nombre} still preparing...`));
+            }
+        }, tiempo);
+    });
+}</code></pre>
+        </details>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Check all restaurants at once</h3>
+        <p>
+            You have an array of restaurants. Use <code>Promise.allSettled()</code> to check all of them simultaneously.<br>
+            Use <strong>only <code>.then()</code> and <code>.catch()</code></strong> (no <code>async/await</code>) to handle the results.
+        </p>
+        <pre><code>const restaurantes = ["🧑‍🍳 Ristorante Roma", "🌮 Taqueria Mexico", "🍣 Sushi Palace", "🥟 Dumpling House", "🧁 Sweet Treats"];</code></pre>
+
+        <h3>Task 2: Filter successful orders</h3>
+        <p>From the <code>allSettled</code> results, use <code>.filter()</code> to keep only the fulfilled orders. Log them.</p>
+
+        <h3>Task 3: Calculate total bill</h3>
+        <p>From the fulfilled orders, use <code>.map()</code> to extract just the <code>total</code> values, then <code>.reduce()</code> to sum them up. Log the grand total.</p>
+
+        <h3>Task 4: Race the restaurants (bonus)</h3>
+        <p>
+            Pretend you only have time to eat at <strong>one</strong> restaurant — the fastest one to respond successfully.<br>
+            Use <code>Promise.any()</code> to race all restaurants. Log which one wins.
+        </p>
+
+        <h3>Task 5: Plan B (extra bonus)</h3>
+        <p>If <code>Promise.any()</code> fails (all restaurants reject), catch the error and log: <code>"No restaurants available, ordering pizza delivery instead!"</code></p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>🇬🇧 English Challenge</h2>
+        <p>
+            Write 2-3 sentences in English explaining what <code>Promise.allSettled()</code> does differently from <code>Promise.all()</code>.<br>
+            For example: <em>"Promise.allSettled waits for all promises but..."</em>
+        </p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Hints (if stuck)</h2>
+        <details>
+            <summary>Click to expand</summary>
+            <br>
+            <strong>Task 1 structure:</strong>
+            <pre><code>function revisarPedidos() {
+    const promesas = restaurantes.map(rest => consultarRestaurante(rest));
+    // Promise.allSettled + .then + .catch here
+}
+
+revisarPedidos();</code></pre>
+            
+            <br>
+            <strong>Task 2-3 chain:</strong>
+            <pre><code>.then(resultados => {
+    const exitosas = resultados.filter(r => r.status === "fulfilled");
+    console.table(exitosas.map(r => r.value));
+    
+    const total = exitosas.map(r => r.value.total).reduce(...);
+    console.log("Total: $", total);
+})</code></pre>
+            
+            <br>
+            <strong>Task 4:</strong>
+            <pre><code>Promise.any(promesas)
+    .then(ganador => console.log("First ready:", ganador))
+    .catch(err => console.log("Plan B!"));</code></pre>
+        </details>
+    </section>
+
+    <script src="12Ej.js"></script>
+</body>
+</html>

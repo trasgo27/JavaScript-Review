@@ -1,0 +1,36 @@
+index
+carrier
+destino
+costo
+dias
+rating
+
+    //retry
+    const MAX_INTENTOS = 3;
+
+    function reintentar(listaFallidos, exitososAcumulados, intento) {
+        if (listaFallidos.length === 0 || intento > MAX_INTENTOS) {
+            console.log('Final successful quotes:');
+            console.table(exitososAcumulados);
+            return;
+        }
+
+        console.log(`Reintento ${intento} para: ${listaFallidos.join(', ')}`);
+
+        solicitarCotizacionTodas(listaFallidos, 'Pekin')
+        .then((resultados) => {
+            const nuevosExitosos = resultados
+                .filter(p => p.status === 'fulfilled')
+                .map(v => v.value);
+
+            const nuevasFallidos = resultados.reduce((acc, p, i) => {
+                if (p.status === 'rejected') acc.push(listaFallidos[i]);
+                return acc;
+            }, []);
+
+            reintentar(nuevasFallidos, exitososAcumulados.concat(nuevosExitosos), intento + 1);
+        })
+        .catch((err) => {
+            console.error('Retry error:', err);
+        });
+    }

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    // ============================================================
+// ✅ 01SumElementsArray.js — reduce() exercises (increasing
+//     difficulty)
+// ============================================================
+// Key concepts:
+//   acc = accumulator (previous return value)
+//   current = current element
+//   index = current index (optional)
+//   array = original array (optional)
+//   initialValue = seed for acc (optional but recommended)
+//
+//   Without initialValue: acc = array[0], current = array[1]
+//   With initialValue:    acc = initialValue, current = array[0]
+// ============================================================
+
+// ============================================================
+// ✅ Task 1 — Sum all numbers (warm-up)
+// ============================================================
+const nums1 = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const sum1 = nums1.reduce((acc, cur) => acc + cur, 0);
+console.log(`Task 1 (sum): ${sum1}`);                 // 389
+
+// ============================================================
+// ✅ Task 2 — Product of all numbers (warm-up)
+// ============================================================
+const nums2 = [2, 3, 4, 5];
+const product2 = nums2.reduce((acc, cur) => acc * cur, 1);
+console.log(`Task 2 (product): ${product2}`);          // 120
+
+// ============================================================
+// ✅ Task 3 — Flatten an array of arrays
+// ============================================================
+const nested = [[1, 2], [3, [4, 5]], [6]];
+const flattened3 = nested.reduce((acc, cur) => acc.concat(cur), []);
+console.log(`Task 3 (flatten):`, flattened3);          // [1, 2, 3, [4, 5], 6]
+
+// ============================================================
+// ✅ Task 4 — Count occurrences of each element
+// ============================================================
+const fruits = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+const count4 = fruits.reduce((acc, cur) => {
+    acc[cur] = (acc[cur] || 0) + 1;
+    return acc;
+}, {});
+console.log(`Task 4 (count):`, count4);                // { apple: 3, banana: 2, orange: 1 }
+
+// ============================================================
+// ✅ Task 5 — Find min and max values
+//     Accumulator is an object { min, max }
+// ============================================================
+const nums5 = [12, 5, 8, 130, 44, 3, 27, 9, 150, 1];
+const minMax5 = nums5.reduce((acc, cur) => ({
+    min: cur < acc.min ? cur : acc.min,
+    max: cur > acc.max ? cur : acc.max,
+}), { min: Infinity, max: -Infinity });
+console.log(`Task 5 (min/max):`, minMax5);             // { min: 1, max: 150 }
+
+// ============================================================
+// ✅ Task 6 — Running total (cumulative sum)
+//     Returns an array where each element is the sum up to
+//     that point.
+// ============================================================
+const nums6 = [1, 2, 3, 4, 5];
+const running6 = nums6.reduce((acc, cur) => {
+    acc.push((acc.at(-1) ?? 0) + cur);
+    return acc;
+}, []);
+console.log(`Task 6 (running total):`, running6);      // [1, 3, 6, 10, 15]
+
+// ============================================================
+// ✅ Task 7 — Group objects by a property
+// ============================================================
+const people = [
+    { name: 'Alice', age: 25, role: 'dev' },
+    { name: 'Bob', age: 30, role: 'dev' },
+    { name: 'Carol', age: 25, role: 'pm' },
+    { name: 'Dave', age: 35, role: 'dev' },
+];
+const grouped7 = people.reduce((acc, cur) => {
+    (acc[cur.role] ||= []).push(cur);
+    return acc;
+}, {});
+console.log(`Task 7 (group by role):`);
+console.log(`  dev count: ${grouped7.dev.length}`);    // 3
+console.log(`  pm  count: ${grouped7.pm.length}`);     // 1
+
+// ============================================================
+// ✅ Task 8 — Remove duplicates
+// ============================================================
+const dupes = [1, 2, 2, 3, 4, 3, 5, 1, 6];
+const unique8 = dupes.reduce((acc, cur) => {
+    if (!acc.includes(cur)) acc.push(cur);
+    return acc;
+}, []);
+console.log(`Task 8 (unique):`, unique8);              // [1, 2, 3, 4, 5, 6]
+
+// ============================================================
+// ✅ Task 9 — Chunk an array into groups of N
+// ============================================================
+const flat9 = [1, 2, 3, 4, 5, 6, 7, 8];
+const chunked9 = flat9.reduce((acc, cur, idx) => {
+    const chunkIdx = Math.floor(idx / 3);
+    (acc[chunkIdx] ||= []).push(cur);
+    return acc;
+}, []);
+console.log(`Task 9 (chunked):`, chunked9);            // [[1,2,3],[4,5,6],[7,8]]
+
+// ============================================================
+// ✅ Task 10 — Mode (most frequent element)
+// ============================================================
+const nums10 = [1, 3, 3, 3, 2, 2, 4, 3, 5, 2, 2, 2];
+const mode10 = nums10.reduce((acc, cur) => {
+    acc.freq[cur] = (acc.freq[cur] || 0) + 1;
+    if (acc.freq[cur] > acc.maxFreq) {
+        acc.mode = cur;
+        acc.maxFreq = acc.freq[cur];
+    }
+    return acc;
+}, { freq: {}, mode: null, maxFreq: 0 }).mode;
+console.log(`Task 10 (mode): ${mode10}`);              // 2
+
+// ============================================================
+// ✅ Task 11 — Pipe functions (function composition)
+//     Each function in the pipeline receives the output of
+//     the previous one.
+// ============================================================
+const add1 = x => x + 1;
+const double = x => x * 2;
+const square = x => x * x;
+const pipeline = [add1, double, square];
+const result11 = pipeline.reduce((acc, fn) => fn(acc), 3);
+console.log(`Task 11 (pipe 3 -> +1 -> *2 -> ^2): ${result11}`);  // 64
+
+// ============================================================
+// ✅ Task 12 — Deep flatten (recursive reduce)
+//     Flattens nested arrays to any depth.
+// ============================================================
+function deepFlatten(arr) {
+    return arr.reduce((acc, cur) => {
+        return acc.concat(Array.isArray(cur) ? deepFlatten(cur) : cur);
+    }, []);
+}
+const deeplyNested = [1, [2, [3, [4, 5]]], 6];
+const flat12 = deepFlatten(deeplyNested);
+console.log(`Task 12 (deep flatten):`, flat12);        // [1, 2, 3, 4, 5, 6]
+
+// ============================================================
+// ✅ Summary — All tasks complete
+// ============================================================
+console.log('\n✅ All 12 reduce() exercises completed successfully.');
+
+    <script src="01SumElementsArray.js"></script>
+</body>
+</html>

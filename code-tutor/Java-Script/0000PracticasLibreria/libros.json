@@ -1,0 +1,19 @@
+[
+  { "id": 1, 
+  "titulo": "1984", 
+  "autor": "George Orwell", 
+  "genero": "Novela" 
+  },
+  {
+    "id": 2,
+    "titulo": "El Hobbit",
+    "autor": "J.R.R. Tolkien",
+    "genero": "Fantasía"
+  },
+  {
+    "id": 3,
+    "titulo": "Don Quijote",
+    "autor": "Miguel de Cervantes",
+    "genero": "Novela"
+  }
+]

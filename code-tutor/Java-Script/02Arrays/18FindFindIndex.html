@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 18: Master find() and findIndex()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>find() and findIndex() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 18: Master find() and findIndex()</h2>
+        <p>Practice locating elements with <code>Array.prototype.find()</code> and <code>Array.prototype.findIndex()</code>: searching by condition, object properties, and handling not-found cases.</p>
+        <pre><code>// find signature:
+// const element = array.find((currentValue, index, array) => {
+//     return condition; // first truthy return stops the search
+// });
+// Returns: the first matching element, or undefined
+
+// findIndex signature:
+// const index = array.findIndex((currentValue, index, array) => {
+//     return condition;
+// });
+// Returns: the index of first match, or -1</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const products = [
+    { name: "Laptop", price: 1200, category: "electronics", rating: 4.5 },
+    { name: "Phone", price: 800, category: "electronics", rating: 4.7 },
+    { name: "Shirt", price: 30, category: "clothing", rating: 3.8 },
+    { name: "Tablet", price: 500, category: "electronics", rating: 4.2 },
+    { name: "Jeans", price: 60, category: "clothing", rating: 4.0 },
+    { name: "Headphones", price: 150, category: "electronics", rating: 4.6 },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Find first number greater than 50</h3>
+        <p>Use <code>.find()</code> on <code>numbers</code> to get the first number greater than 50. Log the result.</p>
+
+        <h3>Task 2: Find first even number</h3>
+        <p>Use <code>.find()</code> on <code>numbers</code> to find the first even number. Log it.</p>
+
+        <h3>Task 3: Find index of first number greater than 100</h3>
+        <p>Use <code>.findIndex()</code> on <code>numbers</code> to find the index of the first number greater than 100. Log the index.</p>
+
+        <h3>Task 4: Find product by name</h3>
+        <p>Use <code>.find()</code> on <code>products</code> to find the product with name <code>"Tablet"</code>. Log it.</p>
+
+        <h3>Task 5: Find index of a word</h3>
+        <p>Use <code>.findIndex()</code> on <code>words</code> to find the index of <code>"some"</code>. Log the index.</p>
+
+        <h3>Task 6: Find first cheap product</h3>
+        <p>Use <code>.find()</code> on <code>products</code> to find the first product with a price under 100. Log it.</p>
+
+        <h3>Task 7: Handle not found</h3>
+        <p>Use <code>.find()</code> on <code>numbers</code> to search for a number greater than 1000. Since none exists, log <code>"Not found"</code> if the result is <code>undefined</code>.</p>
+
+        <h3>Task 8: Find word longer than 5 letters</h3>
+        <p>Use <code>.find()</code> on <code>words</code> to find the first word longer than 5 letters. Log it.</p>
+
+        <h3>Task 9: Find product with highest rating using findIndex</h3>
+        <p>Use <code>.findIndex()</code> to find the index of the first product with a rating of 4.5 or higher. Log the index and the product.</p>
+
+        <h3>Task 10: Custom find implementation (Bonus)</h3>
+        <p>Write your own function <code>myFind(arr, callback)</code> that works like <code>.find()</code>. Use a <code>for</code> loop. Test it on <code>numbers</code> to find the first number divisible by 5.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining the difference between <code>.find()</code> and <code>.filter()</code>. What does each return when there are multiple matches?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.find((currentValue, index, array) => condition);
+// Returns: element | undefined
+
+array.findIndex((currentValue, index, array) => condition);
+// Returns: index (number) | -1</code></pre>
+    </section>
+</body>
+</html>

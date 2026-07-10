@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: CREATE TABLE & INSERT</title>
+</head>
+<body>
+    <h1>SQLite + JS Mastery</h1>
+    
+    <section>
+        <h2>Exercise 01: CREATE TABLE & INSERT</h2>
+        <p>Practice creating tables and inserting data using <code>better-sqlite3</code> in Node.js.</p>
+        <pre><code>const Database = require('better-sqlite3');
+const db = new Database('ex01.db');
+
+db.exec('CREATE TABLE IF NOT EXISTS ...');
+const stmt = db.prepare('INSERT INTO ... VALUES (?, ?)');
+stmt.run(val1, val2);</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const Database = require('better-sqlite3');
+const db = new Database('ex01.db');</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Create a users table</h3>
+        <p>Create a table called <code>users</code> with columns: <code>id</code> (INTEGER PRIMARY KEY AUTOINCREMENT), <code>name</code> (TEXT NOT NULL), <code>email</code> (TEXT NOT NULL UNIQUE), <code>age</code> (INTEGER).</p>
+
+        <h3>Task 2: Insert single user</h3>
+        <p>Insert one user: name "Alice", email "alice@example.com", age 30. Use <code>db.prepare().run()</code>.</p>
+
+        <h3>Task 3: Insert multiple users</h3>
+        <p>Insert at least 5 users in a loop using an array of objects and <code>stmt.run()</code> inside a transaction:</p>
+        <pre><code>const insert = db.prepare('INSERT INTO users ...');
+const many = db.transaction((users) => {
+    for (const u of users) insert.run(...);
+});</code></pre>
+
+        <h3>Task 4: Insert with RETURNING</h3>
+        <p>Insert a user and retrieve the inserted <code>id</code> using <code>stmt.run().lastInsertRowid</code>. Log the new ID.</p>
+
+        <h3>Task 5: Handle UNIQUE violation</h3>
+        <p>Try inserting a duplicate email. Catch the error and log a friendly message instead of crashing.</p>
+        <pre><code>try {
+    insert.run(...);
+} catch (err) {
+    console.log('Duplicate email:', err.message);
+}</code></pre>
+
+        <h3>Task 6: Create a products table</h3>
+        <p>Create a table called <code>products</code> with columns: <code>id</code> (INTEGER PRIMARY KEY AUTOINCREMENT), <code>name</code> (TEXT), <code>price</code> (REAL), <code>stock</code> (INTEGER DEFAULT 0), <code>category</code> (TEXT).</p>
+
+        <h3>Task 7: Bulk insert products</h3>
+        <p>Insert 8 products across 4 categories (electronics, clothing, food, books). Use a transaction.</p>
+
+        <h3>Task 8: Insert with DEFAULT values</h3>
+        <p>Insert a product with only <code>name</code> and <code>price</code>, letting <code>stock</code> default to 0. Verify with a SELECT.</p>
+
+        <h3>Task 9: Create an orders table</h3>
+        <p>Create an <code>orders</code> table with: <code>id</code> (INTEGER PRIMARY KEY AUTOINCREMENT), <code>user_id</code> (INTEGER), <code>product_id</code> (INTEGER), <code>quantity</code> (INTEGER), <code>order_date</code> (TEXT DEFAULT CURRENT_DATE). Use <code>FOREIGN KEY</code> constraints.</p>
+
+        <h3>Task 10: Insert related data</h3>
+        <p>Insert 5 orders linking existing users and products. Each order must have a valid <code>user_id</code> and <code>product_id</code>. Handle foreign key violations gracefully.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Expected Terminal Output</h2>
+        <p>Run <code>node 01Ej.js</code> in the terminal. You should see:</p>
+        <pre><code>=== Reset database ===
+=== Task 1: Create users table ===
+users table created
+
+=== Task 2: Insert single user ===
+Inserted user with id: 1
+
+=== Task 3: Insert multiple users (transaction) ===
+Inserted 5 users
+
+=== Task 4: Insert with lastInsertRowid ===
+New user ID: 7
+
+=== Task 5: Handle UNIQUE violation ===
+Caught error: UNIQUE constraint failed: users.email
+
+=== Task 6: Create products table ===
+products table created
+
+=== Task 7: Bulk insert products (transaction) ===
+Inserted 8 products
+
+=== Task 8: Insert with DEFAULT stock ===
+Mouse stock (should be 0): 0
+
+=== Task 9: Create orders table with foreign keys ===
+orders table created
+
+=== Task 10: Insert related data ===
+Inserted 5 orders
+
+=== Verify data ===
+Users: { count: 7 }
+Products: { count: 9 }
+Orders: { count: 5 }
+
+Done. Database: ex01.db</code></pre>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences explaining the difference between <code>db.exec()</code> and <code>db.prepare().run()</code>. When would you use each?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>// Run SQL directly (no placeholders)
+db.exec('CREATE TABLE ...');
+
+// Prepare a statement (with ? placeholders)
+const stmt = db.prepare('INSERT INTO t (col) VALUES (?)');
+stmt.run(value);           // insert one
+const info = stmt.run(v);  // returns { changes, lastInsertRowid }
+console.log(info.lastInsertRowid);
+
+// Transaction (atomic batch)
+const insertMany = db.transaction((items) => {
+    for (const item of items) stmt.run(item);
+});
+
+// Catch errors
+try { stmt.run(val); } catch (e) { console.log(e.message); }</code></pre>
+    </section>
+
+    <p><strong>Note:</strong> Run the code in terminal: <code>node 01Ej.js</code></p>
+</body>
+</html>

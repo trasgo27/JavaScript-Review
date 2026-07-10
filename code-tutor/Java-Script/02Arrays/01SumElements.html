@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: Sum Elements with reduce()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>✅ 01SumElements.html — Sum Elements with reduce()</h1>
+    
+    <section>
+        <h3>✅ Key concepts</h3>
+        <ul>
+            <li><strong>Named function:</strong> <code>add</code> is defined separately and passed to <code>reduce()</code></li>
+            <li><strong>Initial value <code>0</code>:</strong> without it, the first element <code>4</code> would be used as <code>acc</code>, skipping one iteration</li>
+            <li><strong>accumulator pattern:</strong> the return value of each call becomes the first argument of the next call</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>✅ Practice Tasks</h2>
+        <p>Use the console to complete these tasks. Start with <code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];</code></p>
+
+        <h3>✅ Task 1: Sum with a named function</h3>
+        <p>Define a named function and pass it to <code>.reduce()</code> to sum <code>numbers</code>.</p>
+
+        <h3>✅ Task 2: Sum with an anonymous function</h3>
+        <p>Rewrite Task 1 with an anonymous function inside <code>.reduce()</code>.</p>
+
+        <h3>✅ Task 3: Sum with an arrow function</h3>
+        <p>Rewrite with an arrow function: <code>(acc, current) => acc + current</code>.</p>
+
+        <h3>✅ Task 4: Try without an initial value</h3>
+        <p>Call <code>.reduce()</code> on <code>numbers</code> without <code>0</code>. What changes?</p>
+
+        <h3>✅ Task 5: Product of all numbers</h3>
+        <p>Use <code>.reduce()</code> to multiply all numbers together. What initial value should you use? (Not <code>0</code>!)</p>
+
+        <h3>✅ Task 6: Sum even numbers only</h3>
+        <p>Chain <code>.filter()</code> then <code>.reduce()</code> to sum only the even numbers.</p>
+
+        <h3>✅ Task 7: Average with reduce</h3>
+        <p>Calculate the average of <code>numbers</code> using <code>.reduce()</code>. (Return <code>{ sum, count }</code> as the accumulator.)</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>✅ Reference</h2>
+        <pre><code>array.reduce((acc, current, index, array) => {
+    return newAccumulator;
+}, initialValue);
+
+// Without initialValue: acc = array[0], current = array[1]
+// With initialValue:    acc = initialValue, current = array[0]</code></pre>
+    </section>
+
+    <script>
+        const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+        // ✅ Original code
+        const vector = [4, 90, 78, 33];
+        function add(a, b) { return a + b; }
+        const sum = vector.reduce(add, 0);
+        console.log(`Original: ${sum}`);
+
+        // ✅ Task 1: Named function
+        const namedSum = numbers.reduce(function add(acc, cur) {
+            return acc + cur;
+        }, 0);
+        console.log(`Task 1 (named function): ${namedSum}`);
+
+        // ✅ Task 2: Anonymous function No Arrows
+        const anonSum = numbers.reduce(function (acc, cur) {
+            return acc + cur;
+        }, 0);
+        console.log(`Task 2 (anonymous function): ${anonSum}`);
+
+        // ✅ Task 3: Arrow function
+        const arrowSum = numbers.reduce((acc, cur) => acc + cur, 0);
+        console.log(`Task 3 (arrow function): ${arrowSum}`);
+        
+        // ✅ Task 4: Try without initial value
+        // ❌ MISTAKE I MADE: I forgot to return the accumulator.
+        //     const noInitSum = numbers.reduce(function(acc,current){
+        //         acc += current;      // mutation, but no return!
+        //     })
+        //     Result: undefined → NaN
+        // ✅ FIX: The callback MUST return the new accumulator value.
+        //     reduce() uses the RETURN VALUE, not the mutated acc.
+        const noInitSum = numbers.reduce(function (acc, current) {
+            return acc + current;
+        });
+        console.log(`Task 4 (no initial value): ${noInitSum}`);
+        // Compare: without initial value, acc starts as numbers[0] (5)
+        // and current starts at numbers[1] (12). One fewer iteration.
+        // Result: same total (389), but only 9 calls instead of 10.
+        // ✅ Task 5: Product of all Numbers
+        const product = numbers.reduce((acc,item)=>{
+            acc *= item; 
+            return acc;
+        },1);
+        console.log(`Task 5 Product: ${product}`);
+
+        // ✅ Task 6: Sum even numbers only (inline)
+        const sum6a = numbers.reduce((acc,num)=>{
+            return (num %2 ===0)?acc +num : acc;//?acc+=num:acc;
+        },0);        
+        console.log(`Sum of evens: ${sum6a}`)
+        // ✅ Task 6: Sum even numbers only (function reference)
+        // ❌ MISTAKE I MADE: I called the function instead of passing it.
+        //     function sumEvens(num1){
+        //         let acc = 0;               // resets every call!
+        //         return acc += num1;
+        //     }
+        //     const sum6 = numbers.reduce(sumEvens(current), 0);
+        //     //                                    ^^^^^^^^^^
+        //     // "current" is undefined + () invokes immediately
+        //
+        // ✅ FIX 1: Pass the function REFERENCE (no parentheses)
+        // ✅ FIX 2: Two parameters: (acc, num) — let reduce manage acc
+        // ✅ FIX 3: No let acc = 0 — that would reset every iteration
+        function sumEvens(acc, num) {
+            // NOTE: return acc + num  is cleaner than  return acc += num.
+            // acc += num mutates the local param, but reduce replaces acc
+            // with the return value anyway, so += is just dead weight.
+            return num % 2 === 0 ? acc + num : acc;
+        }
+        const sum6 = numbers.reduce(sumEvens, 0);
+        console.log(`Sum evens (function ref): ${sum6}`)
+        // ✅ Task 7 Average
+        const arrLen = numbers.length;
+        const avg1 = numbers.reduce((acc, current)=>{
+            acc += current;
+            return acc;
+        },0)
+        console.log(`Average: ${avg1/arrLen}`);
+        // ✅ Task 7 Average (function reference)
+        // ❌ MISTAKE I MADE: Same two bugs as Task 6.
+        //     function average(a){
+        //         let acc = 0;           // only one param, ignores reduce's acc
+        //         return acc += a;       // always returns just the current number
+        //     }
+        //     const avg2 = numbers.reduce(average(), 0);
+        //                              //  ^^^^^^ invokes immediately → NaN
+        //
+        // ✅ FIX 1: Two params (acc, a) — acc comes from reduce
+        // ✅ FIX 2: Pass reference average (no parentheses)
+        // ✅ FIX 3: No let acc = 0 inside
+        function average(acc, a) {
+            // NOTE: return acc + a is cleaner than return acc += a.
+            // reduce replaces acc with the return value each iteration,
+            // so mutating acc with += does nothing extra.
+            return acc + a;
+        }
+        const avg2 = numbers.reduce(average, 0);
+        console.log(`Average (function ref): ${avg2 / numbers.length}`);
+
+
+        
+    </script>
+</body>
+</html>

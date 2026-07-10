@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 07: Mini CRUD App (Express + SQLite)</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --accent-color: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --code-bg: #1e293b;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: var(--accent-color);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #e2e8f0;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 12px;
+      font-size: 1.5rem;
+    }
+    p, li {
+      color: var(--text-muted);
+    }
+    code {
+      background: var(--code-bg);
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', Consolas, Monaco, monospace;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    pre code {
+      background: transparent;
+      color: #e2e8f0;
+      padding: 0;
+    }
+    .hint-box {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent-color);
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .hint-title {
+      font-weight: bold;
+      color: var(--accent-color);
+      margin-bottom: 5px;
+    }
+    .btn-back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    .btn-back:hover {
+      transform: translateX(-5px);
+    }
+    /* Dashboard styling */
+    .dashboard {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 30px;
+    }
+    .form-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      flex: 1;
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 15px;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      border-color: var(--accent-color);
+    }
+    button {
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .todo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .todo-text {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+    .todo-text.completed {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .btn-delete {
+      background: #f43f5e;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="btn-back">← Back to Exercises</a>
+  <h1>Exercise 07: Mini CRUD App (Express + SQLite)</h1>
+  <p>Bridge the gap between frontend and backend. You will build a REST API in Node.js with Express that interacts with SQLite, and connect it to the interactive dashboard below.</p>
+
+  <h2>API Specifications</h2>
+  <ul>
+    <li><code>GET /api/todos</code> — Returns an array of all todos.</li>
+    <li><code>POST /api/todos</code> — Expects <code>{ task: "text" }</code>, inserts it, and returns the new todo.</li>
+    <li><code>PUT /api/todos/:id</code> — Toggles the <code>completed</code> status (1 or 0) of a todo by ID.</li>
+    <li><code>DELETE /api/todos/:id</code> — Deletes the todo by ID.</li>
+  </ul>
+
+  <h2>Your Tasks</h2>
+  
+  <h3>Task 1: Run your server</h3>
+  <p>Complete the TODOs inside `07Ej.js` to create the Express endpoints. Start the server by running <code>node 07Ej.js</code>.</p>
+
+  <h3>Task 2: Implement GET /api/todos</h3>
+  <p>Select all tasks and return them using <code>res.json()</code>.</p>
+
+  <h3>Task 3: Implement POST /api/todos</h3>
+  <p>Accept the task text in <code>req.body.task</code>, insert it into SQLite, and return the newly created object with its ID.</p>
+
+  <h3>Task 4: Implement PUT /api/todos/:id</h3>
+  <p>Fetch the current task status, toggle it (e.g. <code>1 - currentStatus</code>), update the DB, and return the updated task.</p>
+
+  <h3>Task 5: Implement DELETE /api/todos/:id</h3>
+  <p>Delete the row and return a success message or status code <code>204</code>.</p>
+
+  <div class="hint-box">
+    <div class="hint-title">💡 How to test the client dashboard</div>
+    <p>For security and CORS reasons, open this page by visiting <code>http://localhost:3000/07Ej.html</code> once your Express server is running!</p>
+  </div>
+
+  <h2>Interactive Client Dashboard</h2>
+  <div class="dashboard">
+    <div class="form-group">
+      <input type="text" id="todoInput" placeholder="Add a new task...">
+      <button onclick="addTodo()">Add Task</button>
+    </div>
+    <ul id="todoList" class="todo-list">
+      <!-- Loaded dynamically via fetch -->
+      <li style="color: var(--text-muted);">Start the server and open this page at http://localhost:3000/07Ej.html to test!</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  const API_URL = '/api/todos';
+
+  async function fetchTodos() {
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error('API not running or returned error');
+      const todos = await res.json();
+      const list = document.getElementById('todoList');
+      list.innerHTML = '';
+      if (todos.length === 0) {
+        list.innerHTML = '<li style="color: var(--text-muted); padding: 10px;">No tasks found. Add one above!</li>';
+        return;
+      }
+      todos.forEach(t => {
+        const li = document.createElement('li');
+        li.className = 'todo-item';
+        
+        const span = document.createElement('span');
+        span.className = `todo-text ${t.completed ? 'completed' : ''}`;
+        span.textContent = `${t.task}`;
+        span.onclick = () => toggleTodo(t.id, t.completed);
+
+        const btn = document.createElement('button');
+        btn.className = 'btn-delete';
+        btn.textContent = 'Delete';
+        btn.onclick = () => deleteTodo(t.id);
+
+        li.appendChild(span);
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    } catch (err) {
+      console.warn('Dashboard fetch error:', err.message);
+    }
+  }
+
+  async function addTodo() {
+    const input = document.getElementById('todoInput');
+    const val = input.value.trim();
+    if (!val) return;
+    try {
+      await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: val })
+      });
+      input.value = '';
+      fetchTodos();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function toggleTodo(id, currentCompleted) {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      fetchTodos();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function deleteTodo(id) {
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE'
+      });
+      fetchTodos();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Auto load when page loads
+  if (window.location.origin.startsWith('http://localhost')) {
+    fetchTodos();
+  }
+</script>
+</body>
+</html>

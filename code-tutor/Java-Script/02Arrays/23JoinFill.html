@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 23: Master join() and fill()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>join() and fill() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 23: Master join() and fill()</h2>
+        <p>Practice converting arrays to strings with <code>Array.prototype.join()</code> and filling arrays with <code>Array.prototype.fill()</code>.</p>
+        <pre><code>// join signature:
+// const string = array.join(separator);
+// separator: string placed between elements (default: ",")
+// Returns: a string with all elements joined
+
+// fill signature:
+// array.fill(value, start, end);
+// value: the value to fill with
+// start: start index (default: 0)
+// end: end index, exclusive (default: array.length)
+// Returns: the MODIFIED array (mutates in place)</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Join with default separator</h3>
+        <p>Use <code>.join()</code> on <code>words</code> with no separator argument. Log the result.</p>
+
+        <h3>Task 2: Join with comma and space</h3>
+        <p>Use <code>.join()</code> on <code>words</code> with <code>", "</code> as the separator. Log the result.</p>
+
+        <h3>Task 3: Join numbers into a string</h3>
+        <p>Use <code>.join()</code> on <code>numbers</code> with <code>" - "</code> as the separator. Log the result.</p>
+
+        <h3>Task 4: Build a sentence</h3>
+        <p>Use <code>.join(" ")</code> on <code>words</code> to create a sentence. Log it.</p>
+
+        <h3>Task 5: Fill an array with zeros</h3>
+        <p>Create a new array of length 10 and use <code>.fill(0)</code> to fill it with zeros. Log the result.</p>
+
+        <h3>Task 6: Fill a portion</h3>
+        <p>Use <code>.fill()</code> on a copy of <code>numbers</code> to replace elements from index 3 to index 6 (exclusive) with <code>0</code>. Log the modified copy.</p>
+
+        <h3>Task 7: Fill with a mapped value</h3>
+        <p>Create a new array of length 5 and use <code>.fill(null)</code> then <code>.map()</code> to fill it with random numbers. Log the result.</p>
+
+        <h3>Task 8: Join matrix rows</h3>
+        <p>Use <code>.map()</code> on <code>matrix</code> to join each row with <code>" | "</code>, then join the result with <code>"\n"</code> to create a formatted grid. Log it.</p>
+        <pre><code>// Expected:
+// 1 | 2 | 3
+// 4 | 5 | 6
+// 7 | 8 | 9</code></pre>
+
+        <h3>Task 9: Fill an array of objects</h3>
+        <p>Create an array of length 3 and use <code>.fill({ count: 0 })</code>. Then change one element's <code>count</code> to 5. What happens to the others? Why?</p>
+
+        <h3>Task 10: CSV builder (Bonus)</h3>
+        <p>Given <code>products</code> from previous exercises, use <code>.map()</code> and <code>.join()</code> to create a CSV string with headers <code>"name,price,category"</code>.</p>
+        <pre><code>// Expected:
+// name,price,category
+// Laptop,1200,electronics
+// Phone,800,electronics
+// ...</code></pre>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining an important caveat when using <code>.fill()</code> with objects. What does "fill by reference" mean?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.join(separator = ",");
+// Returns: string
+
+array.fill(value, start = 0, end = array.length);
+// Returns: the mutated array (same reference)
+
+// ⚠️ fill with objects fills by reference:
+// .fill({}) creates ONE object shared by all slots</code></pre>
+    </section>
+</body>
+</html>

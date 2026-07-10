@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 17: Master the filter() Method</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>filter() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 17: Master the filter() Method</h2>
+        <p>Practice selecting elements from arrays with <code>Array.prototype.filter()</code>: callback conditions, index usage, and chaining.</p>
+        <pre><code>// filter signature:
+// const newArray = array.filter((currentValue, index, array) => {
+//     return true;  // keep element
+//     return false; // discard element
+// });
+
+// filter returns a NEW array containing only elements
+// for which the callback returned true.
+// It does NOT mutate the original array.</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat"];
+const products = [
+    { name: "Laptop", price: 1200, category: "electronics", rating: 4.5 },
+    { name: "Phone", price: 800, category: "electronics", rating: 4.7 },
+    { name: "Shirt", price: 30, category: "clothing", rating: 3.8 },
+    { name: "Tablet", price: 500, category: "electronics", rating: 4.2 },
+    { name: "Jeans", price: 60, category: "clothing", rating: 4.0 },
+    { name: "Headphones", price: 150, category: "electronics", rating: 4.6 },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Filter even numbers</h3>
+        <p>Use <code>.filter()</code> on <code>numbers</code> to get only the even numbers. Log the result.</p>
+
+        <h3>Task 2: Filter numbers greater than 50</h3>
+        <p>Use <code>.filter()</code> to get all numbers greater than 50. Log the result.</p>
+
+        <h3>Task 3: Filter short words</h3>
+        <p>Use <code>.filter()</code> on <code>words</code> to get only words with 4 or fewer letters. Log the result.</p>
+
+        <h3>Task 4: Filter electronics</h3>
+        <p>Use <code>.filter()</code> on <code>products</code> to get only products in the <code>"electronics"</code> category. Log the result.</p>
+
+        <h3>Task 5: Filter expensive products</h3>
+        <p>Use <code>.filter()</code> on <code>products</code> to get products with a price greater than 100. Log the result.</p>
+
+        <h3>Task 6: Filter by rating</h3>
+        <p>Use <code>.filter()</code> on <code>products</code> to get products with a rating of 4.5 or higher. Log the result.</p>
+
+        <h3>Task 7: Use the index parameter</h3>
+        <p>Use <code>.filter()</code> on <code>numbers</code> to get only the elements at odd indices (1, 3, 5...). Log the result.</p>
+
+        <h3>Task 8: Filter words containing "e"</h3>
+        <p>Use <code>.filter()</code> on <code>words</code> to get only words that contain the letter <code>"e"</code>. Log the result.</p>
+
+        <h3>Task 9: Chain filter with map</h3>
+        <p>First <code>.filter()</code> the <code>products</code> to get only electronics, then <code>.map()</code> to get just their names. Log the result.</p>
+        <pre><code>// Expected: ["Laptop", "Phone", "Tablet", "Headphones"]</code></pre>
+
+        <h3>Task 10: Remove duplicates (Bonus)</h3>
+        <p>Use <code>.filter()</code> with the index parameter to remove duplicates from <code>[1, 2, 2, 3, 4, 4, 5]</code>. Hint: use <code>indexOf()</code> inside the callback.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining how <code>.filter()</code> decides which elements to keep. What does the callback function need to return?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference (filter signature)</h2>
+        <pre><code>array.filter((currentValue, index, array) => {
+    // return truthy  → element is kept
+    // return falsy   → element is discarded
+});
+
+// Returns: a new array with kept elements</code></pre>
+    </section>
+</body>
+</html>

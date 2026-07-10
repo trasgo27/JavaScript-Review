@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gestión de Libros</title>
+    <style>
+      span#temporizador{
+        color:red;
+        font-size:30px;
+        font-weight:bolder;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Biblioteca Interactiva</h1>
+
+    <label for="categoria">Filtrar por categoría:</label>
+    <select id="categoria">
+      <option value="">Seleccionar un genero ...</option>
+      <option value="todo">Todos</option>
+      <option value="novela">Novela</option>
+      <option value="fantasia">Fantasia</option>
+    </select>
+
+    <ul id="lista-libros"></ul>
+
+    <p>Tiempo: <span id="temporizador">0</span> décimas de segundo</p>
+    <button id="reiniciar">Reiniciar</button>
+    <script src="examen.js"></script>
+  </body>
+</html>

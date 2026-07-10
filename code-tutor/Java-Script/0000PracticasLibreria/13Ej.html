@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Dashboard</title>
+</head>
+<body>
+    <h1>Flight Booking Dashboard ✈️</h1>
+    
+    <section>
+        <h2>Exercise 13: Flight Booking Dashboard ✈️</h2>
+        <p>You are building a flight aggregator. Query multiple airlines, retry the failed ones, find the cheapest and best-rated flights, and race them to find the fastest responder.</p>
+    </section>
+
+    <section>
+        <h2>Setup (simulated API)</h2>
+        <details>
+            <summary>Click to view code</summary>
+            <br>
+            <pre><code>// Returns flight data for a given airline + destination
+function consultarVuelo(aerolinea, destino) {
+    return new Promise((resolve, reject) => {
+        const tiempo = Math.floor(Math.random() * 2500) + 500;
+        setTimeout(() => {
+            if (Math.random() > 0.3) { // 70% success
+                resolve({
+                    airline: aerolinea,
+                    destination: destino,
+                    price: Math.floor(Math.random() * 400) + 100,
+                    duration: Math.floor(Math.random() * 240) + 60,
+                    rating: Number((Math.random() * 3 + 2).toFixed(1)),
+                    seats: Math.floor(Math.random() * 50) + 1
+                });
+            } else {
+                reject(`${aerolinea} is down for maintenance`);
+            }
+        }, tiempo);
+    });
+}
+
+// Retry pattern: recursive .catch()
+function consultarConReintento(aerolinea, destino, maxIntentos = 2) {
+    return consultarVuelo(aerolinea, destino)
+        .catch(err => {
+            if (maxIntentos > 1) {
+                return consultarConReintento(aerolinea, destino, maxIntentos - 1);
+            }
+            throw new Error(err);
+        });
+}</code></pre>
+        </details>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Query all airlines with retry</h3>
+        <p>
+            You have an array of airlines. Use <code>.map()</code> to call <code>consultarConReintento()</code> for each one.<br>
+            Wrap everything in <code>Promise.allSettled()</code> and handle the results with <code>.then()</code> / <code>.catch()</code> (no <code>async/await</code>).
+        </p>
+        <pre><code>const aerolineas = ['Iberia', 'Ryanair', 'Air Europa', 'Vueling', 'Lufthansa', 'EasyJet'];
+const destino = 'Paris';</code></pre>
+
+        <h3>Task 2: Filter and display flights</h3>
+        <p>From the <code>allSettled</code> results, use <code>.filter()</code> and <code>.map()</code> to extract only the successful flight data. Log them with <code>console.table()</code>.</p>
+
+        <h3>Task 3: Find the cheapest flight</h3>
+        <p>Use <code>.reduce()</code> to find the flight object with the lowest <code>price</code>. Log the airline and price.</p>
+
+        <h3>Task 4: Sort flights by rating</h3>
+        <p>Use <code>.slice()</code> to copy the array (avoid mutation), then <code>.sort()</code> to order by <code>rating</code> descending. Log the sorted table.</p>
+
+        <h3>Task 5: Calculate averages</h3>
+        <p>Use <code>.reduce()</code> to compute the <strong>average price</strong> and <strong>total seats</strong> across all successful flights. Log both values.</p>
+
+        <h3>Task 6: Race the airlines</h3>
+        <p>Use <code>Promise.race()</code> to find which airline responds <strong>first</strong> (fastest <code>setTimeout</code>). Log the winner. Chain this after Task 5 by returning the race promise.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>🇬🇧 English Challenge</h2>
+        <p>
+            Write 2-3 sentences in English explaining the difference between <code>Promise.allSettled()</code> and <code>Promise.race()</code>.<br>
+            For example: <em>"Promise.allSettled waits for all promises..."</em>
+        </p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Hints (if stuck)</h2>
+        <details>
+            <summary>Click to expand</summary>
+            <br>
+            <strong>Task 1 + 2 structure:</strong>
+            <pre><code>const pendientes = aerolineas.map(aer => consultarConReintento(aer, destino, 2));
+
+Promise.allSettled(pendientes)
+    .then(resultados => {
+        const vuelos = resultados
+            .filter(r => r.status === "fulfilled")
+            .map(r => r.value);
+        console.table(vuelos);
+    })
+    .catch(err => console.error(err));</code></pre>
+            
+            <br>
+            <strong>Task 3 (reduce for minimum):</strong>
+            <pre><code>const masBarato = vuelos.reduce((min, v) =>
+    v.price < min.price ? v : min
+);</code></pre>
+            
+            <br>
+            <strong>Task 4 (sort by rating):</strong>
+            <pre><code>const ordenado = vuelos.slice().sort((a, b) => b.rating - a.rating);</code></pre>
+            
+            <br>
+            <strong>Task 5 (reduce for sum):</strong>
+            <pre><code>const total = vuelos.reduce((sum, v) => sum + v.price, 0);</code></pre>
+            
+            <br>
+            <strong>Task 6 (race + chaining):</strong>
+            <pre><code>// Return the race promise to chain it
+return Promise.race(aerolineas.map(aer => consultarVuelo(aer, destino)));</code></pre>
+        </details>
+    </section>
+
+    <script src="13Ej.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 22: Master includes() and indexOf()</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>includes(), indexOf(), and lastIndexOf() Mastery</h1>
+    
+    <section>
+        <h2>Exercise 22: Master includes(), indexOf(), and lastIndexOf()</h2>
+        <p>Practice searching arrays with <code>Array.prototype.includes()</code>, <code>Array.prototype.indexOf()</code>, and <code>Array.prototype.lastIndexOf()</code>.</p>
+        <pre><code>// includes signature:
+// const exists = array.includes(searchElement, fromIndex);
+// Returns: true if found, false otherwise
+
+// indexOf signature:
+// const index = array.indexOf(searchElement, fromIndex);
+// Returns: first index found, or -1
+
+// lastIndexOf signature:
+// const index = array.lastIndexOf(searchElement, fromIndex);
+// Returns: last index found, or -1</code></pre>
+    </section>
+
+    <section>
+        <h2>Setup</h2>
+        <pre><code>const numbers = [5, 12, 8, 130, 44, 3, 27, 9, 150, 1, 12, 8];
+const words = ["reduce", "map", "filter", "find", "some", "every", "flat", "map"];
+const people = [
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 30 },
+    { name: "Charlie", age: 35 },
+    { name: "Bob", age: 40 },
+    { name: "Diana", age: 28 },
+];</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Check if number exists</h3>
+        <p>Use <code>.includes()</code> on <code>numbers</code> to check if <code>44</code> is in the array. Log the result.</p>
+
+        <h3>Task 2: Check if number does NOT exist</h3>
+        <p>Use <code>.includes()</code> on <code>numbers</code> to check if <code>99</code> is in the array. Log the result.</p>
+
+        <h3>Task 3: Find index of a word</h3>
+        <p>Use <code>.indexOf()</code> on <code>words</code> to find the index of <code>"filter"</code>. Log it.</p>
+
+        <h3>Task 4: Find index of a duplicate</h3>
+        <p>Use <code>.indexOf()</code> on <code>words</code> to find the first occurrence of <code>"map"</code>. Log the index.</p>
+
+        <h3>Task 5: Find last index of a duplicate</h3>
+        <p>Use <code>.lastIndexOf()</code> on <code>words</code> to find the last occurrence of <code>"map"</code>. Log it.</p>
+
+        <h3>Task 6: Handle not found</h3>
+        <p>Use <code>.indexOf()</code> on <code>numbers</code> to search for <code>99</code>. If it returns <code>-1</code>, log <code>"Not found"</code>.</p>
+
+        <h3>Task 7: Search with fromIndex</h3>
+        <p>Use <code>.indexOf()</code> on <code>numbers</code> with a <code>fromIndex</code> of <code>5</code> to search for <code>12</code> only from index 5 onward. Is it found? Log the index.</p>
+
+        <h3>Task 8: Check for object with includes</h3>
+        <p>Use <code>.includes()</code> on <code>people</code> to search for <code>{ name: "Bob", age: 30 }</code>. Does it find it? Why or why not?</p>
+
+        <h3>Task 9: Remove duplicates using indexOf</h3>
+        <p>Use <code>.filter()</code> with <code>.indexOf()</code> on a copy of <code>numbers</code> to create a new array with duplicates removed.</p>
+
+        <h3>Task 10: Custom includes (Bonus)</h3>
+        <p>Write your own function <code>myIncludes(arr, value)</code> that works like <code>.includes()</code>. Use a <code>for</code> loop. Test it.</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>English Challenge</h2>
+        <p>Write 2–3 sentences in English explaining why <code>.includes()</code> and <code>.indexOf()</code> cannot be used to find objects. What method should you use instead and why?</p>
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Reference</h2>
+        <pre><code>array.includes(searchElement, fromIndex = 0);
+// Returns: true | false
+
+array.indexOf(searchElement, fromIndex = 0);
+// Returns: index (number) | -1
+
+array.lastIndexOf(searchElement, fromIndex = array.length - 1);
+// Returns: index (number) | -1</code></pre>
+    </section>
+</body>
+</html>
