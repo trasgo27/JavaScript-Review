@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>16 · Standalone & Arquitectura | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>16 · Standalone & Arquitectura <span class="difficulty hard">Experto</span></h1>
+  <p>Angular moderno es <strong>standalone-first</strong>: componentes sin NgModules, con imports directos.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Componente standalone con imports.</p>
+    <pre><code><span class="keyword">@Component</span>({
+  selector: <span class="string">'app-card'</span>,
+  standalone: <span class="keyword">true</span>,
+  imports: [CommonModule, NgClass],
+  template: <span class="string">`&lt;div [ngClass]="'card'"&gt;...&lt;/div&gt;`</span>
+})
+<span class="keyword">export class</span> CardComponent {}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Bootstrap de aplicación standalone.</p>
+    <pre><code><span class="comment">// main.ts</span>
+<span class="keyword">import</span> { bootstrapApplication } <span class="keyword">from</span> <span class="string">'@angular/platform-browser'</span>;
+<span class="keyword">import</span> { AppComponent } <span class="keyword">from</span> <span class="string">'./app/app.component'</span>;
+<span class="keyword">import</span> { appConfig } <span class="keyword">from</span> <span class="string">'./app/app.config'</span>;
+
+bootstrapApplication(AppComponent, appConfig);</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>app.config.ts con providers.</p>
+    <pre><code><span class="keyword">export const</span> appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideAnimations()
+  ]
+};</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty hard">Difícil</span></h3>
+    <p>Arquitectura por features con lazy loading.</p>
+    <pre><code><span class="comment">// Estructura:</span>
+<span class="comment">// src/app/</span>
+<span class="comment">//   core/          → servicios globales, guards, interceptors</span>
+<span class="comment">//   shared/        → componentes reutilizables, pipes, directives</span>
+<span class="comment">//   features/</span>
+<span class="comment">//     auth/        → login, register</span>
+<span class="comment">//     dashboard/   → dashboard pages</span>
+<span class="comment">//     products/    → catálogo</span>
+
+<span class="comment">// Rutas con lazy loading:</span>
+<span class="keyword">export const</span> routes: Routes = [
+  { path: <span class="string">''</span>, loadComponent: () => <span class="keyword">import</span>(<span class="string">'./features/home/home.component'</span>).then(m => m.HomeComponent) },
+  { path: <span class="string">'products'</span>, loadChildren: () => <span class="keyword">import</span>(<span class="string">'./features/products/routes'</span>).then(m => m.PRODUCT_ROUTES) }
+];</code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="15-state-management.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="17-testing.html">Siguiente →</a>
+  </div>
+</body>
+</html>

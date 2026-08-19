@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angular Academy - Índice de Ejercicios</title>
+  <style>
+    :root {
+      --angular-red: #dd0031;
+      --angular-dark: #c3002f;
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #f59e0b;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: rgba(221, 0, 49, 0.1);
+      border-radius: 16px;
+      border: 1px solid var(--angular-red);
+    }
+    header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, var(--angular-red), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    header p { color: var(--text-muted); font-size: 1.1rem; }
+    .level {
+      margin-bottom: 2.5rem;
+    }
+    .level h2 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 4px solid var(--angular-red);
+      color: var(--accent);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--angular-red), var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--angular-red);
+      box-shadow: 0 10px 25px rgba(221, 0, 49, 0.2);
+    }
+    .card:hover::before { transform: scaleX(1); }
+    .card h3 {
+      color: var(--angular-red);
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-top: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-basic { background: #10b981; color: #fff; }
+    .badge-inter { background: #3b82f6; color: #fff; }
+    .badge-adv { background: #8b5cf6; color: #fff; }
+    .badge-expert { background: var(--angular-red); color: #fff; }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🅰️ Angular Academy</h1>
+    <p>Curso práctico de Angular — De cero a experto con ejercicios progresivos</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">📅 Actualizado: Julio 2026 · Angular 18+</p>
+  </header>
+
+  <!-- NIVEL BÁSICO -->
+  <section class="level">
+    <h2>🟢 Nivel Básico</h2>
+    <div class="grid">
+      <a href="01-componentes.html" class="card">
+        <h3>01 · Componentes</h3>
+        <p>Crea tu primer componente, entiende la estructura de un componente Angular y cómo renderizarlo.</p>
+        <span class="badge badge-basic">5 ejercicios</span>
+      </a>
+      <a href="02-interpolacion.html" class="card">
+        <h3>02 · Interpolación</h3>
+        <p>Muestra datos dinámicos en el template usando la sintaxis {{ }} y expresiones.</p>
+        <span class="badge badge-basic">5 ejercicios</span>
+      </a>
+      <a href="03-binding.html" class="card">
+        <h3>03 · Property & Event Binding</h3>
+        <p>Conecta datos y eventos entre el componente y el DOM con [], () y [()].</p>
+        <span class="badge badge-basic">5 ejercicios</span>
+      </a>
+      <a href="04-directivas-estructurales.html" class="card">
+        <h3>04 · Directivas Estructurales</h3>
+        <p>Domina @if, @for y @switch del control flow moderno de Angular.</p>
+        <span class="badge badge-basic">5 ejercicios</span>
+      </a>
+      <a href="05-directivas-atributos.html" class="card">
+        <h3>05 · Directivas de Atributo</h3>
+        <p>Usa ngClass, ngStyle y clases condicionales para estilizar elementos dinámicamente.</p>
+        <span class="badge badge-basic">5 ejercicios</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- NIVEL INTERMEDIO -->
+  <section class="level">
+    <h2>🔵 Nivel Intermedio</h2>
+    <div class="grid">
+      <a href="06-signals.html" class="card">
+        <h3>06 · Signals</h3>
+        <p>Reactividad moderna con signal(), computed() y effect(). El corazón de Angular moderno.</p>
+        <span class="badge badge-inter">5 ejercicios</span>
+      </a>
+      <a href="07-control-flow.html" class="card">
+        <h3>07 · Control Flow Avanzado</h3>
+        <p>@if/@else, @for con track, $index, $even, $odd, @empty y @switch con @case.</p>
+        <span class="badge badge-inter">5 ejercicios</span>
+      </a>
+      <a href="08-input-output.html" class="card">
+        <h3>08 · Input / Output</h3>
+        <p>Comunicación padre↔hijo con input(), output(), model() y two-way binding.</p>
+        <span class="badge badge-inter">5 ejercicios</span>
+      </a>
+      <a href="09-formularios.html" class="card">
+        <h3>09 · Formularios</h3>
+        <p>Template-driven vs Reactive Forms. Validaciones, FormGroup, FormBuilder y validadores custom.</p>
+        <span class="badge badge-inter">6 ejercicios</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- NIVEL AVANZADO -->
+  <section class="level">
+    <h2>🟣 Nivel Avanzado</h2>
+    <div class="grid">
+      <a href="10-pipes.html" class="card">
+        <h3>10 · Pipes</h3>
+        <p>Pipes built-in (date, currency, async) y creación de pipes personalizados.</p>
+        <span class="badge badge-adv">5 ejercicios</span>
+      </a>
+      <a href="11-directivas-personalizadas.html" class="card">
+        <h3>11 · Directivas Personalizadas</h1>
+        <p>Crea tus propias directivas con @Directive, HostListener, HostBinding y ElementRef.</p>
+        <span class="badge badge-adv">5 ejercicios</span>
+      </a>
+      <a href="12-servicios.html" class="card">
+        <h3>12 · Servicios e Inyección</h3>
+        <p>@Injectable, providedIn: 'root', jerarquía de inyectores, inject() y useFactory.</p>
+        <span class="badge badge-adv">5 ejercicios</span>
+      </a>
+      <a href="13-rutas.html" class="card">
+        <h3>13 · Routing & Guards</h3>
+        <p>Router, rutas con parámetros, lazy loading, guards (canActivate, canMatch) y resolvers.</p>
+        <span class="badge badge-adv">6 ejercicios</span>
+      </a>
+      <a href="14-http.html" class="card">
+        <h3>14 · HttpClient & Interceptors</h3>
+        <p>Peticiones HTTP, interceptores, manejo de errores y provideHttpClient().</p>
+        <span class="badge badge-adv">5 ejercicios</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- NIVEL EXPERTO -->
+  <section class="level">
+    <h2>🔴 Nivel Experto</h2>
+    <div class="grid">
+      <a href="15-state-management.html" class="card">
+        <h3>15 · State Management</h3>
+        <p>Gestión de estado global con Signals, NgRx SignalStore y patrones avanzados.</p>
+        <span class="badge badge-expert">5 ejercicios</span>
+      </a>
+      <a href="16-standalone.html" class="card">
+        <h3>16 · Standalone & Arquitectura</h3>
+        <p>Componentes standalone, bootstrapping, arquitectura modular y buenas prácticas.</p>
+        <span class="badge badge-expert">4 ejercicios</span>
+      </a>
+      <a href="17-testing.html" class="card">
+        <h3>17 · Testing</h3>
+        <p>Unit tests con Jasmine/Karma, TestBed, mocks y testing de componentes y servicios.</p>
+        <span class="badge badge-expert">5 ejercicios</span>
+      </a>
+      <a href="18-performance.html" class="card">
+        <h3>18 · Performance & SSR</h3>
+        <p>ChangeDetectionStrategy, deferrable views (@defer), hydration y Angular Universal.</p>
+        <span class="badge badge-expert">5 ejercicios</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>💡 Cada archivo contiene ejercicios con código de ejemplo, explicaciones y retos prácticos.</p>
+    <p style="margin-top: 0.5rem;">Hecho con ❤️ para aprender Angular de forma práctica.</p>
+  </footer>
+</body>
+</html>

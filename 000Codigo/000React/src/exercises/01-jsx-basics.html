@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 01: JSX Basics</title>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    ul { list-style-type: disc; padding-left: 20px; }
+    li { margin: 5px 0; }
+    img { max-width: 200px; height: auto; border-radius: 4px; }
+    input { padding: 8px; margin: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 10px 20px; background: #007acc; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    a { color: #007acc; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function BasicElements() {
+      return (
+        <div>
+          <h1>Salvador</h1>
+          <p>Un pringaiyo</p>
+          <ul>
+            <li>Comer Carne de Ternera</li>
+            <li>Estar con Ritmo Cardiaco Bueno</li>
+            <li>Ver bien y praticar la vista</li>
+          </ul>
+        </div>
+      );
+    }
+
+    function JSXExpressions() {
+      const currentYear = new Date().getFullYear();
+      const number = Math.floor(Math.random() * 5) + 1;
+      const names = ["Salva", "Gasco", "Mezquita", "Gomis", "Hugo", "Sandra"];
+      const name = names[number - 1];
+
+      return (
+        <div>
+          <p>The current year is: {currentYear}</p>
+          <p>{`${number} + 2 = ${number + 2}`}</p>
+          <p>{`Number ${number} is: ${number % 2 === 0 ? "even" : "odd"}`}</p>
+          <p>{`Hola ${name}`}</p>
+          <a href="https://www.w3schools.com/react/default.asp">
+            Presionar
+          </a>
+        </div>
+      );
+    }
+
+    function JSXAttributes() {
+      return (
+        <div>
+          <img
+            src="https://picsum.photos/200"
+            alt="Random Image Placeholder"
+            width={200}
+          />
+
+          <input
+            placeholder="Escribe tu nombre"
+            type="text"
+            maxLength={50}
+          />
+
+          <a
+            href="https://www.w3schools.com/react/default.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            W3Schools React
+          </a>
+
+          <button type="button" disabled={true}>
+            Enviar
+          </button>
+        </div>
+      );
+    }
+
+    function InlineStyles() {
+      const containerStyle = {
+        backgroundColor: "blue",
+        color: "white",
+        padding: "5px",
+        borderRadius: "5px",
+      };
+
+      const headingStyle = {
+        fontSize: "30px",
+        color: "black",
+        marginBottom: "10px",
+      };
+
+      return (
+        <div style={containerStyle}>
+          <h2 style={headingStyle}>Titulo con Estilo en Linea</h2>
+          <p>This content has inline styles!</p>
+        </div>
+      );
+    }
+
+    function WithFragments() {
+      return (
+        <>
+          <h3>Fragment Short Syntax</h3>
+          <p>This allows you to add elements without adding new divs.</p>
+          <p>Fragments are great for lists and tables.</p>
+        </>
+      );
+    }
+
+    function WithFragmentsDOS() {
+      return (
+        <React.Fragment>
+          <h3>Fragment Long Syntax</h3>
+          <p>Same result as the short syntax above.</p>
+          <p>Useful when you need to pass a key prop.</p>
+        </React.Fragment>
+      );
+    }
+
+    function JSXBasics() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 01: JSX Basics</h2>
+
+          <section>
+            <h3>1.1 Basic Elements</h3>
+            <BasicElements />
+          </section>
+
+          <section>
+            <h3>1.2 JSX Expressions</h3>
+            <JSXExpressions />
+          </section>
+
+          <section>
+            <h3>1.3 JSX Attributes</h3>
+            <JSXAttributes />
+          </section>
+
+          <section>
+            <h3>1.4 Inline Styles</h3>
+            <InlineStyles />
+          </section>
+
+          <section>
+            <h3>1.5 Fragments</h3>
+            <WithFragments />
+          </section>
+
+          <section>
+            <h3>1.6 Fragments (React.Fragment)</h3>
+            <WithFragmentsDOS />
+          </section>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<JSXBasics />);
+  </script>
+</body>
+</html>

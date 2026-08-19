@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>18 · Performance & SSR | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>18 · Performance & SSR <span class="difficulty hard">Experto</span></h1>
+  <p>Optimiza tu app con ChangeDetectionStrategy.OnPush, @defer, signals y Angular SSR con hydration.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Activa <code>OnPush</code> change detection.</p>
+    <pre><code><span class="keyword">@Component</span>({
+  selector: <span class="string">'app-heavy'</span>,
+  standalone: <span class="keyword">true</span>,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: <span class="string">`...`</span>
+})
+<span class="keyword">export class</span> HeavyComponent {
+  <span class="comment">// Angular solo re-renderiza cuando:</span>
+  <span class="comment">// - Cambia un @Input por referencia</span>
+  <span class="comment">// - Se dispara un event handler</span>
+  <span class="comment">// - Se usa un signal o async pipe</span>
+  <span class="comment">// - Se llama markForCheck() manualmente</span>
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Usa <code>@defer</code> para carga diferida.</p>
+    <pre><code><span class="comment">// Template:</span>
+&lt;article&gt;
+  &lt;h1&gt;Contenido principal&lt;/h1&gt;
+
+  <span class="keyword">@defer</span> (on viewport; prefetch on idle) {
+    &lt;app-heavy-chart /&gt;
+  } <span class="keyword">@placeholder</span> {
+    &lt;div class="skeleton"&gt;Cargando gráfico...&lt;/div&gt;
+  } <span class="keyword">@loading</span> (after 100ms; minimum 1s) {
+    &lt;app-spinner /&gt;
+  } <span class="keyword">@error</span> {
+    &lt;p&gt;Error al cargar&lt;/p&gt;
+  }
+&lt;/article&gt;</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Condiciones de @defer: on idle, on viewport, on interaction, on timer.</p>
+    <pre><code><span class="comment">// Carga cuando el usuario hace hover</span>
+<span class="keyword">@defer</span> (on hover) { &lt;app-tooltip /&gt; }
+
+<span class="comment">// Carga cuando entra en viewport</span>
+<span class="keyword">@defer</span> (on viewport) { &lt;app-image-gallery /&gt; }
+
+<span class="comment">// Carga tras 3 segundos</span>
+<span class="keyword">@defer</span> (on timer(3s)) { &lt;app-ad /&gt; }
+
+<span class="comment">// Combinación: viewport Y después de idle</span>
+<span class="keyword">@defer</span> (on viewport; prefetch on idle) { ... }</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Configura SSR con Angular 18+.</p>
+    <pre><code><span class="comment">// app.config.server.ts</span>
+<span class="keyword">export const</span> serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering()
+  ]
+};
+
+<span class="comment">// server.ts (Express):</span>
+<span class="keyword">import</span> { AngularNodeAppEngine } <span class="keyword">from</span> <span class="string">'@angular/ssr/node'</span>;
+
+app.use(<span class="string">'*'</span>, (req, res, next) => {
+  <span class="keyword">new</span> AngularNodeAppEngine(appBootstrap, req)
+    .render(req.url, { request: req })
+    .then(response => res.send(response.body))
+    .catch(next);
+});</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Hydration y transferencia de estado.</p>
+    <pre><code><span class="comment">// app.config.ts:</span>
+providers: [
+  provideClientHydration(),
+  withEventReplay()  <span class="comment">// replay de eventos durante hidratación</span>
+]
+
+<span class="comment">// Transfer state (compartir datos SSR → client):</span>
+<span class="keyword">import</span> { TransferState, makeStateKey } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">const</span> USER_KEY = makeStateKey&lt;User&gt;(<span class="string">'user'</span>);
+
+<span class="keyword">constructor</span>(<span class="keyword">private</span> state: TransferState) {}
+
+ngOnInit() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasKey(USER_KEY)) {
+    <span class="keyword">this</span>.user = <span class="keyword">this</span>.state.get(USER_KEY, <span class="keyword">null</span>);
+  } <span class="keyword">else</span> {
+    <span class="keyword">this</span>.http.get&lt;User&gt;(<span class="string">'/api/user'</span>).subscribe(u => {
+      <span class="keyword">this</span>.user = u;
+      <span class="keyword">this</span>.state.set(USER_KEY, u);
+    });
+  }
+}</code></pre>
+    <p>✅ <strong>Reto:</strong> Combina <code>@defer</code> con <code>TransferState</code> para cachear datos de una API.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="17-testing.html">← Anterior</a> | <a href="index.html">Índice</a>
+  </div>
+</body>
+</html>

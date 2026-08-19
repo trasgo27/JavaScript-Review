@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: Fetch API Basics</title>
+</head>
+<body>
+    <h1>AJAX & Fetch Mastery</h1>
+    
+    <section>
+        <h2>Exercise 01: Fetch API Basics</h2>
+        <p>Practice making asynchronous requests using the <code>fetch()</code> API.</p>
+        <pre><code>fetch('https://jsonplaceholder.typicode.com/posts/1')
+  .then(response => response.json())
+  .then(data => console.log(data));</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Basic GET request</h3>
+        <p>Use `fetch` to retrieve users from `https://jsonplaceholder.typicode.com/users`. Log the response to the console.</p>
+
+        <h3>Task 2: Handling JSON</h3>
+        <p>Extract the JSON data from the response in Task 1 and log the array of users.</p>
+
+        <h3>Task 3: Display data in DOM</h3>
+        <p>Create a `div` element below and append the user names dynamically after fetching them.</p>
+        <div id="users-container" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+
+        <h3>Task 4: Error Handling</h3>
+        <p>Make a request to a non-existent URL (e.g., `https://jsonplaceholder.typicode.com/invalid-url`) and handle the error using `.catch()`. Log a friendly error message.</p>
+
+        <h3>Task 5: Async / Await</h3>
+        <p>Rewrite the logic from Task 1 and 2 using an `async` function and the `await` keyword. Use the `hacerEj()` function structure to organize your code.</p>
+
+    </section>
+
+    <hr>
+
+    <section>
+        <h2>Expected Output</h2>
+        <p>You should see user data logged in the console and user names appearing in the container above.</p>
+    </section>
+
+    <p><strong>Note:</strong> Check the script linked below for the implementation.</p>
+
+    <script src="01Ej.js"></script>
+</body>
+</html>

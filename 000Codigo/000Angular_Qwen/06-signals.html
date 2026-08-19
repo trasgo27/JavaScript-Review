@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>06 · Signals | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>06 · Signals <span class="difficulty medium">Intermedio</span></h1>
+  <p>Los <strong>Signals</strong> son el sistema de reactividad moderno de Angular. Son primitivos reactivos que permiten detectar cambios de forma granular.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Crea un signal writable y lee su valor.</p>
+    <pre><code><span class="keyword">import</span> { signal } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+contador = signal(<span class="keyword">0</span>);
+
+<span class="comment">// Leer: this.contador()</span>
+<span class="comment">// Escribir: this.contador.set(5)</span>
+<span class="comment">// Actualizar: this.contador.update(v => v + 1)</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Crea un signal de tipo string para un nombre.</p>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Usa <code>computed()</code> para derivar valores.</p>
+    <pre><code>precio = signal(<span class="keyword">100</span>);
+cantidad = signal(<span class="keyword">3</span>);
+total = computed(() => <span class="keyword">this</span>.precio() * <span class="keyword">this</span>.cantidad());
+<span class="comment">// Template: &lt;p&gt;Total: {{ total() }}€&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Usa <code>effect()</code> para ejecutar lógica reactiva.</p>
+    <pre><code><span class="keyword">import</span> { signal, effect } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+nombre = signal(<span class="string">'Ana'</span>);
+
+constructor() {
+  effect(() => {
+    console.log(<span class="string">`Nombre cambió a: ${<span class="keyword">this</span>.nombre()}`</span>);
+  });
+}</code></pre>
+    <p>✅ <strong>Reto:</strong> Guarda el valor en localStorage cada vez que cambie.</p>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Signal con objetos (actualización inmutable con <code>update</code>).</p>
+    <pre><code>usuario = signal({ nombre: <span class="string">'Luis'</span>, edad: <span class="keyword">25</span> });
+
+cumplirAnos() {
+  <span class="keyword">this</span>.usuario.update(u => ({ ...u, edad: u.edad + <span class="keyword">1</span> }));
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Crea un "contador con historial" usando signals.</p>
+    <pre><code>contador = signal(<span class="keyword">0</span>);
+historial = signal<number[]>([]);
+
+incrementar() {
+  <span class="keyword">const</span> nuevo = <span class="keyword">this</span>.contador() + <span class="keyword">1</span>;
+  <span class="keyword">this</span>.contador.set(nuevo);
+  <span class="keyword">this</span>.historial.update(h => [...h, nuevo]);
+}
+
+totalAcumulado = computed(() =>
+  <span class="keyword">this</span>.historial().reduce((a, b) => a + b, <span class="keyword">0</span>)
+);</code></pre>
+    <p>✅ <strong>Reto:</strong> Añade un botón "Deshacer" que elimine el último valor del historial.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="05-directivas-atributos.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="07-control-flow.html">Siguiente →</a>
+  </div>
+</body>
+</html>

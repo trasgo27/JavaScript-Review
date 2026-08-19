@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Exercises Index</title>
+  
+  <!-- ============================================
+       REACT EXERCISES CATALOG
+       ============================================
+       This is your main navigation page for all React exercises.
+       Click any exercise to open it in the browser.
+       
+       Each exercise includes:
+       - Working React components
+       - Detailed comments explaining concepts
+       - Interactive examples you can play with
+       
+       TIP: Open browser console (F12) to see console.log outputs!
+  -->
+  
+  <style>
+    /* ============================================
+       STYLES
+       ============================================
+       Clean, modern design for easy navigation.
+    */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      color: #007acc;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    
+    .tip-box {
+      background: #e7f3ff;
+      border-left: 4px solid #007acc;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .tip-box strong {
+      color: #007acc;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      color: #333;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    .exercise-list {
+      list-style: none;
+    }
+    
+    .exercise-item {
+      margin: 10px 0;
+    }
+    
+    .exercise-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.2s ease;
+    }
+    
+    .exercise-link:hover {
+      background: #007acc;
+      color: white;
+      transform: translateX(5px);
+    }
+    
+    .exercise-number {
+      background: #007acc;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    
+    .exercise-link:hover .exercise-number {
+      background: white;
+      color: #007acc;
+    }
+    
+    .exercise-info {
+      flex: 1;
+    }
+    
+    .exercise-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    
+    .exercise-desc {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .exercise-link:hover .exercise-desc {
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .difficulty {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: 10px;
+    }
+    
+    .beginner { background: #d4edda; color: #155724; }
+    .intermediate { background: #fff3cd; color: #856404; }
+    .advanced { background: #f8d7da; color: #721c24; }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #999;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>React Exercises</h1>
+    <p class="subtitle">Interactive learning path from basics to advanced concepts</p>
+  </header>
+  
+  <!-- ============================================
+       TIP BOX
+       ============================================
+       Helpful tips for using these exercises.
+  -->
+  <div class="tip-box">
+    <strong>💡 Tips:</strong>
+    <ul style="margin-top: 10px; padding-left: 20px;">
+      <li>Each exercise runs directly in the browser - no build step needed!</li>
+      <li>Open DevTools (F12) → Console to see detailed logs and explanations</li>
+      <li>Try modifying the code in each exercise to experiment</li>
+      <li>Exercises are ordered from basic to advanced - follow the sequence!</li>
+    </ul>
+  </div>
+  
+  <!-- ============================================
+       BEGINNER EXERCISES
+       ============================================
+       These cover the fundamentals of React.
+       Start here if you're new to React!
+  -->
+  <div class="section">
+    <h2>🟢 Beginner - Fundamentals</h2>
+    <ul class="exercise-list">
+      
+      <!-- Exercise 01: JSX Basics -->
+      <li class="exercise-item">
+        <a href="src/exercises/01-jsx-basics.html" class="exercise-link">
+          <span class="exercise-number">01</span>
+          <span class="exercise-info">
+            <span class="exercise-title">JSX Basics</span>
+            <span class="exercise-desc">Syntax, expressions, attributes, fragments, inline styles</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 02: Components & Props -->
+      <li class="exercise-item">
+        <a href="src/exercises/02-components-props.html" class="exercise-link">
+          <span class="exercise-number">02</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Components & Props</span>
+            <span class="exercise-desc">Reusable components, passing data, children prop, composition</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 03: useState Hook -->
+      <li class="exercise-item">
+        <a href="src/exercises/03-usestate-hook.html" class="exercise-link">
+          <span class="exercise-number">03</span>
+          <span class="exercise-info">
+            <span class="exercise-title">useState Hook</span>
+            <span class="exercise-desc">State management, counters, toggles, forms, arrays</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 04: Event Handling -->
+      <li class="exercise-item">
+        <a href="src/exercises/04-event-handling.html" class="exercise-link">
+          <span class="exercise-number">04</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Event Handling</span>
+            <span class="exercise-desc">Click, form, keyboard events, synthetic events</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 05: Conditional Rendering -->
+      <li class="exercise-item">
+        <a href="src/exercises/05-conditional-rendering.html" class="exercise-link">
+          <span class="exercise-number">05</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Conditional Rendering</span>
+            <span class="exercise-desc">Ternary, && operator, switch, loading states</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 06: Lists & Keys -->
+      <li class="exercise-item">
+        <a href="src/exercises/06-lists-keys.html" class="exercise-link">
+          <span class="exercise-number">06</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Lists & Keys</span>
+            <span class="exercise-desc">Rendering arrays, .map(), keys, filtering, nested lists</span>
+          </span>
+          <span class="difficulty beginner">Beginner</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  
+  <!-- ============================================
+       INTERMEDIATE EXERCISES
+       ============================================
+       These cover hooks and more complex patterns.
+       Complete beginner exercises first!
+  -->
+  <div class="section">
+    <h2>🟡 Intermediate - Hooks & Patterns</h2>
+    <ul class="exercise-list">
+      
+      <!-- Exercise 07: Forms -->
+      <li class="exercise-item">
+        <a href="src/exercises/07-forms.html" class="exercise-link">
+          <span class="exercise-number">07</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Forms (Controlled Components)</span>
+            <span class="exercise-desc">Controlled inputs, validation, dynamic fields</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 08: useEffect Hook -->
+      <li class="exercise-item">
+        <a href="src/exercises/08-useeffect-hook.html" class="exercise-link">
+          <span class="exercise-number">08</span>
+          <span class="exercise-info">
+            <span class="exercise-title">useEffect Hook</span>
+            <span class="exercise-desc">Side effects, data fetching, timers, cleanup, dependencies</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 09: useContext Hook -->
+      <li class="exercise-item">
+        <a href="src/exercises/09-usecontext-hook.html" class="exercise-link">
+          <span class="exercise-number">09</span>
+          <span class="exercise-info">
+            <span class="exercise-title">useContext Hook</span>
+            <span class="exercise-desc">Context API, providers, avoiding prop drilling, theme toggle</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 10: useRef Hook -->
+      <li class="exercise-item">
+        <a href="src/exercises/10-useref-hook.html" class="exercise-link">
+          <span class="exercise-number">10</span>
+          <span class="exercise-info">
+            <span class="exercise-title">useRef Hook</span>
+            <span class="exercise-desc">DOM access, persisting values, timers, scroll-to-element</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 11: Custom Hooks -->
+      <li class="exercise-item">
+        <a href="src/exercises/11-custom-hooks.html" class="exercise-link">
+          <span class="exercise-number">11</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Custom Hooks</span>
+            <span class="exercise-desc">useLocalStorage, useToggle, useFetch, useWindowSize</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 12: useReducer Hook -->
+      <li class="exercise-item">
+        <a href="src/exercises/12-usereducer-hook.html" class="exercise-link">
+          <span class="exercise-number">12</span>
+          <span class="exercise-info">
+            <span class="exercise-title">useReducer Hook</span>
+            <span class="exercise-desc">Reducer pattern, complex state, todo list, shopping cart</span>
+          </span>
+          <span class="difficulty intermediate">Intermediate</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  
+  <!-- ============================================
+       ADVANCED EXERCISES
+       ============================================
+       These cover performance and error handling.
+       Complete intermediate exercises first!
+  -->
+  <div class="section">
+    <h2>🔴 Advanced - Performance & Patterns</h2>
+    <ul class="exercise-list">
+      
+      <!-- Exercise 13: Performance -->
+      <li class="exercise-item">
+        <a href="src/exercises/13-performance.html" class="exercise-link">
+          <span class="exercise-number">13</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Performance Optimization</span>
+            <span class="exercise-desc">React.memo, useMemo, useCallback, preventing re-renders</span>
+          </span>
+          <span class="difficulty advanced">Advanced</span>
+        </a>
+      </li>
+      
+      <!-- Exercise 14: Error Boundaries -->
+      <li class="exercise-item">
+        <a href="src/exercises/14-error-boundaries.html" class="exercise-link">
+          <span class="exercise-number">14</span>
+          <span class="exercise-info">
+            <span class="exercise-title">Error Boundaries</span>
+            <span class="exercise-desc">Class components, error handling, graceful fallbacks</span>
+          </span>
+          <span class="difficulty advanced">Advanced</span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+  
+  <!-- ============================================
+       QUICK REFERENCE
+       ============================================
+       Handy links to React docs and tools.
+  -->
+  <div class="section">
+    <h2>📚 Quick Reference</h2>
+    <ul style="padding-left: 20px;">
+      <li><a href="https://react.dev" target="_blank" rel="noopener noreferrer">React Official Docs</a> - Official documentation</li>
+      <li><a href="https://react.dev/learn" target="_blank" rel="noopener noreferrer">Learn React</a> - Interactive tutorials</li>
+      <li><a href="https://react.dev/reference" target="_blank" rel="noopener noreferrer">API Reference</a> - All hooks and APIs</li>
+      <li><a href="https://codesandbox.io" target="_blank" rel="noopener noreferrer">CodeSandbox</a> - Online React playground</li>
+    </ul>
+  </div>
+  
+  <footer>
+    <p>React Exercises - Built for learning</p>
+    <p>Each exercise includes detailed comments to guide your understanding</p>
+  </footer>
+</body>
+</html>

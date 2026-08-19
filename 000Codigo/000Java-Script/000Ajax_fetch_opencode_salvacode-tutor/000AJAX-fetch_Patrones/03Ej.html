@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 03: Retry con Backoff</title>
+</head>
+<body>
+    <h1>Patrones Avanzados y Optimización</h1>
+
+    <section>
+        <h2>Exercise 03: Retry Automático con Backoff Exponencial</h2>
+        <p>Reintenta peticiones fallidas con delay creciente: 1s, 2s, 4s...</p>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: fetchRetry()</h3>
+        <p>Función que reintente hasta maxRetries veces con backoff exponencial.</p>
+
+        <h3>Task 2: Log de reintentos</h3>
+        <p>Logear en consola: "Reintento 1/3 después de 1s..."</p>
+
+        <h3>Task 3: Error final</h3>
+        <p>Si todos los reintentos fallan, lanzar error con historial.</p>
+
+        <h3>Task 4: Mostrar en DOM</h3>
+        <p>Mostrar en el DOM: intentos realizados y resultado final.</p>
+
+        <button id="retryBtn" style="padding:8px 16px; margin-top:10px;">Probar fetchRetry</button>
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="03Ej.js"></script>
+</body>
+</html>

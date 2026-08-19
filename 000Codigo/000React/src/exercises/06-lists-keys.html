@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 06: Lists & Keys</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    .simple-list ul { list-style: disc; padding-left: 20px; }
+    .simple-list li { margin: 5px 0; }
+    
+    .list-with-index ol { padding-left: 20px; }
+    .list-with-index li { margin: 5px 0; }
+    
+    .filterable-list input {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .filterable-list select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .filterable-list ul { list-style: none; padding: 0; }
+    .filterable-list li {
+      padding: 8px;
+      margin: 5px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    .filterable-list .done { text-decoration: line-through; color: #999; }
+    
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .product-card {
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .product-card .emoji { font-size: 48px; }
+    .product-card .name { font-weight: bold; margin: 10px 0; }
+    .product-card .price { color: #28a745; }
+    
+    .nested-lists .category {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    .nested-lists h5 { margin: 0 0 5px 0; }
+    .nested-lists ul { margin: 0; padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 6.1: Simple List
+    // ============================================
+    // Demonstrates: .map() to render arrays, unique keys
+    
+    function SimpleList() {
+      const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+    
+      return (
+        <div className="simple-list">
+          <h4>Fruit List</h4>
+          <ul>
+            {/* .map() transforms each array element into JSX */}
+            {/* Each element MUST have a unique 'key' prop */}
+            {fruits.map((fruit, index) => (
+              <li key={index}>{fruit}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 6.2: List with Index
+    // ============================================
+    // Demonstrates: Using index in .map(), numbered lists
+    
+    function ListWithIndex() {
+      const colors = ['Red', 'Green', 'Blue', 'Yellow'];
+    
+      return (
+        <div className="list-with-index">
+          <h4>Numbered Colors</h4>
+          <ol>
+            {colors.map((color, index) => (
+              <li key={index}>
+                {color} (position {index + 1})
+              </li>
+            ))}
+          </ol>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 6.3: Filterable List
+    // ============================================
+    // Demonstrates: Filtering before rendering, search functionality
+    
+    function FilterableList() {
+      const [searchTerm, setSearchTerm] = React.useState('');
+      const [filterType, setFilterType] = React.useState('all');
+    
+      const todos = [
+        { id: 1, text: 'Learn React', category: 'study', done: false },
+        { id: 2, text: 'Build project', category: 'work', done: true },
+        { id: 3, text: 'Exercise', category: 'health', done: false },
+        { id: 4, text: 'Read book', category: 'study', done: true },
+        { id: 5, text: 'Cook dinner', category: 'personal', done: false }
+      ];
+    
+      // Filter todos based on search term and category
+      const filteredTodos = todos.filter(todo => {
+        const matchesSearch = todo.text.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = filterType === 'all' || todo.category === filterType;
+        return matchesSearch && matchesCategory;
+      });
+    
+      return (
+        <div className="filterable-list">
+          <input
+            type="text"
+            placeholder="Search todos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+            <option value="all">All Categories</option>
+            <option value="study">Study</option>
+            <option value="work">Work</option>
+            <option value="health">Health</option>
+            <option value="personal">Personal</option>
+          </select>
+          
+          <p>Showing {filteredTodos.length} of {todos.length} items</p>
+          
+          <ul>
+            {filteredTodos.map(todo => (
+              <li key={todo.id} className={todo.done ? 'done' : ''}>
+                {todo.done ? '✓' : '○'} {todo.text}
+                <span> [{todo.category}]</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 6.4: Grid Layout
+    // ============================================
+    // Demonstrates: Rendering objects in a grid
+    
+    function GridLayout() {
+      const products = [
+        { id: 1, name: 'Laptop', price: 999, image: '💻' },
+        { id: 2, name: 'Phone', price: 699, image: '📱' },
+        { id: 3, name: 'Tablet', price: 499, image: '📱' },
+        { id: 4, name: 'Watch', price: 299, image: '⌚' },
+        { id: 5, name: 'Headphones', price: 199, image: '🎧' },
+        { id: 6, name: 'Camera', price: 899, image: '📷' }
+      ];
+    
+      return (
+        <div className="grid-layout">
+          <h4>Product Grid</h4>
+          <div className="product-grid">
+            {products.map(product => (
+              <div key={product.id} className="product-card">
+                <div className="emoji">{product.image}</div>
+                <div className="name">{product.name}</div>
+                <div className="price">${product.price}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 6.5: Nested Lists
+    // ============================================
+    // Demonstrates: Nested .map() calls, nested keys
+    
+    function NestedLists() {
+      const categories = [
+        {
+          id: 1,
+          name: 'Electronics',
+          items: ['Laptop', 'Phone', 'Tablet']
+        },
+        {
+          id: 2,
+          name: 'Clothing',
+          items: ['Shirt', 'Pants', 'Jacket']
+        },
+        {
+          id: 3,
+          name: 'Books',
+          items: ['Fiction', 'Non-Fiction', 'Technical']
+        }
+      ];
+    
+      return (
+        <div className="nested-lists">
+          <h4>Categories</h4>
+          {categories.map(category => (
+            <div key={category.id} className="category">
+              <h5>{category.name}</h5>
+              <ul>
+                {category.items.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    
+    function ListsAndKeys() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 06: Lists & Keys</h2>
+          <section>
+            <h3>6.1 Simple List</h3>
+            <SimpleList />
+          </section>
+          <section>
+            <h3>6.2 List with Index</h3>
+            <ListWithIndex />
+          </section>
+          <section>
+            <h3>6.3 Filterable List</h3>
+            <FilterableList />
+          </section>
+          <section>
+            <h3>6.4 Grid Layout</h3>
+            <GridLayout />
+          </section>
+          <section>
+            <h3>6.5 Nested Lists</h3>
+            <NestedLists />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ListsAndKeys />);
+  </script>
+</body>
+</html>

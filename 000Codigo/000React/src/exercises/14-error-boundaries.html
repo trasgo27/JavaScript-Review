@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 14: Error Boundaries</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007acc;
+      color: white;
+    }
+    
+    .error-boundary-fallback {
+      padding: 20px;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .error-boundary-fallback h3 { color: #721c24; }
+    .error-boundary-fallback button { background: #dc3545; }
+    
+    .buggy-counter, .buggy-profile, .working-component {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .buggy-counter { background: #fff3cd; }
+    .buggy-profile { background: #cce5ff; }
+    .working-component { background: #d4edda; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // ERROR BOUNDARY COMPONENT
+    // ============================================
+    // Error Boundaries MUST be class components
+    // They catch JavaScript errors in child components
+    
+    class ErrorBoundary extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false, error: null };
+      }
+    
+      // Called when a child component throws an error
+      static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+      }
+    
+      // Log error to console (or reporting service)
+      componentDidCatch(error, errorInfo) {
+        console.error('Error caught by boundary:', error, errorInfo);
+      }
+    
+      // Reset error state
+      resetError = () => {
+        this.setState({ hasError: false, error: null });
+      };
+    
+      render() {
+        if (this.state.hasError) {
+          return (
+            <div className="error-boundary-fallback">
+              <h3>Something went wrong!</h3>
+              <p>{this.state.error?.message}</p>
+              <button onClick={this.resetError}>Try Again</button>
+            </div>
+          );
+        }
+        return this.props.children;
+      }
+    }
+    
+    // ============================================
+    // COMPONENTS THAT MIGHT ERROR
+    // ============================================
+    
+    // This counter crashes when count reaches 3
+    function BuggyCounter() {
+      const [count, setCount] = React.useState(0);
+    
+      if (count === 3) {
+        throw new Error('Counter crashed at 3!');
+      }
+    
+      return (
+        <div className="buggy-counter">
+          <h4>Counter: {count}</h4>
+          <button onClick={() => setCount(c => c + 1)}>Increment</button>
+        </div>
+      );
+    }
+    
+    // This profile crashes on button click
+    function BuggyProfile() {
+      const [shouldError, setShouldError] = React.useState(false);
+    
+      if (shouldError) {
+        throw new Error('Profile component error!');
+      }
+    
+      return (
+        <div className="buggy-profile">
+          <h4>Profile Component</h4>
+          <button onClick={() => setShouldError(true)}>Trigger Error</button>
+        </div>
+      );
+    }
+    
+    // This component works fine
+    function WorkingComponent() {
+      return (
+        <div className="working-component">
+          <h4>This component works fine!</h4>
+          <p>No errors here.</p>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // MAIN COMPONENT
+    // ============================================
+    function ErrorBoundaries() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 14: Error Boundaries</h2>
+          
+          <section>
+            <h3>14.1 Isolated Error Handling</h3>
+            <p>Each component is wrapped in its own ErrorBoundary. One crash doesn't affect others!</p>
+            
+            <ErrorBoundary>
+              <BuggyCounter />
+            </ErrorBoundary>
+            
+            <ErrorBoundary>
+              <BuggyProfile />
+            </ErrorBoundary>
+            
+            <ErrorBoundary>
+              <WorkingComponent />
+            </ErrorBoundary>
+          </section>
+    
+          <section>
+            <h3>14.2 Nested Error Boundaries</h3>
+            <p>Error boundaries can be nested for finer control!</p>
+            
+            <ErrorBoundary>
+              <div style={{padding: '10px', border: '1px dashed #ccc', borderRadius: '4px'}}>
+                <h4>Parent Container</h4>
+                <ErrorBoundary>
+                  <BuggyCounter />
+                </ErrorBoundary>
+                <ErrorBoundary>
+                  <BuggyProfile />
+                </ErrorBoundary>
+              </div>
+            </ErrorBoundary>
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ErrorBoundaries />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>10 · Pipes | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>10 · Pipes <span class="difficulty medium">Avanzado</span></h1>
+  <p>Los <strong>pipes</strong> transforman datos en el template. Angular incluye muchos built-in y puedes crear los tuyos.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Usa pipes built-in: uppercase, lowercase, date, currency.</p>
+    <pre><code>nombre = <span class="string">'ana garcía'</span>;
+fecha = <span class="keyword">new</span> Date();
+precio = <span class="keyword">1234.56</span>;
+
+<span class="comment">// Template:</span>
+<span class="comment">// {{ nombre | uppercase }}          → ANA GARCÍA</span>
+<span class="comment">// {{ fecha | date:'dd/MM/yyyy' }}   → 11/07/2026</span>
+<span class="comment">// {{ precio | currency:'EUR' }}     → €1,234.56</span>
+<span class="comment">// {{ precio | number:'1.2-2' }}     → 1,234.56</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Encadena pipes.</p>
+    <pre><code><span class="comment">// Template:</span>
+<span class="comment">// {{ nombre | lowercase | slice:0:5 }} → "ana g"</span>
+<span class="comment">// {{ precio | currency:'EUR' | uppercase }} → "€1,234.56"</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Crea un pipe personalizado.</p>
+    <pre><code><span class="keyword">import</span> { Pipe, PipeTransform } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">@Pipe</span>({ name: <span class="string">'truncate'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> TruncatePipe <span class="keyword">implements</span> PipeTransform {
+  transform(value: string, limit = <span class="keyword">20</span>): string {
+    <span class="keyword">return</span> value.length &gt; limit ? value.substring(<span class="keyword">0</span>, limit) + <span class="string">'...'</span> : value;
+  }
+}
+<span class="comment">// Uso: {{ textoLargo | truncate:30 }}</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Pipe con parámetros.</p>
+    <pre><code><span class="keyword">@Pipe</span>({ name: <span class="string">'filtro'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> FiltroPipe <span class="keyword">implements</span> PipeTransform {
+  transform(items: any[], campo: string, valor: any): any[] {
+    <span class="keyword">return</span> items.filter(i => i[campo] === valor);
+  }
+}
+<span class="comment">// Uso: {{ usuarios | filtro:'rol':'admin' }}</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Pipe puro vs impuro (con <code>pure: false</code>).</p>
+    <pre><code><span class="keyword">@Pipe</span>({ name: <span class="string">'ordenar'</span>, standalone: <span class="keyword">true</span>, pure: <span class="keyword">false</span> })
+<span class="keyword">export class</span> OrdenarPipe <span class="keyword">implements</span> PipeTransform {
+  transform(items: any[], campo: string, asc = <span class="keyword">true</span>): any[] {
+    <span class="keyword">return</span> [...items].sort((a, b) => {
+      <span class="keyword">if</span> (a[campo] &lt; b[campo]) <span class="keyword">return</span> asc ? -<span class="keyword">1</span> : <span class="keyword">1</span>;
+      <span class="keyword">if</span> (a[campo] &gt; b[campo]) <span class="keyword">return</span> asc ? <span class="keyword">1</span> : -<span class="keyword">1</span>;
+      <span class="keyword">return</span> <span class="keyword">0</span>;
+    });
+  }
+}
+<span class="comment">// Uso: {{ productos | ordenar:'precio':false }}</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Hazlo <code>pure: true</code> y explica la diferencia de rendimiento.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="09-formularios.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="11-directivas-personalizadas.html">Siguiente →</a>
+  </div>
+</body>
+</html>

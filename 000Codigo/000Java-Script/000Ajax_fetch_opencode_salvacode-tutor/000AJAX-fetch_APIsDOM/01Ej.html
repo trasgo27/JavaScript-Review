@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1 — API de Pokémon</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        section {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        section h2 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        section p, section li {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        section ol { padding-left: 1.2rem; }
+        section li { margin-bottom: 0.3rem; }
+        .search-area {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+        .search-area input {
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--text-main);
+            font-size: 1rem;
+            width: 250px;
+        }
+        .search-area input::placeholder { color: var(--text-muted); }
+        .search-area button {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-area button:hover { background: #7dd3fc; }
+        .pokemon-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .pokemon-card img {
+            width: 180px;
+            height: 180px;
+            image-rendering: pixelated;
+        }
+        .pokemon-card h3 {
+            font-size: 1.6rem;
+            text-transform: capitalize;
+            color: var(--accent-color);
+            margin: 0.5rem 0 1rem;
+        }
+        .stats-container { width: 100%; max-width: 350px; }
+        .stat-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            width: 80px;
+            text-transform: capitalize;
+        }
+        .stat-bar-bg {
+            flex: 1;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin: 0 0.75rem;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            background: var(--accent-color);
+        }
+        .stat-value {
+            color: var(--text-main);
+            font-size: 0.85rem;
+            width: 35px;
+            text-align: right;
+        }
+        #pokemon-display { text-align: center; }
+        #loading {
+            color: var(--text-muted);
+            font-style: italic;
+            text-align: center;
+            padding: 1rem;
+            display: none;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 1 — API de Pokémon</h1>
+
+    <section>
+        <h2>Descripción</h2>
+        <p>Conecta con la PokéAPI para buscar y mostrar información de cualquier Pokémon.</p>
+    </section>
+
+    <section>
+        <h2>Tareas</h2>
+        <ol>
+            <li>Fetch a la PokéAPI para obtener datos de Pikachu</li>
+            <li>Extraer: nombre, sprite frontal, stats (HP, Ataque, Defensa)</li>
+            <li>Crear tarjeta HTML con imagen + nombre + barras de stats</li>
+            <li>Agregar input para buscar por nombre y botón</li>
+            <li>Al hacer click, buscar Pokémon y reemplazar tarjeta</li>
+        </ol>
+    </section>
+
+    <div class="search-area">
+        <input type="text" id="search-input" placeholder="Nombre del Pokémon...">
+        <button id="search-btn">Buscar</button>
+    </div>
+
+    <div id="loading">Cargando datos del Pokémon...</div>
+    <div id="pokemon-display"></div>
+
+    <a href="index.html" class="nav-link">← Volver al índice</a>
+
+    <script src="01Ej.js"></script>
+</body>
+</html>

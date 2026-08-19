@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05 - Ciclo de Vida</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    .back { display: inline-block; color: #dd0031; text-decoration: none; margin-bottom: 24px; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 2rem; color: #dd0031; margin-bottom: 16px; }
+    .intro { background: #1a1a2e; border-left: 4px solid #dd0031; padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+    .intro p { color: #ccc; margin-bottom: 8px; }
+    .concepts { margin-bottom: 36px; }
+    .concepts h2 { font-size: 1.2rem; color: #dd0031; margin-bottom: 12px; }
+    .concepts ul { padding-left: 24px; }
+    .concepts li { color: #bbb; margin-bottom: 4px; }
+    .exercise { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+    .exercise:hover { border-color: #dd003144; }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .ex-title { font-size: 1.15rem; color: #e0e0e0; }
+    .ex-num { color: #dd0031; font-weight: bold; margin-right: 6px; }
+    .ex-diff { font-size: 0.8rem; color: #ffc107; background: #2a2a3e; padding: 2px 10px; border-radius: 12px; white-space: nowrap; }
+    .ex-section { margin-bottom: 10px; }
+    .ex-label { font-weight: 600; color: #dd0031; font-size: 0.9rem; margin-bottom: 4px; }
+    .ex-text { color: #ccc; font-size: 0.95rem; }
+    .ex-text ul { padding-left: 20px; margin-top: 4px; }
+    .hint { background: #16213e; border: 1px dashed #444; padding: 12px 16px; border-radius: 6px; color: #aaa; font-size: 0.9rem; margin-top: 8px; }
+    .hint::before { content: "Pista: "; color: #ffc107; font-weight: 600; }
+    footer { text-align: center; color: #555; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a3e; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="index.html">&larr; Volver al índice</a>
+
+    <h1>05 - Ciclo de Vida</h1>
+
+    <div class="intro">
+      <p><strong>Nivel:</strong> Intermedio &mdash; Módulo 5 de 8</p>
+      <p>Los hooks de ciclo de vida permiten reaccionar a los diferentes momentos del ciclo de vida de un componente Angular: creación, actualización, destrucción y más. Dominar estos hooks es clave para construir componentes robustos y eficientes.</p>
+    </div>
+
+    <div class="concepts">
+      <h2>Conceptos clave</h2>
+      <ul>
+        <li><code>constructor</code> &mdash; Inyección de dependencias antes de cualquier hook</li>
+        <li><code>ngOnInit</code> &mdash; Inicialización del componente después del primer inputs</li>
+        <li><code>ngOnChanges</code> &mdash; Reacción a cambios en las propiedades de entrada (inputs)</li>
+        <li><code>ngDoCheck</code> &mdash; Detección de cambios personalizada</li>
+        <li><code>ngAfterContentInit</code> &mdash; Contenido proyectado listo</li>
+        <li><code>ngAfterContentChecked</code> &mdash; Contenido proyectado verificado</li>
+        <li><code>ngAfterViewInit</code> &mdash; Vista del componente e hijos listos</li>
+        <li><code>ngAfterViewChecked</code> &mdash; Vista del componente verificada</li>
+        <li><code>ngOnDestroy</code> &mdash; Limpieza antes de destruir el componente</li>
+        <li><code>implements</code> &mdash; Patrón de implementación de interfaces de hooks</li>
+        <li><strong>Orden del ciclo de vida</strong> &mdash; Secuencia completa de ejecución de hooks</li>
+      </ul>
+    </div>
+
+    <!-- Ejercicio 01 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">01</span>ngOnInit: inicializar datos del componente</span>
+        <span class="ex-diff">&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Comprender cómo usar <code>ngOnInit</code> para inicializar datos de un componente una vez que Angular ha procesado los primeros valores de los inputs.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>UserProfile</code> que reciba un nombre de usuario como input y lo formatee para mostrarlo en mayúsculas. La inicialización del nombre formateado debe realizarse dentro de <code>ngOnInit</code>.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente debe implementar la interfaz <code>OnInit</code></li>
+            <li>Declara una propiedad <code>@Input() username</code> de tipo <code>string</code></li>
+            <li>Declara una propiedad <code>displayName</code> que almacene el nombre en mayúsculas</li>
+            <li>En <code>ngOnInit</code>, asigna <code>this.displayName = this.username.toUpperCase()</code></li>
+            <li>Usa <code>onPush</code> como estrategia de detección de cambios</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Recuerda importar <code>OnInit</code> desde <code>@angular/core</code> y agregar <code>implements OnInit</code> en la definición de la clase del componente.</div>
+    </div>
+
+    <!-- Ejercicio 02 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">02</span>constructor vs ngOnInit: cuándo usar cada uno</span>
+        <span class="ex-diff">&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Entender la diferencia entre el <code>constructor</code> y <code>ngOnInit</code>, y saber en qué situación utilizar cada uno.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>DataService</code> que inyecte un servicio <code>LoggerService</code> en el constructor y, en <code>ngOnInit</code>, llame a un método del servicio para registrar que el componente ha sido creado. Agrega logs en ambos métodos para observar el orden de ejecución.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea un servicio <code>LoggerService</code> con un método <code>log(message: string)</code> que use <code>console.log</code></li>
+            <li>Inyecta <code>LoggerService</code> en el <code>constructor</code> del componente</li>
+            <li>En el <code>constructor</code>, registra: <code>"Constructor ejecutado"</code></li>
+            <li>En <code>ngOnInit</code>, registra: <code>"ngOnInit ejecutado"</code></li>
+            <li>En <code>ngOnInit</code>, llama a <code>this.logger.log('Componente inicializado')</code></li>
+            <li>El componente debe implementar <code>OnInit</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El constructor se ejecuta primero, antes de que Angular procese los inputs. Es el lugar ideal para la inyección de dependencias. <code>ngOnInit</code> se ejecuta después y es ideal para la lógica de inicialización.</div>
+    </div>
+
+    <!-- Ejercicio 03 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">03</span>ngOnChanges: reaccionar a cambios de inputs</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Aprender a usar <code>ngOnChanges</code> para detectar y reaccionar a cambios en las propiedades de entrada de un componente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>PriceDisplay</code> que reciba un precio como input. Cuando el precio cambie, el componente debe calcular y almacenar el precio con IVA (21%). Utiliza <code>ngOnChanges</code> para detectar el cambio y recalcular.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente debe implementar <code>OnChanges</code></li>
+            <li>Declara <code>@Input() price: number = 0</code></li>
+            <li>Declara una propiedad <code>priceWithTax: number</code></li>
+            <li>Implementa <code>ngOnChanges(changes: SimpleChanges)</code> verificando si <code>changes['price']</code> existe</li>
+            <li>Calcula <code>priceWithTax = price * 1.21</code></li>
+            <li>Muestra en la plantilla el precio original y el precio con IVA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El objeto <code>SimpleChanges</code> tiene propiedades para cada input que cambió. Cada propiedad contiene <code>previousValue</code>, <code>currentValue</code> y <code>firstChange</code>. Puedes usar <code>changes['price']?.firstChange</code> para evitar cálculos innecesarios en la primera ejecución.</div>
+    </div>
+
+    <!-- Ejercicio 04 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">04</span>ngDoCheck: detección de cambios personalizada</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Comprender cuándo y cómo usar <code>ngDoCheck</code> para implementar una lógica de detección de cambios personalizada.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>ItemTracker</code> que reciba un objeto <code>item</code> como input. Angular no detecta cambios en propiedades internas de objetos, así que implementa <code>ngDoCheck</code> para comparar manualmente el campo <code>item.name</code> y mostrar un mensaje cuando cambie.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente debe implementar <code>DoCheck</code></li>
+            <li>Declara <code>@Input() item: { name: string; count: number }</code></li>
+            <li>Almacena el valor anterior del nombre en una propiedad <code>previousName</code></li>
+            <li>En <code>ngDoCheck</code>, compara <code>this.item.name</code> con <code>this.previousName</code></li>
+            <li>Si el nombre cambió, actualiza <code>previousName</code> y registra el cambio con un contador de cambios</li>
+            <li>Muestra en la plantilla el nombre actual, el nombre anterior y el número total de cambios</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint"><code>ngDoCheck</code> se ejecuta en cada ciclo de detección de cambios, así que evita hacer operaciones pesadas. Es útil para detectar cambios en objetos mutados por referencia que Angular no追踪a automáticamente.</div>
+    </div>
+
+    <!-- Ejercicio 05 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">05</span>ngAfterViewInit: acceder a elementos hijos después del render</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Aprender a usar <code>ngAfterViewInit</code> para interactuar con elementos del DOM o componentes hijos una vez que la vista ha sido renderizada completamente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>CanvasChart</code> que contenga un elemento <code>&lt;canvas&gt;</code> en su plantilla. En <code>ngAfterViewInit</code>, obtén la referencia al canvas y dibuja un gráfico de barras simple con datos predefinidos.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente debe implementar <code>AfterViewInit</code></li>
+            <li>Declara un <code>@ViewChild('myCanvas')</code> que referencie el elemento canvas</li>
+            <li>En <code>ngAfterViewInit</code>, accede al <code>nativeElement</code> y obtén el contexto 2D</li>
+            <li>Dibuja al menos 3 barras de diferentes alturas con colores diferentes</li>
+            <li>Muestra en la consola un mensaje indicando que la vista está lista</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Usa la referencia de template <code>#myCanvas</code> en el HTML para que <code>@ViewChild</code> pueda encontrar el elemento. Ten en cuenta que el canvas debe tener atributos <code>width</code> y <code>height</code> definidos en la plantilla.</div>
+    </div>
+
+    <!-- Ejercicio 06 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">06</span>AfterViewInit con ViewChild</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Dominar el uso de <code>@ViewChild</code> junto con <code>AfterViewInit</code> para acceder a componentes hijos y ejecutar métodos en ellos.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente hijo <code>MediaPlayer</code> con un método <code>play()</code> y <code>stop()</code>. El componente padre <code>MediaControls</code> debe usar <code>@ViewChild</code> para obtener una referencia al <code>MediaPlayer</code> y controlarlo mediante botones.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea el componente hijo <code>MediaPlayer</code> con propiedades <code>isPlaying</code> y <code>status</code></li>
+            <li>Implementa los métodos <code>play()</code> y <code>stop()</code> en <code>MediaPlayer</code> que actualicen el estado</li>
+            <li>En el padre <code>MediaControls</code>, usa <code>@ViewChild(MediaPlayer)</code> para obtener la referencia</li>
+            <li>Implementa <code>AfterViewInit</code> en el padre para verificar que la referencia está disponible</li>
+            <li>Crea botones "Reproducir" y "Detener" que llamen a los métodos del hijo a través de la referencia</li>
+            <li>Muestra el estado actual del reproductor en la plantilla del padre</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Asegúrate de que <code>@ViewChild</code> use la clase del componente como selector, no una referencia de template. La referencia al componente hijo solo está disponible después de que Angular ha inicializado la vista, por eso necesitas <code>ngAfterViewInit</code>.</div>
+    </div>
+
+    <!-- Ejercicio 07 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">07</span>ngOnDestroy: limpieza y cancelación de suscripciones</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Aprender a implementar <code>ngOnDestroy</code> para liberar recursos y prevenir memory leaks al destruir un componente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>LiveClock</code> que muestre la hora actual y se actualice cada segundo usando <code>setInterval</code>. Implementa <code>ngOnDestroy</code> para cancelar el intervalo cuando el componente se destruya.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente debe implementar <code>OnDestroy</code></li>
+            <li>Declara una propiedad <code>currentTime</code> de tipo <code>Date</code></li>
+            <li>Almacena el ID del intervalo en una propiedad <code>intervalId</code></li>
+            <li>En <code>ngAfterViewInit</code> (o <code>ngOnInit</code>), inicia un <code>setInterval</code> que actualice <code>currentTime</code> cada segundo</li>
+            <li>En <code>ngOnDestroy</code>, llama a <code>clearInterval(this.intervalId)</code></li>
+            <li>Registra en consola un mensaje cuando el componente se destruya</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Si no cancelas el intervalo, el componente seguirá ejecutándose en memoria aunque ya no sea visible. Esto es un memory leak clásico. Usa una propiedad de clase para almacenar el ID del intervalo.</div>
+    </div>
+
+    <!-- Ejercicio 08 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">08</span>OnInit + OnDestroy: patrón de gestión de suscripciones</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Implementar el patrón idiomático de Angular para suscribirse a Observables en <code>ngOnInit</code> y cancelar la suscripción en <code>ngOnDestroy</code>.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>NotificationService</code> que exponga un <code>BehaviorSubject&lt;string&gt;</code>. El componente <code>NotificationPanel</code> debe suscribirse a las notificaciones en <code>ngOnInit</code> y mostrarlas en una lista. La suscripción debe cancelarse en <code>ngOnDestroy</code>.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea el servicio <code>NotificationService</code> con un <code>BehaviorSubject&lt;string&gt;</code> y un método <code>send(message: string)</code></li>
+            <li>El componente debe implementar <code>OnInit</code> e <code>OnDestroy</code></li>
+            <li>Declara una propiedad <code>private destroy$ = new Subject&lt;void&gt;()</code></li>
+            <li>En <code>ngOnInit</code>, suscríbete usando <code>this.notificationService.getNotifications().pipe(takeUntil(this.destroy$)).subscribe(...)</code></li>
+            <li>Almacena las notificaciones en un array <code>messages: string[]</code></li>
+            <li>En <code>ngOnDestroy</code>, emite un valor en <code>destroy$</code> y llama a <code>destroy$.complete()</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El patrón con <code>Subject</code> y <code>takeUntil</code> es más limpio que usar <code>Subscription.unsubscribe()</code> porque funciona con múltiples suscripciones simultáneas. Recuerda inyectar el servicio usando <code>inject()</code> o el constructor.</div>
+    </div>
+
+    <!-- Ejercicio 09 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">09</span>ngOnChanges + ngOnInit: flujo de datos padre-hijo</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Comprender la secuencia de <code>ngOnChanges</code> y <code>ngOnInit</code> en un componente hijo, y cómo manejar el flujo de datos desde un componente padre.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente padre <code>TaskBoard</code> que gestione una lista de tareas y pase una tarea seleccionada a un componente hijo <code>TaskDetail</code>. El hijo debe usar <code>ngOnChanges</code> para registrar cada cambio de tarea y <code>ngOnInit</code> para la inicialización.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea un modelo <code>Task</code> con propiedades <code>id</code>, <code>title</code>, <code>description</code> y <code>completed</code></li>
+            <li>El padre <code>TaskBoard</code> mantiene un array de tareas y una tarea seleccionada</li>
+            <li>El padre tiene botones para seleccionar diferentes tareas y pasa la tarea seleccionada al hijo con <code>[task]="selectedTask"</code></li>
+            <li>El hijo <code>TaskDetail</code> implementa <code>OnChanges</code> e <code>OnInit</code></li>
+            <li>En <code>ngOnChanges</code>, el hijo almacena un historial de tareas recibidas</li>
+            <li>En <code>ngOnInit</code>, el hijo muestra un mensaje de inicialización con el título de la tarea actual</li>
+            <li>Muestra en la plantilla del hijo el detalle de la tarea y un log de las tareas anteriores</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint"><code>ngOnChanges</code> se ejecuta antes que <code>ngOnInit</code> solo en la primera carga. Después, <code>ngOnChanges</code> se ejecuta en cada cambio del input mientras que <code>ngOnInit</code> solo se ejecuta una vez. Esto es fundamental para entender el flujo de datos.</div>
+    </div>
+
+    <!-- Ejercicio 10 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">10</span>AfterContentInit: trabajar con contenido proyectado</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Aprender a usar <code>ngAfterContentInit</code> para acceder al contenido proyectado con <code>ng-content</code> una vez que ha sido inicializado.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente contenedor <code>CollapsiblePanel</code> que proyecte contenido. Usa <code>@ContentChild</code> para obtener una referencia al contenido proyectado y <code>ngAfterContentInit</code> para medir o inspeccionar dicho contenido.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El componente <code>CollapsiblePanel</code> debe tener un encabezado con título y un botón para colapsar/expandir</li>
+            <li>Usa <code>&lt;ng-content&gt;</code> para proyectar contenido en el cuerpo del panel</li>
+            <li>Implementa <code>AfterContentInit</code></li>
+            <li>Declara <code>@ContentChild('panelContent') contentEl: ElementRef</code> para obtener una referencia al contenido</li>
+            <li>En <code>ngAfterContentInit</code>, verifica que <code>contentEl</code> exista y muestra en consola la cantidad de nodos hijos del contenido</li>
+            <li>Crea un componente padre que use <code>CollapsiblePanel</code> y proyecte un párrafo con una referencia de template <code>#panelContent</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El contenido proyectado con <code>ng-content</code> no está disponible en <code>ngAfterViewInit</code> porque se procesa después de la vista del componente pero antes de la vista de los hijos. Por eso existe <code>ngAfterContentInit</code>.</div>
+    </div>
+
+    <!-- Ejercicio 11 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">11</span>Orden del ciclo de vida: secuencia completa</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Visualizar y comprender el orden completo de ejecución de todos los hooks de ciclo de vida en Angular.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente padre <code>LifecycleDemo</code> y un hijo <code>LifecycleChild</code>. El padre tiene un botón para incrementar un contador (trigger de detección de cambios). Ambos componentes deben implementar TODOS los hooks de ciclo de vida y registrar cada ejecución con un timestamp en un array compartido.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea un servicio <code>LifecycleLogService</code> con un array <code>logs: { hook: string; component: string; time: string }[]</code> y un método <code>add(hook, component)</code></li>
+            <li>Ambos componentes implementan: <code>OnChanges</code>, <code>OnInit</code>, <code>DoCheck</code>, <code>AfterContentInit</code>, <code>AfterContentChecked</code>, <code>AfterViewInit</code>, <code>AfterViewChecked</code>, <code>OnDestroy</code></li>
+            <li>Cada hook en ambos componentes llama a <code>logService.add('nombreDelHook', 'Padre' o 'Hijo')</code></li>
+            <li>El componente padre muestra en tiempo real la lista de logs ordenados cronológicamente</li>
+            <li>Un botón en el padre incrementa un contador que se pasa como input al hijo para triggerar <code>ngOnChanges</code></li>
+            <li>Implementa un botón "Limpiar logs" y un botón "Destruir hijo" (usando <code>*ngIf</code>) para observar los hooks de destrucción</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El orden esperado en la creación es: constructor → ngOnChanges → ngOnInit → ngDoCheck → ngAfterContentInit → ngAfterContentChecked → ngAfterViewInit → ngAfterViewChecked. En actualizaciones: ngOnChanges → ngDoCheck → ngAfterContentChecked → ngAfterViewChecked.</div>
+    </div>
+
+    <!-- Ejercicio 12 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">12</span>Patrón práctico: componente con auto-refresh y limpieza de temporizadores</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Construir un componente completo que combine múltiples hooks de ciclo de vida en un patrón práctico y realista: un panel de métricas con auto-refresh.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>MetricsDashboard</code> que simule un panel de métricas en tiempo real. El componente debe cargar datos iniciales, configurar un auto-refresh cada N segundos, limpiar suscripciones al destruirse, reaccionar a cambios del intervalo de refresco y acceder a un elemento hijo después de la vista.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crea un servicio <code>MetricsService</code> que exponga un método <code>getMetrics()</code> retornando un <code>Observable</code> con datos simulados (CPU, RAM, disco) y un método <code>setInterval(ms)</code> que controle la frecuencia de emisión</li>
+            <li>Implementa <code>OnChanges</code>, <code>OnInit</code>, <code>AfterViewInit</code>, <code>OnDestroy</code> en el componente</li>
+            <li>Declara un input <code>@Input() refreshInterval: number = 5000</code> para controlar el intervalo de refresco</li>
+            <li>En <code>ngOnInit</code>, suscríbete al observable de métricas usando el patrón <code>takeUntil(destroy$)</code></li>
+            <li>En <code>ngOnChanges</code>, cuando cambie <code>refreshInterval</code>, actualiza el intervalo en el servicio</li>
+            <li>Usa <code>@ViewChild</code> con una referencia a un elemento de la plantilla (por ejemplo, un indicador de estado) y en <code>ngAfterViewInit</code> accede a él para cambiar su estilo</li>
+            <li>En <code>ngOnDestroy</code>, completa el <code>Subject destroy$</code> y registra un mensaje de limpieza</li>
+            <li>La plantilla debe mostrar: un indicador de estado visual, las 3 métricas en tarjetas, el intervalo de refresco actual y un timestamp de la última actualización</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Este ejercicio integra todo lo aprendido. Piensa en la separación de responsabilidades: el servicio maneja la fuente de datos, el componente gestiona el ciclo de vida, y los hooks coordinan la creación, actualización y destrucción de recursos. El patrón <code>Subject + takeUntil</code> es esencial para evitar memory leaks.</div>
+    </div>
+
+    <footer>
+      <a class="back" href="index.html">&larr; Volver al índice</a>
+    </footer>
+  </div>
+</body>
+</html>

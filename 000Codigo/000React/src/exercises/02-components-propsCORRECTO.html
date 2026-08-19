@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 02: Components & Props</title>
+
+  <!-- ============================================
+       REACT CDN IMPORTS
+       ============================================
+       - react: Core React library
+       - react-dom: Browser renderer
+       - babel-standalone: Transpiles JSX in browser
+  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .exercise {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+
+    h2 {
+      color: #007acc;
+    }
+
+    h3 {
+      color: #555;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    /* User Card Styles */
+    .user-card {
+      display: inline-block;
+      width: 200px;
+      padding: 15px;
+      margin: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .user-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    /* Button Styles */
+    .btn {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #007acc;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-small {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 18px;
+    }
+
+    /* Card Styles */
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 300px;
+    }
+
+    .card-header {
+      background: #007acc;
+      color: white;
+      padding: 10px 15px;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    /* Stat Styles */
+    .stat {
+      display: inline-block;
+      padding: 15px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .trend-positive {
+      color: green;
+    }
+
+    .trend-negative {
+      color: red;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 200px;
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .menu-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      background: #e0e0e0;
+    }
+
+    .menu-item.active {
+      background: #007acc;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- ============================================
+       COMPONENTS & PROPS EXERCISE
+       ============================================
+       KEY CONCEPTS:
+       - Components are reusable UI pieces (functions that return JSX)
+       - Props are like function parameters - they pass data to components
+       - Props are READ-ONLY (components should never modify their props)
+       - Destructuring props makes code cleaner
+       - The 'children' prop is special - it contains nested content
+  -->
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 2.1: Creating Components
+    // ============================================
+    // Components accept props and return JSX.
+    // Notice how we destructure props in the function parameters!
+
+    function UserCard({ name, email, avatar }) {
+      return (
+        <div className="user-card">
+          <img src={avatar} alt={`${name}'s avatar`} />
+          <h3>{name}</h3>
+          <p>{email}</p>
+        </div>
+      );
+    }
+
+    // ============================================
+    // EXERCISE 2.2: Props with Default Values
+    // ============================================
+    // Default values are set in the destructuring: variant = 'primary'
+    // If no prop is passed, it uses the default!
+
+    function Button({ variant = 'primary', size = 'medium', onClick, children }) {
+      const className = `btn btn-${variant} btn-${size}`;
+      return (
+        <button className={className} onClick={onClick}>
+          {children}
+        </button>
+      );
+    }
+
+    // ============================================
+    // EXERCISE 2.3: Passing Children
+    // ============================================
+    // The 'children' prop contains whatever is between <Card> and </Card>
+    // This is powerful for creating wrapper components!
+
+    function Card({ title, children }) {
+      return (
+        <div className="card">
+          <div className="card-header">
+            <h3 style={{ margin: 0 }}>{title}</h3>
+          </div>
+          <div className="card-body">
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================
+    // EXERCISE 2.4: Props Validation
+    // ============================================
+    // Handle different prop types with conditional logic
+
+    function Stat({ label, value, trend }) {
+      const trendClass = trend === 'positive' ? 'trend-positive' :
+        trend === 'negative' ? 'trend-negative' : '';
+      const arrow = trend === 'positive' ? '↑' :
+        trend === 'negative' ? '↓' : '';
+
+      return (
+        <div className="stat">
+          <div className="stat-label">{label}</div>
+          <div className="stat-value">
+            {value} <span className={trendClass}>{arrow}</span>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================
+    // EXERCISE 2.5: Composition Pattern
+    // ============================================
+    // Compose components together like LEGO blocks!
+
+    function MenuItem({ icon, text, isActive = false }) {
+      return (
+        <div className={`menu-item ${isActive ? 'active' : ''}`}>
+          <span>{icon}</span> {text}
+        </div>
+      );
+    }
+
+    function Sidebar({ children }) {
+      return (
+        <nav className="sidebar">
+          {children}
+        </nav>
+      );
+    }
+
+    // ============================================
+    // MAIN COMPONENT
+    // ============================================
+    // This demonstrates all the concepts above!
+
+    function ComponentsAndProps() {
+      // Sample data for UserCards
+      const users = [
+        { name: "Alice Johnson", email: "alice@example.com", avatar: "https://i.pravatar.cc/150?img=1" },
+        { name: "Bob Smith", email: "bob@example.com", avatar: "https://i.pravatar.cc/150?img=2" },
+        { name: "Carol White", email: "carol@example.com", avatar: "https://i.pravatar.cc/150?img=3" }
+      ];
+
+      return (
+        <div className="exercise">
+          <h2>Exercise 02: Components & Props</h2>
+
+          <section>
+            <h3>2.1 User Cards</h3>
+            {/* Using .map() to render multiple components from an array */}
+            {/* Each component needs a unique 'key' prop for React's reconciliation */}
+            {users.map((user, index) => (
+              <UserCard
+                key={index}
+                name={user.name}
+                email={user.email}
+                avatar={user.avatar}
+              />
+            ))}
+          </section>
+
+          <section>
+            <h3>2.2 Button Variants</h3>
+            {/* Demonstrating default props and prop variations */}
+            <Button>Primary Button</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button size="large">Large Button</Button>
+            <Button variant="danger" size="small">Delete</Button>
+          </section>
+
+          <section>
+            <h3>2.3 Card Composition</h3>
+            {/* The Card component wraps its children */}
+            {/* Anything between <Card> tags becomes 'children' */}
+            <Card title="Welcome">
+              <p>This is the card body content.</p>
+              <button>Click me</button>
+            </Card>
+          </section>
+
+          <section>
+            <h3>2.4 Statistics</h3>
+            {/* Different trends show different indicators */}
+            <Stat label="Revenue" value="$12,345" trend="positive" />
+            <Stat label="Users" value="1,234" trend="negative" />
+            <Stat label="Orders" value="567" />
+          </section>
+
+          <section>
+            <h3>2.5 Sidebar Composition</h3>
+            {/* Composing Sidebar with MenuItems */}
+            <Sidebar>
+              <MenuItem icon="🏠" text="Home" isActive={true} />
+              <MenuItem icon="📊" text="Dashboard" />
+              <MenuItem icon="⚙️" text="Settings" />
+            </Sidebar>
+          </section>
+        </div>
+      );
+    }
+
+    // ============================================
+    // MOUNT THE APP
+    // ============================================
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ComponentsAndProps />);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+El prompt que tienes es una **muy buena base**: es claro, acotado y tiene un objetivo definido. Sin embargo, para sacarle el máximo provecho a un "subagente de código" o tutor de IA, podemos añadirle **contexto, interactividad y profundidad teórica** (como el Bucle de Eventos o *Event Loop*).
+
+Aquí tienes 3 versiones mejoradas del prompt, dependiendo de **cómo** prefieras que te ponga a prueba. Elige la que mejor se adapte a tu estilo de aprendizaje:
+
+---
+
+
+### Opción 1: El Tutor Interactivo (Recomendada para aprender de verdad)
+*Esta versión evita que la IA te dé las respuestas de golpe. Te hará una pregunta, esperará tu respuesta y luego te corregirá explicando el "porqué".*
+
+> **Copia y pega esto:**
+> "Actúa como mi tutor experto en JavaScript. Acabo de practicar con código asíncrono (`fetch`, `async/await`). Quiero que me pongas a prueba con teoría, pero de forma **interactiva**.
+> 
+> Sigue estas reglas estrictamente:
+> 1. **Hazme solo 1 pregunta a la vez.** No me des la siguiente hasta que yo haya respondido la actual.
+> 2. **Temas:** Enfócate en el Bucle de Eventos (Event Loop), la diferencia entre tareas síncronas y asíncronas, y cómo se resuelven las Promesas en la cola de microtareas.
+> 3. **Formato:** Puede ser un pequeño fragmento de código con una pregunta sobre su salida (output), o una pregunta conceptual de opción múltiple.
+> 4. **Feedback:** Cuando yo responda, dime si es correcto o no. Si me equivoco, explícame el *porqué* teórico de forma clara y sin rodeos, y luego lanza la siguiente pregunta.
+> 5. **Total:** Haz exactamente 3 preguntas en toda la sesión.
+> 
+> Empieza ahora con la primera pregunta."
+
+---
+
+### Opción 2: Autoevaluación con Contexto de TU Código (La más personalizada)
+*Esta versión es genial porque le pasas el código que acabas de escribir y la IA genera preguntas basadas específicamente en tus posibles dudas sobre ese código.*
+
+> **Copia y pega esto (y añade tu código al final):**
+> "Actúa como mi tutor de programación. Quiero un cuestionario teórico rápido basado **específicamente en el código que te adjunto abajo**.
+> 
+> Condiciones:
+> 1. **Cantidad:** Exactamente 3 preguntas.
+> 2. **Enfoque:** Detecta los puntos teóricos clave de este código (ej: ¿por qué se usa `await` dos veces?, ¿qué pasaría si quitara un `await`?, ¿cómo afecta esto al orden de ejecución?).
+> 3. **Formato:** Preguntas de desarrollo corto o de opción múltiple.
+> 4. **Respuestas:** Coloca todas las respuestas y sus explicaciones teóricas **al final del todo**, dentro de un bloque desplegable o claramente separado con el título '--- SOLUCIONARIO (No mires hasta responder) ---', para que pueda autoevaluarme sin hacer trampas.
+> 5. **Estilo:** Directo, técnico y sin relleno.
+> 
+> Aquí está mi código:
+> ```javascript
+> [PEGA AQUÍ TU CÓDIGO DEL EJERCICIO 02]
+> ```"
+
+---
+
+### Opción 3: El Simulador de Entrevista Técnica (Para subir de nivel)
+*Si ya dominas lo básico y quieres saber cómo se pregunta esto en un entorno profesional o de entrevista de trabajo.*
+
+> **Copia y pega esto:**
+> "Actúa como un entrevistador técnico senior de Frontend. Quiero que me evalúes sobre JavaScript asíncrono.
+> 
+> 1. Hazme 3 preguntas de nivel intermedio/avanzado sobre `async/await`, manejo de errores en promesas y el orden de ejecución (Call Stack, Microtask Queue, Macrotask Queue).
+> 2. Incluye al menos una pregunta que me pida predecir el resultado (output) de un pequeño bloque de código trampa.
+> 3. **No me des las respuestas inmediatamente.** Lanza las 3 preguntas juntas y espera a que yo te dé mis 3 respuestas.
+> 4. Una vez yo responda, evalúa cada una con una calificación de 1 a 10 y dame una explicación teórica concisa de la respuesta correcta.
+> 
+> Empieza lanzando las 3 preguntas."
+
+---
+
+### 💡 ¿Por qué estas mejoras funcionan mejor? (La teoría detrás del prompt)
+
+1. **Inyección de Contexto:** La IA no adivina qué acabas de hacer. Al decirle *"basado en el código que adjunto"* o *"acabo de practicar fetch"*, activa los pesos neuronales correctos para darte ejemplos relevantes, no genéricos.
+2. **Control del Flujo (Interactividad):** En tu prompt original, si la IA te daba las 3 preguntas *y* las respuestas juntas, tu cerebro tiende a hacer "trampa" o a leer la respuesta antes de pensar. Obligar a la IA a **esperar tu respuesta** (Opción 1 y 3) simula un esfuerzo de recuperación activa (*active recall*), que es la forma más efectiva de aprender.
+3. **Profundidad Teórica Real:** Mencionar explícitamente términos como **"Event Loop"**, **"Microtareas"** o **"Call Stack"** obliga a la IA a no quedarse en una explicación superficial de "async espera", sino a explicarte la mecánica interna real del motor de JavaScript (V8).
+4. **Manejo de Errores:** Pedirle que explique el *"porqué"* si te equivocas convierte el error en una oportunidad de aprendizaje, que es la función principal de un tutor.
+
+**Mi recomendación:** Usa la **Opción 1** para tu día a día. Es la que mejor simula a un profesor sentado a tu lado.
+
+Aquí tienes la actualización del prompt del sistema para **Big Pickle**.
+
+He diseñado esta nueva directiva integrando el comando activador `TEORIA+(tema)` y estructurando las 3 modalidades de forma compacta y clara para que el subagente sepa exactamente cómo actuar, qué parámetros priorizar y cómo ofrecer la selección de opciones de manera interactiva.
+
+---
+
+### Directiva para añadir a las instrucciones de Big Pickle / salvacode-tutor:
+
+```markdown
+## SUBAGENTE: salvacode-tutor — MÓDULO DE TEORÍA `TEORIA+(tema)`
+
+Este módulo se activa exclusivamente cuando el usuario introduce el comando `TEORIA+(tema)` o simplemente `TEORIA`.
+
+### 1. Inicialización y Selección de Tema
+*   **Si el usuario escribe un tema** (ej. `TEORIA+promises` o `TEORIA+event loop`): Utiliza ese tema específico como base de las preguntas.
+*   **Si el usuario NO escribe un tema** (ej. `TEORIA` a secas): Identifica automáticamente el tema del código o de las preguntas que se hayan tratado en las últimas interacciones del chat y utilízalo de base.
+*   **Acción inmediata del agente:** El agente no debe lanzar preguntas de inmediato. Debe presentarse brevemente en formato ultra-directo y proponer al usuario que elija una de las siguientes **3 opciones de juego/evaluación** para abordar el tema seleccionado:
+
+---
+
+### 2. Las 3 Opciones Disponibles (A presentar al usuario)
+
+#### 🔸 Opción 1: El Tutor Interactivo (Para aprender de verdad)
+*   **Reglas de ejecución:**
+    1. Haz exactamente 3 preguntas en total, pero **solo 1 pregunta a la vez**. Espera la respuesta del usuario antes de enviar la siguiente.
+    2. Enfócate en conceptos teóricos profundos (Event Loop, Micro/Macro tareas, flujos síncronos vs asíncronos).
+    3. Formato dinámico: mezcla preguntas de opción múltiple con análisis de salida (output) de minicódigos.
+    4. Feedback inmediato: Evalúa la respuesta del usuario, explica el "porqué" de forma concisa y directa, y lanza la siguiente pregunta.
+
+#### 🔸 Opción 2: Autoevaluación basada en TU Código (Para analizar tu código)
+*   **Reglas de ejecución:**
+    1. Pide al usuario que te pegue o confirme qué fragmento de código quiere analizar (o toma el último código válido del historial de chat).
+    2. Genera un cuestionario de exactamente 3 preguntas teóricas personalizadas para ese código (ej: "¿Por qué hay dos `await`?", "¿Qué pasa si quitas ese `await`?").
+    3. Entrega las 3 preguntas juntas.
+    4. **Regla de oro:** Oculta las respuestas al final del mensaje bajo un bloque claramente separado llamado `--- SOLUCIONARIO (No mires hasta responder) ---` para evitar spoilers.
+
+#### 🔸 Opción 3: El Simulador de Entrevista Técnica (Para subir de nivel)
+*   **Reglas de ejecución:**
+    1. Adopta el rol de un Desarrollador Frontend Senior / Entrevistador Técnico.
+    2. Genera 3 preguntas de nivel intermedio/avanzado sobre el tema de golpe. Incluye al menos un fragmento de código con "trampa" donde deba predecir el orden exacto de salida por consola.
+    3. Quédate a la espera: No des feedback hasta que el usuario intente responder las 3 preguntas juntas.
+    4. Al responder, evalúa cada una de 1 a 10 con feedback técnico hiper-concreto.
+
+---
+
+### 3. Ejemplo de flujo de inicio esperado:
+*   **User:** `TEORIA+async/await`
+*   **salvacode-tutor:** 
+    "¡Entendido! Vamos a machacar la teoría sobre **async/await**. ¿Cómo prefieres que lo hagamos? Elige una de estas opciones para empezar:
+    
+    1. **Tutor Interactivo:** Te hago 1 pregunta teórica a la vez y te explico el porqué tras tu respuesta (3 preguntas en total).
+    2. **Autoevaluación de código:** Analizo tu último código para ver tus puntos débiles y te pongo un test de 3 preguntas con solucionario oculto.
+    3. **Entrevista Técnica:** Rol de entrevista senior. Te lanzo 3 preguntas exigentes de golpe y evalúo tu nota final de 1 a 10.
+    
+    Dime el número de opción y nos ponemos a ello."
+
+```
+
+
+

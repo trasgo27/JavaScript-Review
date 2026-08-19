@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4 — Búsqueda + paginación combinados</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        section {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        section h2 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        section p, section li { color: var(--text-muted); line-height: 1.6; }
+        section ol { padding-left: 1.2rem; }
+        section li { margin-bottom: 0.3rem; }
+        .controls {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--text-main);
+            font-size: 1rem;
+        }
+        .search-bar input::placeholder { color: var(--text-muted); }
+        .search-bar button {
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .search-bar button:hover { background: #7dd3fc; }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+        .pagination button {
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .pagination button:hover:not(:disabled) {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+        .pagination button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .page-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .result-count {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        .post-card h3 {
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            text-transform: capitalize;
+        }
+        .post-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .no-results {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem;
+            font-style: italic;
+        }
+        #loading {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 1rem;
+            display: none;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 4 — Búsqueda + Paginación</h1>
+
+    <section>
+        <h2>Descripción</h2>
+        <p>Combina búsqueda por título con paginación de resultados filtrados.</p>
+    </section>
+
+    <section>
+        <h2>Tareas</h2>
+        <ol>
+            <li>Input búsqueda + botones de paginación juntos</li>
+            <li>Búsqueda filtra por título, paginación navega resultados</li>
+            <li>Resetear a página 1 al buscar</li>
+            <li>Mostrar "Página X de Y" basado en resultados filtrados</li>
+            <li>Manejar caso: búsqueda sin resultados</li>
+        </ol>
+    </section>
+
+    <div class="controls">
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Buscar por título...">
+            <button id="search-btn">Buscar</button>
+        </div>
+        <div class="pagination">
+            <button id="prev-btn">← Anterior</button>
+            <span class="page-info" id="page-info">Página 1 de 1</span>
+            <button id="next-btn">Siguiente →</button>
+        </div>
+    </div>
+
+    <div class="result-count" id="result-count"></div>
+    <div id="loading">Cargando posts...</div>
+    <div id="posts-container"></div>
+
+    <a href="index.html" class="nav-link">← Volver al índice</a>
+
+    <script src="04Ej.js"></script>
+</body>
+</html>

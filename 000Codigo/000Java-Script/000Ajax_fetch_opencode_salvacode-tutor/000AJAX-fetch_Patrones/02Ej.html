@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02: AbortController</title>
+</head>
+<body>
+    <h1>Patrones Avanzados y Optimización</h1>
+
+    <section>
+        <h2>Exercise 02: AbortController — Cancelar Peticiones</h2>
+        <p>Usa AbortController para cancelar fetch en curso. Esencial para UX en búsquedas.</p>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: Crear AbortController</h3>
+        <p>Crea un controller y pasa <code>signal</code> al fetch.</p>
+
+        <h3>Task 2: Botón Cancelar</h3>
+        <p>Botón que llame <code>controller.abort()</code> y cancele la petición.</p>
+
+        <h3>Task 3: Capturar AbortError</h3>
+        <p>En el catch, detecta <code>error.name === 'AbortError'</code> y muestra "Petición cancelada".</p>
+
+        <h3>Task 4: Petición lenta simulada</h3>
+        <p>Simula una petición lenta (5s) que se pueda cancelar.</p>
+
+        <div>
+            <button id="fetchBtn" style="padding:8px 16px; margin-right:5px;">Iniciar Petición</button>
+            <button id="cancelBtn" style="padding:8px 16px; background:#ff6b6b; color:white;">Cancelar</button>
+        </div>
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="02Ej.js"></script>
+</body>
+</html>

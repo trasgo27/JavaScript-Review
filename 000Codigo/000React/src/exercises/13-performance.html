@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 13: Performance Optimization</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007acc;
+      color: white;
+    }
+    
+    input {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .memo-example { text-align: center; }
+    .expensive-child {
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    
+    .usememo-example { text-align: center; }
+    .usememo-example p { font-size: 18px; }
+    
+    .usecallback-example { text-align: center; }
+    
+    .log-output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #333;
+      color: #0f0;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 13.1: React.memo
+    // ============================================
+    // memo() prevents re-render if props haven't changed
+    // Check your console to see when components render!
+    
+    const ExpensiveChild = React.memo(function ExpensiveChild({ data, onClick }) {
+      console.log('ExpensiveChild rendered');
+      
+      return (
+        <div className="expensive-child">
+          <p>Data: {data || '(empty)'}</p>
+          <button onClick={onClick}>Click me</button>
+        </div>
+      );
+    });
+    
+    function MemoExample() {
+      const [count, setCount] = React.useState(0);
+      const [text, setText] = React.useState('');
+    
+      // useCallback ensures onClick doesn't change between renders
+      const handleClick = React.useCallback(() => {
+        console.log('Clicked!');
+      }, []);
+    
+      return (
+        <div className="memo-example">
+          <input 
+            value={text} 
+            onChange={e => setText(e.target.value)} 
+            placeholder="Type here..." 
+          />
+          <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>
+          {/* ExpensiveChild won't re-render when count changes */}
+          {/* It only re-renders when 'text' (data) changes */}
+          <ExpensiveChild data={text} onClick={handleClick} />
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 13.2: useMemo
+    // ============================================
+    // useMemo caches expensive calculations
+    // Only recalculates when dependencies change
+    
+    function ExpensiveCalculation() {
+      const [numbers, setNumbers] = React.useState([1, 2, 3, 4, 5]);
+      const [multiplier, setMultiplier] = React.useState(2);
+      const [count, setCount] = React.useState(0);
+    
+      // Without useMemo, this calculates on EVERY render
+      // With useMemo, it only calculates when numbers or multiplier change
+      const expensiveResult = React.useMemo(() => {
+        console.log('Calculating...');
+        // Simulate expensive computation
+        return numbers.reduce((acc, num) => acc + num * multiplier, 0);
+      }, [numbers, multiplier]);  // Dependencies
+    
+      return (
+        <div className="usememo-example">
+          <p>Numbers: {numbers.join(', ')}</p>
+          <p>Multiplier: {multiplier}</p>
+          <p><strong>Result: {expensiveResult}</strong></p>
+          <button onClick={() => setMultiplier(m => m + 1)}>Increase Multiplier</button>
+          <button onClick={() => setNumbers(n => [...n, n.length + 1])}>Add Number</button>
+          <button onClick={() => setCount(c => c + 1)}>
+            Unrelated State: {count} (doesn't trigger recalculation)
+          </button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 13.3: useCallback
+    // ============================================
+    // useCallback memoizes functions
+    // Prevents child components from re-rendering when parent updates
+    
+    const Button = React.memo(function Button({ onClick, children }) {
+      console.log(`Button "${children}" rendered`);
+      return <button onClick={onClick}>{children}</button>;
+    });
+    
+    function CallbackExample() {
+      const [count, setCount] = React.useState(0);
+      const [other, setOther] = React.useState(0);
+    
+      // Without useCallback, new function reference on every render
+      // With useCallback, same function reference (memoized)
+      const increment = React.useCallback(() => {
+        setCount(c => c + 1);
+      }, []);
+    
+      const decrement = React.useCallback(() => {
+        setCount(c => c - 1);
+      }, []);
+    
+      return (
+        <div className="usecallback-example">
+          <p>Count: {count}</p>
+          {/* These buttons won't re-render when 'other' changes */}
+          {/* Because onClick is memoized with useCallback */}
+          <Button onClick={increment}>+</Button>
+          <Button onClick={decrement}>-</Button>
+          <button onClick={() => setOther(o => o + 1)}>
+            Other: {other} (triggers parent re-render)
+          </button>
+        </div>
+      );
+    }
+    
+    function PerformanceOptimization() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 13: Performance Optimization</h2>
+          <section>
+            <h3>13.1 React.memo</h3>
+            <p>Type in the input - only ExpensiveChild re-renders. Click count - ExpensiveChild skips!</p>
+            <MemoExample />
+          </section>
+          <section>
+            <h3>13.2 useMemo</h3>
+            <p>Click "Unrelated State" - calculation doesn't run. Click others - calculation runs!</p>
+            <ExpensiveCalculation />
+          </section>
+          <section>
+            <h3>13.3 useCallback</h3>
+            <p>Click "Other" - buttons don't re-render. Check console!</p>
+            <CallbackExample />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<PerformanceOptimization />);
+  </script>
+</body>
+</html>

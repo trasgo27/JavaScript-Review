@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: Cache de Respuestas</title>
+</head>
+<body>
+    <h1>Patrones Avanzados y Optimización</h1>
+
+    <section>
+        <h2>Exercise 01: Cache Simple de Respuestas</h2>
+        <p>Implementa un sistema de cache en memoria para no repetir peticiones ya hechas.</p>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: Cache con Map</h3>
+        <p>Crea un <code>new Map()</code> como cache. Primera llamada = fetch real, segunda = cache hit.</p>
+
+        <h3>Task 2: fetchCached()</h3>
+        <p>Función que verifique el cache antes de hacer fetch.</p>
+
+        <h3>Task 3: TTL de 30 segundos</h3>
+        <p>Agregar timestamp al cache. Si tiene más de 30s, re-fetch.</p>
+
+        <h3>Task 4: Botón Limpiar Cache</h3>
+        <p>Botón que vacíe el Map y resetee el contador.</p>
+
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="01Ej.js"></script>
+</body>
+</html>

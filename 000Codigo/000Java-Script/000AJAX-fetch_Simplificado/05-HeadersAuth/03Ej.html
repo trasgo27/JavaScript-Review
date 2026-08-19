@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio 03: Token de autorización básico</title>
+</head>
+<body>
+  <h1>Módulo 05: Headers y Autenticación</h1>
+  <section>
+    <h2>Ejercicio 03: Token de autorización básico</h2>
+    <p>Almacena un token ficticio en <code>localStorage</code> y envíalo como header de autorización.</p>
+  </section>
+  <section>
+    <h2>Tareas</h2>
+    <h3>Tarea 1: Guardar token en localStorage</h3>
+    <p>Crea un token ficticio (string inventado) y guárdalo con <code>localStorage.setItem()</code>.</p>
+    <h3>Tarea 2: Función getAuthHeaders()</h3>
+    <p>Crea una función que lea el token de <code>localStorage</code> y devuelva un objeto con el header <code>Authorization</code>.</p>
+    <h3>Tarea 3: Fetch con token de autorización</h3>
+    <p>Haz un fetch a <code>/posts/1</code> usando la función <code>getAuthHeaders()</code> para incluir el token. Muestra la respuesta.</p>
+  </section>
+  <p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+  <a href="index.html">← Volver al índice</a>
+  <script src="03Ej.js"></script>
+</body>
+</html>

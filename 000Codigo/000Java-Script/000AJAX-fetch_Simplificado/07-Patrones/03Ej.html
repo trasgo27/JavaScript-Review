@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ejercicio 03: Cache simple con Map</title></head><body>
+<h1>Módulo 07 — Patrones de fetch</h1>
+<section><h2>Ejercicio 03: Cache simple con Map</h2><p>Implementa caché de resultados para evitar peticiones repetidas a la misma URL.</p></section>
+<section><h2>Tareas</h2>
+<h3>Tarea 1: Crear el Map de caché</h3><p>Crea <code>const cache = new Map()</code> para almacenar resultados.</p>
+<h3>Tarea 2: Verificar cache antes de fetch</h3><p>Antes de hacer fetch, verifica si la URL ya está en el cache con <code>cache.has(url)</code>.</p>
+<h3>Tarea 3: Guardar en cache</h3><p>Si la URL no está en cache, haz fetch y guarda el resultado con <code>cache.set(url, datos)</code>.</p>
+<h3>Tarea 4: Probar la cache</h3><p>Llama dos veces con la misma URL. La segunda debe ser instantánea desde el cache.</p>
+</section>
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<a href="index.html">← Volver al índice</a>
+<script src="03Ej.js"></script></body></html>

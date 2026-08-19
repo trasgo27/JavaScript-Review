@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicio 03: Errores de red vs HTTP</title>
+</head>
+<body>
+<h1>Módulo 04: Manejo de Errores</h1>
+<section>
+  <h2>Ejercicio 03: Errores de red vs HTTP</h2>
+  <p>No todos los errores de fetch son iguales. Aprende a diferenciar un <strong>error de red</strong> (DNS caído, sin conexión) de un <strong>error HTTP</strong> (404, 500).</p>
+</section>
+<section>
+  <h2>Tareas</h2>
+  <h3>Tarea 1: Error de red (TypeError)</h3>
+  <p>Haz fetch a una URL rota/inexistente en un dominio falso. Esto genera un <code>TypeError</code>.</p>
+  <h3>Tarea 2: Error HTTP (404)</h3>
+  <p>Haz fetch a <code>/posts/99999</code> con la API real. Esto resuelve pero con <code>response.ok === false</code>.</p>
+  <h3>Tarea 3: Diferenciar ambos en catch</h3>
+  <p>Escribe código que detecte si el error es de red o HTTP y muestre un mensaje diferente para cada caso.</p>
+</section>
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<a href="index.html">← Volver al índice</a>
+<script src="03Ej.js"></script>
+</body>
+</html>

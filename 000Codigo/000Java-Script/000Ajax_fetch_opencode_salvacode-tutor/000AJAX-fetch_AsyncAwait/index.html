@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulo 3 — Async/Await con fetch()</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        h2 { color: var(--accent-color); margin-bottom: 1rem; margin-top: 2rem; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        ul { list-style: none; padding: 0; }
+        li {
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+            transition: border-color 0.2s;
+        }
+        li:hover { border-color: rgba(56, 189, 248, 0.4); }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover { text-decoration: underline; }
+        .num {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .desc {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-left: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Modulo 3 — Async/Await con fetch()</h1>
+        <p>Domina async/await, promesas en paralelo, tolerancia a fallos, y timeouts.</p>
+        <h2>Ejercicios</h2>
+        <ul>
+            <li>
+                <span class="num">01</span>
+                <a href="01Ej.html">Reescribir .then() con async/await</a>
+                <div class="desc">Comparar legibilidad, misma funcion en ambos estilos</div>
+            </li>
+            <li>
+                <span class="num">02</span>
+                <a href="02Ej.html">try/catch/finally con fetch</a>
+                <div class="desc">cargarDatos(), spinner visual, finally para limpiar estado</div>
+            </li>
+            <li>
+                <span class="num">03</span>
+                <a href="03Ej.html">Paralelo con Promise.all + async/await</a>
+                <div class="desc">Secuencial vs paralelo, medir tiempos, leccion de rendimiento</div>
+            </li>
+            <li>
+                <span class="num">04</span>
+                <a href="04Ej.html">Promise.allSettled para tolerancia a fallos</a>
+                <div class="desc">fetchMultiple(), analizar exitos/fallos individualmente</div>
+            </li>
+            <li>
+                <span class="num">05</span>
+                <a href="05Ej.html">Promise.race y Promise.any — timeouts</a>
+                <div class="desc">fetchWithTimeout(), fetchWithFallback(), race vs any</div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

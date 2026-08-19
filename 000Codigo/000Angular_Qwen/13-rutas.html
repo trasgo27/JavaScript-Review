@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>13 · Routing & Guards | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>13 · Routing & Guards <span class="difficulty hard">Avanzado</span></h1>
+  <p>El router de Angular gestiona la navegación entre vistas. Incluye lazy loading, parámetros, guards y resolvers.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Configuración básica de rutas.</p>
+    <pre><code><span class="keyword">import</span> { Routes } <span class="keyword">from</span> <span class="string">'@angular/router'</span>;
+
+<span class="keyword">export const</span> routes: Routes = [
+  { path: <span class="string">''</span>, component: HomeComponent },
+  { path: <span class="string">'about'</span>, component: AboutComponent },
+  { path: <span class="string">'**'</span>, component: NotFoundComponent }
+];
+
+<span class="comment">// app.config.ts:</span>
+<span class="keyword">export const</span> appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)]
+};</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Enlaces con <code>routerLink</code> y <code>router-outlet</code>.</p>
+    <pre><code><span class="comment">// Template:</span>
+<span class="comment">// &lt;nav&gt;</span>
+<span class="comment">//   &lt;a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"&gt;Home&lt;/a&gt;</span>
+<span class="comment">//   &lt;a routerLink="/about"&gt;About&lt;/a&gt;</span>
+<span class="comment">// &lt;/nav&gt;</span>
+<span class="comment">// &lt;router-outlet /&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Rutas con parámetros.</p>
+    <pre><code><span class="comment">// Ruta:</span>
+{ path: <span class="string">'user/:id'</span>, component: UserComponent }
+
+<span class="comment">// Componente:</span>
+route = inject(ActivatedRoute);
+userId = <span class="string">''</span>;
+
+ngOnInit() {
+  <span class="keyword">this</span>.route.params.subscribe(p => <span class="keyword">this</span>.userId = p[<span class="string">'id'</span>]);
+}
+
+<span class="comment">// Navegación:</span>
+<span class="comment">// &lt;a [routerLink]="['/user', 42]"&gt;User 42&lt;/a&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Lazy loading de módulos/componentes.</p>
+    <pre><code><span class="keyword">export const</span> routes: Routes = [
+  {
+    path: <span class="string">'admin'</span>,
+    loadComponent: () => <span class="keyword">import</span>(<span class="string">'./admin/admin.component'</span>)
+      .then(m => m.AdminComponent)
+  },
+  {
+    path: <span class="string">'dashboard'</span>,
+    loadChildren: () => <span class="keyword">import</span>(<span class="string">'./dashboard/routes'</span>)
+      .then(m => m.DASHBOARD_ROUTES)
+  }
+];</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Guard <code>canActivate</code> funcional.</p>
+    <pre><code><span class="keyword">export const</span> authGuard: CanActivateFn = (route, state) => {
+  <span class="keyword">const</span> auth = inject(AuthService);
+  <span class="keyword">const</span> router = inject(Router);
+
+  <span class="keyword">if</span> (auth.isLoggedIn()) <span class="keyword">return</span> <span class="keyword">true</span>;
+  <span class="keyword">return</span> router.parseUrl(<span class="string">'/login'</span>);
+};
+
+<span class="comment">// Uso:</span>
+{ path: <span class="string">'perfil'</span>, component: PerfilComponent, canActivate: [authGuard] }</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 6 <span class="difficulty hard">Difícil</span></h3>
+    <p>Resolver para precargar datos.</p>
+    <pre><code><span class="keyword">export const</span> userResolver: ResolveFn&lt;User&gt; = (route) => {
+  <span class="keyword">const</span> userService = inject(UserService);
+  <span class="keyword">return</span> userService.getUser(route.params[<span class="string">'id'</span>]);
+};
+
+{
+  path: <span class="string">'user/:id'</span>,
+  component: UserComponent,
+  resolve: { user: userResolver }
+}
+
+<span class="comment">// Componente:</span>
+ngOnInit() {
+  <span class="keyword">this</span>.user = <span class="keyword">this</span>.route.snapshot.data[<span class="string">'user'</span>];
+}</code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="12-servicios.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="14-http.html">Siguiente →</a>
+  </div>
+</body>
+</html>

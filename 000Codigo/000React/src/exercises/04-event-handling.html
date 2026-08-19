@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 04: Event Handling</title>
+  
+  <!-- ============================================
+       REACT CDN IMPORTS
+       ============================================
+       Event handling is how React responds to user interactions:
+       clicks, form submissions, keyboard input, etc.
+  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    /* Click Events */
+    .click-events {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .click-events button {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .click-events button:first-child { background: #007acc; color: white; }
+    .click-events button:nth-child(2) { background: #28a745; color: white; }
+    .click-events button:last-child { background: #dc3545; color: white; }
+    
+    /* Form Events */
+    .form-events input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .form-events button {
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .focused {
+      margin-top: 10px;
+      padding: 10px;
+      background: #e9ecef;
+      border-radius: 4px;
+    }
+    
+    /* Keyboard Events */
+    .keyboard-events input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 250px;
+    }
+    .keyboard-events p {
+      margin-top: 10px;
+      padding: 10px;
+      background: #e9ecef;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- ============================================
+       EVENT HANDLING EXERCISE
+       ============================================
+       KEY CONCEPTS:
+       - Event handlers are FUNCTIONS that run on user actions
+       - Use camelCase: onClick, onChange, onSubmit (not onclick, onchange)
+       - Pass the function reference, NOT a function call: onClick={fn} NOT onClick={fn()}
+       - React uses Synthetic Events (wraps native browser events for consistency)
+  -->
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 4.1: Click Events
+    // ============================================
+    // Demonstrates: onClick, onDoubleClick, onContextMenu (right-click)
+    
+    function ClickEvents() {
+      const [clickCount, setClickCount] = React.useState(0);
+      const [doubleClickCount, setDoubleClickCount] = React.useState(0);
+    
+      // Single click handler
+      const handleClick = () => {
+        setClickCount(prev => prev + 1);
+      };
+    
+      // Double click handler
+      const handleDoubleClick = () => {
+        setDoubleClickCount(prev => prev + 1);
+      };
+    
+      // Right-click handler (prevents context menu)
+      const handleContextMenu = (e) => {
+        e.preventDefault();  // Prevents the browser's default right-click menu
+        alert('Right-click is disabled here!');
+      };
+    
+      return (
+        <div className="click-events">
+          <button onClick={handleClick}>
+            Clicks: {clickCount}
+          </button>
+          <button onDoubleClick={handleDoubleClick}>
+            Double-clicks: {doubleClickCount}
+          </button>
+          <button onContextMenu={handleContextMenu}>
+            Right-click me
+          </button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 4.2: Form Events
+    // ============================================
+    // Demonstrates: onSubmit, onChange, onFocus, onBlur
+    
+    function FormEvents() {
+      const [formData, setFormData] = React.useState({ username: '', password: '' });
+      const [focusedField, setFocusedField] = React.useState(null);
+    
+      // Form submission handler
+      const handleSubmit = (e) => {
+        e.preventDefault();  // ALWAYS prevent default in React forms!
+        
+        // Process the form data
+        console.log('Form submitted:', formData);
+        alert(`Login attempt:\nUsername: ${formData.username}\nPassword: ${formData.password}`);
+      };
+    
+      // Input change handler - works for ALL inputs!
+      const handleChange = (e) => {
+        const { name, value } = e.target;  // Destructure name and value
+        setFormData(prev => ({ ...prev, [name]: value }));  // Update specific field
+      };
+    
+      return (
+        <div className="form-events">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('username')}
+              onBlur={() => setFocusedField(null)}
+              placeholder="Username"
+            />
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              onFocus={() => setFocusedField('password')}
+              onBlur={() => setFocusedField(null)}
+              placeholder="Password"
+            />
+            <button type="submit">Login</button>
+          </form>
+          <p className="focused">
+            Currently focused: <strong>{focusedField || 'none'}</strong>
+          </p>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 4.3: Keyboard Events
+    // ============================================
+    // Demonstrates: onKeyDown, e.key for detecting specific keys
+    
+    function KeyboardEvents() {
+      const [inputValue, setInputValue] = React.useState('');
+      const [lastKey, setLastKey] = React.useState('');
+      const [messages, setMessages] = React.useState([]);
+    
+      const handleKeyDown = (e) => {
+        setLastKey(e.key);  // Track which key was pressed
+        
+        // Enter key - submit message
+        if (e.key === 'Enter' && inputValue.trim()) {
+          setMessages(prev => [...prev, inputValue]);
+          setInputValue('');
+        }
+        
+        // Escape key - clear input
+        if (e.key === 'Escape') {
+          setInputValue('');
+        }
+      };
+    
+      return (
+        <div className="keyboard-events">
+          <input
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Type and press Enter..."
+          />
+          <p>Last key pressed: <strong>{lastKey || 'none yet'}</strong></p>
+          
+          {messages.length > 0 && (
+            <div>
+              <h4>Messages:</h4>
+              <ul>
+                {messages.map((msg, i) => (
+                  <li key={i}>{msg}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // MAIN COMPONENT
+    // ============================================
+    function EventHandling() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 04: Event Handling</h2>
+          
+          <section>
+            <h3>4.1 Click Events</h3>
+            <p>Try clicking, double-clicking, and right-clicking the buttons!</p>
+            <ClickEvents />
+          </section>
+          
+          <section>
+            <h3>4.2 Form Events</h3>
+            <p>Notice how focus/blur events track which field is active.</p>
+            <FormEvents />
+          </section>
+          
+          <section>
+            <h3>4.3 Keyboard Events</h3>
+            <p>Press Enter to submit, Escape to clear. Watch the last key indicator!</p>
+            <KeyboardEvents />
+          </section>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // MOUNT THE APP
+    // ============================================
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<EventHandling />);
+  </script>
+</body>
+</html>

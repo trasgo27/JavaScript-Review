@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 11: Custom Hooks</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007acc;
+      color: white;
+    }
+    
+    input {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .local-storage-example { text-align: center; }
+    .local-storage-example input { width: 200px; }
+    
+    .toggle-example { text-align: center; }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+    
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // CUSTOM HOOK: useLocalStorage
+    // ============================================
+    // Persists state in localStorage - survives page refreshes!
+    
+    function useLocalStorage(key, initialValue) {
+      // Initialize from localStorage or use initial value
+      const [value, setValue] = React.useState(() => {
+        try {
+          const item = window.localStorage.getItem(key);
+          return item ? JSON.parse(item) : initialValue;
+        } catch {
+          return initialValue;
+        }
+      });
+    
+      // Update localStorage when value changes
+      React.useEffect(() => {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      }, [key, value]);
+    
+      return [value, setValue];
+    }
+    
+    // ============================================
+    // CUSTOM HOOK: useToggle
+    // ============================================
+    // Simple toggle - no need to write toggle logic every time!
+    
+    function useToggle(initialValue = false) {
+      const [value, setValue] = React.useState(initialValue);
+      
+      const toggle = React.useCallback(() => {
+        setValue(v => !v);
+      }, []);
+    
+      return [value, toggle];
+    }
+    
+    // ============================================
+    // CUSTOM HOOK: useFetch
+    // ============================================
+    // Handles loading, error, and data states for API calls
+    
+    function useFetch(url) {
+      const [data, setData] = React.useState(null);
+      const [loading, setLoading] = React.useState(true);
+      const [error, setError] = React.useState(null);
+    
+      React.useEffect(() => {
+        const controller = new AbortController();
+        
+        const fetchData = async () => {
+          try {
+            setLoading(true);
+            // Simulate API call
+            await new Promise(r => setTimeout(r, 1000));
+            setData({ message: 'Data loaded from ' + url });
+          } catch (err) {
+            if (err.name !== 'AbortError') {
+              setError(err.message);
+            }
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchData();
+        return () => controller.abort();
+      }, [url]);
+    
+      return { data, loading, error };
+    }
+    
+    // ============================================
+    // CUSTOM HOOK: useWindowSize
+    // ============================================
+    // Tracks window dimensions
+    
+    function useWindowSize() {
+      const [size, setSize] = React.useState({ 
+        width: window.innerWidth, 
+        height: window.innerHeight 
+      });
+    
+      React.useEffect(() => {
+        const handleResize = () => setSize({ 
+          width: window.innerWidth, 
+          height: window.innerHeight 
+        });
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
+    
+      return size;
+    }
+    
+    // ============================================
+    // USAGE EXAMPLES
+    // ============================================
+    
+    // EXERCISE 11.1: useLocalStorage
+    function LocalStorageExample() {
+      const [name, setName] = useLocalStorage('name', '');
+      const [theme, setTheme] = useLocalStorage('theme', 'light');
+    
+      return (
+        <div className="local-storage-example">
+          <input 
+            value={name} 
+            onChange={e => setName(e.target.value)} 
+            placeholder="Enter name (persists!)" 
+          />
+          <p>Hello, {name || 'stranger'}!</p>
+          <button onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}>
+            Theme: {theme}
+          </button>
+          <p><small>Refresh the page - your data persists!</small></p>
+        </div>
+      );
+    }
+    
+    // EXERCISE 11.2: useToggle
+    function ToggleExample() {
+      const [showModal, toggleModal] = useToggle(false);
+      const [isActive, toggleActive] = useToggle(false);
+    
+      return (
+        <div className="toggle-example">
+          <button onClick={toggleActive}>
+            {isActive ? 'Active' : 'Inactive'}
+          </button>
+          <button onClick={toggleModal}>
+            {showModal ? 'Close' : 'Open'} Modal
+          </button>
+          
+          {showModal && (
+            <>
+              <div className="modal-overlay" onClick={toggleModal}></div>
+              <div className="modal">
+                <p>Modal Content</p>
+                <button onClick={toggleModal}>Close</button>
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+    
+    // EXERCISE 11.3: useFetch
+    function FetchExample() {
+      const { data, loading, error } = useFetch('https://api.example.com/users');
+    
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error: {error}</p>;
+      return <pre>{JSON.stringify(data, null, 2)}</pre>;
+    }
+    
+    function CustomHooks() {
+      const windowSize = useWindowSize();
+    
+      return (
+        <div className="exercise">
+          <h2>Exercise 11: Custom Hooks</h2>
+          <section>
+            <h3>11.1 useLocalStorage</h3>
+            <LocalStorageExample />
+          </section>
+          <section>
+            <h3>11.2 useToggle</h3>
+            <ToggleExample />
+          </section>
+          <section>
+            <h3>11.3 useFetch</h3>
+            <FetchExample />
+          </section>
+          <section>
+            <h3>Bonus: useWindowSize</h3>
+            <p>Window size: {windowSize.width} x {windowSize.height}</p>
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<CustomHooks />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 4 — AJAX, fetch y APIs del DOM</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+        }
+        .card .number {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            font-weight: 800;
+            opacity: 0.4;
+        }
+        .card h2 {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .card .api-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Módulo 4</h1>
+    <p class="subtitle">AJAX, fetch y APIs del DOM</p>
+
+    <div class="grid">
+        <a href="01Ej.html" class="card">
+            <div class="number">01</div>
+            <h2>API de Pokémon</h2>
+            <p>Busca y muestra información de cualquier Pokémon con barras de stats.</p>
+            <span class="api-tag">pokeapi.co</span>
+        </a>
+
+        <a href="02Ej.html" class="card">
+            <div class="number">02</div>
+            <h2>API de Random User</h2>
+            <p>Galería de usuarios aleatorios con carga dinámica y animaciones.</p>
+            <span class="api-tag">randomuser.me</span>
+        </a>
+
+        <a href="03Ej.html" class="card">
+            <div class="number">03</div>
+            <h2>Dog CEO API</h2>
+            <p>Explora razas de perros con selector y galería de imágenes aleatorias.</p>
+            <span class="api-tag">dog.ceo</span>
+        </a>
+
+        <a href="04Ej.html" class="card">
+            <div class="number">04</div>
+            <h2>GitHub API</h2>
+            <p>Busca usuarios de GitHub y muestra su perfil y repos top.</p>
+            <span class="api-tag">api.github.com</span>
+        </a>
+
+        <a href="05Ej.html" class="card">
+            <div class="number">05</div>
+            <h2>API combinada: JSONPlaceholder</h2>
+            <p>Usuarios → Posts → Comentarios en acordeón.</p>
+            <span class="api-tag">jsonplaceholder</span>
+        </a>
+    </div>
+</body>
+</html>

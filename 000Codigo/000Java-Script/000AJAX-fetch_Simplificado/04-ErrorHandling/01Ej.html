@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicio 01: fetch() NO falla en 404</title>
+</head>
+<body>
+<h1>Módulo 04: Manejo de Errores</h1>
+<section>
+  <h2>Ejercicio 01: fetch() NO falla en 404</h2>
+  <p>Algo que sorprende a muchos: <code>fetch()</code> <strong>NO lanza error</strong> cuando el servidor responde con 404, 500, etc. Solo falla si hay un problema de red.</p>
+</section>
+<section>
+  <h2>Tareas</h2>
+  <h3>Tarea 1: Fetch a recurso inexistente</h3>
+  <p>Haz fetch a <code>/posts/99999</code> (un ID que no existe).</p>
+  <h3>Tarea 2: Verificar que NO entró al catch</h3>
+  <p>Comprueba que el código del <code>.then()</code> SÍ se ejecuta, aunque el post no exista.</p>
+  <h3>Tarea 3: Inspeccionar response.ok y response.status</h3>
+  <p>Muestra en consola que <code>response.ok</code> es <code>false</code> y <code>response.status</code> es <code>404</code>.</p>
+</section>
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<a href="index.html">← Volver al índice</a>
+<script src="01Ej.js"></script>
+</body>
+</html>

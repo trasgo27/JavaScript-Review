@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios de Angular</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    h1 { font-size: 2.4rem; color: #dd0031; margin-bottom: 8px; }
+    .subtitle { color: #aaa; font-size: 1.1rem; margin-bottom: 40px; }
+    .intro { background: #1a1a2e; border-left: 4px solid #dd0031; padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 48px; }
+    .intro p { color: #ccc; }
+    .level-group { margin-bottom: 48px; }
+    .level-title { font-size: 1.4rem; color: #dd0031; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 2px solid #dd0031; }
+    .level-subtitle { color: #888; font-size: 0.9rem; margin-bottom: 16px; }
+    .card { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; transition: border-color 0.2s; }
+    .card:hover { border-color: #dd0031; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .card-header h3 { font-size: 1.1rem; }
+    .card-header h3 a { color: #e0e0e0; text-decoration: none; }
+    .card-header h3 a:hover { color: #dd0031; }
+    .card-num { color: #dd0031; font-weight: bold; margin-right: 8px; }
+    .card-diff { font-size: 0.8rem; color: #888; background: #2a2a3e; padding: 2px 10px; border-radius: 12px; white-space: nowrap; }
+    .card-desc { color: #aaa; font-size: 0.95rem; }
+    .card-topics { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.75rem; background: #dd003122; color: #dd0031; border: 1px solid #dd003155; padding: 2px 10px; border-radius: 12px; }
+    footer { text-align: center; color: #555; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a3e; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Ejercicios de Angular</h1>
+  <p class="subtitle">Guía completa de ejercicios prácticos con Angular 17+</p>
+
+  <div class="intro">
+    <p>
+      Esta guía contiene <strong>ejercicios prácticos organizados por nivel de dificultad</strong> para dominar Angular desde cero hasta nivel avanzado.
+      Cada módulo incluye conceptos clave, ejercicios progresivos con objetivos claros y pistas orientativas.
+      Las soluciones no están incluidas para fomentar la resolución autónoma.
+    </p>
+  </div>
+
+  <!-- NIVEL BÁSICO -->
+  <div class="level-group">
+    <h2 class="level-title">Básico</h2>
+    <p class="level-subtitle">Fundamentos de Angular: componentes, interpolación, binding y directivas.</p>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">01</span><a href="01-basico.html">Lo Básico de Angular</a></h3>
+        <span class="card-diff">Básico</span>
+      </div>
+      <p class="card-desc">Componentes, interpolación, property binding, event binding y directivas de control flow moderno.</p>
+      <div class="card-topics">
+        <span class="tag">@Component</span>
+        <span class="tag">Interpolación</span>
+        <span class="tag">Property Binding</span>
+        <span class="tag">Event Binding</span>
+        <span class="tag">@if / @for / @switch</span>
+        <span class="tag">ngClass / ngStyle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEL INTERMEDIO -->
+  <div class="level-group">
+    <h2 class="level-title">Intermedio</h2>
+    <p class="level-subtitle">Signals, comunicación entre componentes, formularios y ciclo de vida.</p>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">02</span><a href="02-signals-control-flow.html">Signals y Control Flow</a></h3>
+        <span class="card-diff">Intermedio</span>
+      </div>
+      <p class="card-desc">Señales reactivas, computed, effect y patrones de actualización de estado.</p>
+      <div class="card-topics">
+        <span class="tag">signal()</span>
+        <span class="tag">computed()</span>
+        <span class="tag">effect()</span>
+        <span class="tag">writableSignal</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">03</span><a href="03-componentes-comunicacion.html">Componentes y Comunicación</a></h3>
+        <span class="card-diff">Intermedio</span>
+      </div>
+      <p class="card-desc">Inputs, outputs, emisión de eventos y patrones de comunicación padre-hijo.</p>
+      <div class="card-topics">
+        <span class="tag">input()</span>
+        <span class="tag">output()</span>
+        <span class="tag">EventEmitter</span>
+        <span class="tag">model()</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">04</span><a href="04-formularios.html">Formularios</a></h3>
+        <span class="card-diff">Intermedio</span>
+      </div>
+      <p class="card-desc">Template-driven forms, reactive forms, validaciones y formularios dinámicos.</p>
+      <div class="card-topics">
+        <span class="tag">ngModel</span>
+        <span class="tag">FormGroup</span>
+        <span class="tag">FormControl</span>
+        <span class="tag">Validadores</span>
+        <span class="tag">FormArray</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">05</span><a href="05-ciclo-vida.html">Ciclo de Vida</a></h3>
+        <span class="card-diff">Intermedio</span>
+      </div>
+      <p class="card-desc">Hooks del ciclo de vida, orden de ejecución y casos de uso prácticos.</p>
+      <div class="card-topics">
+        <span class="tag">ngOnInit</span>
+        <span class="tag">ngOnChanges</span>
+        <span class="tag">ngAfterViewInit</span>
+        <span class="tag">ngOnDestroy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NIVEL AVANZADO -->
+  <div class="level-group">
+    <h2 class="level-title">Avanzado</h2>
+    <p class="level-subtitle">Servicios, routing, HTTP y estado reactivo con RxJS.</p>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">06</span><a href="06-servicios-di.html">Servicios e Inyección de Dependencias</a></h3>
+        <span class="card-diff">Avanzado</span>
+      </div>
+      <p class="card-desc">Crear servicios, DI, singletons, providers y jerarquías de inyectores.</p>
+      <div class="card-topics">
+        <span class="tag">@Injectable</span>
+        <span class="tag">Injector</span>
+        <span class="tag">Singleton</span>
+        <span class="tag">Providers</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">07</span><a href="07-routing.html">Routing</a></h3>
+        <span class="card-diff">Avanzado</span>
+      </div>
+      <p class="card-desc">Configuración de rutas, parámetros, lazy loading y guards.</p>
+      <div class="card-topics">
+        <span class="tag">RouterModule</span>
+        <span class="tag">RouterLink</span>
+        <span class="tag">Lazy Loading</span>
+        <span class="tag">Guards</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">08</span><a href="08-httpclient.html">HTTPClient</a></h3>
+        <span class="card-diff">Avanzado</span>
+      </div>
+      <p class="card-desc">Peticiones CRUD, manejo de errores, interceptores y abstracciones de servicio.</p>
+      <div class="card-topics">
+        <span class="tag">HttpClient</span>
+        <span class="tag">GET / POST / PUT / DELETE</span>
+        <span class="tag">Interceptores</span>
+        <span class="tag">Error Handling</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3><span class="card-num">09</span><a href="09-rxjs-estado.html">RxJS y Estado</a></h3>
+        <span class="card-diff">Avanzado</span>
+      </div>
+      <p class="card-desc">Observables, subjects, operadores y gestión de estado reactiva.</p>
+      <div class="card-topics">
+        <span class="tag">Observable</span>
+        <span class="tag">Subject</span>
+        <span class="tag">BehaviorSubject</span>
+        <span class="tag">Operadores</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Ejercicios de Angular 17+ &mdash; Material didáctico para desarrollo profesional
+  </footer>
+
+</div>
+
+</body>
+</html>

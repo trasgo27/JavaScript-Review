@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 12: useReducer Hook</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007acc;
+      color: white;
+    }
+    
+    input {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .counter-reducer { text-align: center; }
+    .counter-reducer h4 { font-size: 32px; }
+    
+    .todo-reducer ul { list-style: none; padding: 0; }
+    .todo-reducer li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .todo-reducer li.completed span { text-decoration: line-through; color: #999; }
+    .filters { margin: 10px 0; }
+    .filters button.active { background: #28a745; }
+    
+    .shopping-cart { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .shopping-cart > div { padding: 15px; background: #f5f5f5; border-radius: 4px; }
+    .shopping-cart button { font-size: 12px; padding: 5px 10px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 12.1: Counter with useReducer
+    // ============================================
+    // useReducer: (state, action) => newState
+    // Great for complex state logic!
+    
+    const counterInitial = { count: 0 };
+    
+    // Reducer function: pure function that returns new state
+    function counterReducer(state, action) {
+      switch (action.type) {
+        case 'INCREMENT':
+          return { count: state.count + 1 };
+        case 'DECREMENT':
+          return { count: state.count - 1 };
+        case 'RESET':
+          return counterInitial;
+        case 'SET':
+          return { count: action.payload };
+        default:
+          return state;
+      }
+    }
+    
+    function CounterWithReducer() {
+      // useReducer returns [state, dispatch]
+      // dispatch sends actions to the reducer
+      const [state, dispatch] = React.useReducer(counterReducer, counterInitial);
+    
+      return (
+        <div className="counter-reducer">
+          <h4>Count: {state.count}</h4>
+          {/* dispatch({ type: 'ACTION_TYPE' }) triggers the reducer */}
+          <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
+          <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+          <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+          <button onClick={() => dispatch({ type: 'SET', payload: 100 })}>Set to 100</button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 12.2: Todo List with useReducer
+    // ============================================
+    // Complex state with multiple sub-values
+    
+    const todosInitial = {
+      items: [
+        { id: 1, text: 'Learn useReducer', completed: false },
+        { id: 2, text: 'Build a project', completed: false }
+      ],
+      filter: 'all'
+    };
+    
+    function todosReducer(state, action) {
+      switch (action.type) {
+        case 'ADD_TODO':
+          return {
+            ...state,
+            items: [...state.items, { 
+              id: Date.now(), 
+              text: action.payload, 
+              completed: false 
+            }]
+          };
+        case 'TOGGLE_TODO':
+          return {
+            ...state,
+            items: state.items.map(item =>
+              item.id === action.payload 
+                ? { ...item, completed: !item.completed } 
+                : item
+            )
+          };
+        case 'DELETE_TODO':
+          return {
+            ...state,
+            items: state.items.filter(item => item.id !== action.payload)
+          };
+        case 'SET_FILTER':
+          return { ...state, filter: action.payload };
+        default:
+          return state;
+      }
+    }
+    
+    function TodoListWithReducer() {
+      const [state, dispatch] = React.useReducer(todosReducer, todosInitial);
+      const [newTodo, setNewTodo] = React.useState('');
+    
+      const filteredTodos = state.items.filter(todo => {
+        if (state.filter === 'active') return !todo.completed;
+        if (state.filter === 'completed') return todo.completed;
+        return true;
+      });
+    
+      const handleAdd = (e) => {
+        e.preventDefault();
+        if (newTodo.trim()) {
+          dispatch({ type: 'ADD_TODO', payload: newTodo });
+          setNewTodo('');
+        }
+      };
+    
+      return (
+        <div className="todo-reducer">
+          <form onSubmit={handleAdd}>
+            <input 
+              value={newTodo} 
+              onChange={e => setNewTodo(e.target.value)} 
+              placeholder="Add todo" 
+            />
+            <button type="submit">Add</button>
+          </form>
+          
+          <div className="filters">
+            <button 
+              onClick={() => dispatch({ type: 'SET_FILTER', payload: 'all' })}
+              className={state.filter === 'all' ? 'active' : ''}
+            >All</button>
+            <button 
+              onClick={() => dispatch({ type: 'SET_FILTER', payload: 'active' })}
+              className={state.filter === 'active' ? 'active' : ''}
+            >Active</button>
+            <button 
+              onClick={() => dispatch({ type: 'SET_FILTER', payload: 'completed' })}
+              className={state.filter === 'completed' ? 'active' : ''}
+            >Completed</button>
+          </div>
+    
+          <ul>
+            {filteredTodos.map(todo => (
+              <li key={todo.id} className={todo.completed ? 'completed' : ''}>
+                <span onClick={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })}>
+                  {todo.completed ? '[x]' : '[ ]'} {todo.text}
+                </span>
+                <button onClick={() => dispatch({ type: 'DELETE_TODO', payload: todo.id })}>
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 12.3: Shopping Cart
+    // ============================================
+    // Real-world example with complex logic
+    
+    const cartInitial = { items: [], total: 0 };
+    
+    function cartReducer(state, action) {
+      switch (action.type) {
+        case 'ADD_ITEM': {
+          const existing = state.items.find(i => i.id === action.payload.id);
+          if (existing) {
+            return {
+              ...state,
+              items: state.items.map(i =>
+                i.id === action.payload.id 
+                  ? { ...i, quantity: i.quantity + 1 } 
+                  : i
+              ),
+              total: state.total + action.payload.price
+            };
+          }
+          return {
+            ...state,
+            items: [...state.items, { ...action.payload, quantity: 1 }],
+            total: state.total + action.payload.price
+          };
+        }
+        case 'REMOVE_ITEM': {
+          const item = state.items.find(i => i.id === action.payload);
+          return {
+            ...state,
+            items: state.items.filter(i => i.id !== action.payload),
+            total: state.total - (item ? item.price * item.quantity : 0)
+          };
+        }
+        case 'CLEAR_CART':
+          return cartInitial;
+        default:
+          return state;
+      }
+    }
+    
+    function ShoppingCart() {
+      const [cart, dispatch] = React.useReducer(cartReducer, cartInitial);
+      
+      const products = [
+        { id: 1, name: 'Laptop', price: 999 },
+        { id: 2, name: 'Phone', price: 699 },
+        { id: 3, name: 'Tablet', price: 499 }
+      ];
+    
+      return (
+        <div className="shopping-cart">
+          <div>
+            <h4>Products</h4>
+            {products.map(p => (
+              <div key={p.id} style={{margin: '10px 0'}}>
+                {p.name} - ${p.price}
+                <button onClick={() => dispatch({ type: 'ADD_ITEM', payload: p })}>
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+          
+          <div>
+            <h4>Cart ({cart.items.length} items)</h4>
+            {cart.items.map(item => (
+              <div key={item.id} style={{margin: '10px 0'}}>
+                {item.name} x{item.quantity}
+                <button 
+                  onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}
+                  style={{background: '#dc3545'}}
+                >Remove</button>
+              </div>
+            ))}
+            <p><strong>Total: ${cart.total}</strong></p>
+            <button onClick={() => dispatch({ type: 'CLEAR_CART' })}>Clear Cart</button>
+          </div>
+        </div>
+      );
+    }
+    
+    function UseReducerHook() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 12: useReducer Hook</h2>
+          <section>
+            <h3>12.1 Counter Reducer</h3>
+            <p>Dispatch actions to update state!</p>
+            <CounterWithReducer />
+          </section>
+          <section>
+            <h3>12.2 Todo List Reducer</h3>
+            <p>Complex state with filters!</p>
+            <TodoListWithReducer />
+          </section>
+          <section>
+            <h3>12.3 Shopping Cart</h3>
+            <p>Real-world reducer example!</p>
+            <ShoppingCart />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UseReducerHook />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02: POST, PUT & DELETE Methods</title>
+</head>
+<body>
+    <h1>AJAX & Fetch Mastery</h1>
+    
+    <section>
+        <h2>Exercise 02: POST, PUT & DELETE Methods</h2>
+        <p>Practice modifying data on a server using Fetch API's other HTTP methods.</p>
+        <pre><code>fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  headers: { 'Content-type': 'application/json' },
+  body: JSON.stringify({ title: 'foo', body: 'bar', userId: 1 })
+})</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Create a new resource (POST)</h3>
+        <p>Use `fetch` to send a POST request to `https://jsonplaceholder.typicode.com/posts` with a new post object. Log the response to the console.</p>
+
+        <h3>Task 2: Update an existing resource (PUT)</h3>
+        <p>Use `fetch` to send a PUT request to `https://jsonplaceholder.typicode.com/posts/1` to update its title. Log the updated object to the console.</p>
+
+        <h3>Task 3: Delete a resource (DELETE)</h3>
+        <p>Use `fetch` to send a DELETE request to `https://jsonplaceholder.typicode.com/posts/1`. Note the response status and log it.</p>
+
+    </section>
+
+    <hr>
+
+    <p><strong>Note:</strong> Check the script linked below for the implementation.</p>
+
+    <script src="02Ej.js"></script>
+</body>
+</html>

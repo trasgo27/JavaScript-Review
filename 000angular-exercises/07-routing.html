@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07 - Routing</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    .back { display: inline-block; color: #dd0031; text-decoration: none; margin-bottom: 24px; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 2rem; color: #dd0031; margin-bottom: 16px; }
+    .intro { background: #1a1a2e; border-left: 4px solid #dd0031; padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+    .intro p { color: #ccc; margin-bottom: 8px; }
+    .concepts { margin-bottom: 36px; }
+    .concepts h2 { font-size: 1.2rem; color: #dd0031; margin-bottom: 12px; }
+    .concepts ul { padding-left: 24px; }
+    .concepts li { color: #bbb; margin-bottom: 4px; }
+    .exercise { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+    .exercise:hover { border-color: #dd003144; }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .ex-title { font-size: 1.15rem; color: #e0e0e0; }
+    .ex-num { color: #dd0031; font-weight: bold; margin-right: 6px; }
+    .ex-diff { font-size: 0.8rem; color: #ffc107; background: #2a2a3e; padding: 2px 10px; border-radius: 12px; white-space: nowrap; }
+    .ex-section { margin-bottom: 10px; }
+    .ex-label { font-weight: 600; color: #dd0031; font-size: 0.9rem; margin-bottom: 4px; }
+    .ex-text { color: #ccc; font-size: 0.95rem; }
+    .ex-text ul { padding-left: 20px; margin-top: 4px; }
+    .hint { background: #16213e; border: 1px dashed #444; padding: 12px 16px; border-radius: 6px; color: #aaa; font-size: 0.9rem; margin-top: 8px; }
+    .hint::before { content: "Pista: "; color: #ffc107; font-weight: 600; }
+    footer { text-align: center; color: #555; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a3e; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="index.html">&larr; Volver al índice</a>
+    <h1>07 - Routing</h1>
+
+    <div class="intro">
+      <p><strong>Nivel: Avanzado</strong></p>
+      <p>El sistema de rutas de Angular permite crear aplicaciones de una sola página (SPA) con navegación fluida entre vistas. En este módulo aprenderás a configurar rutas, usar parámetros, cargar componentes de forma lazy, y proteger rutas con guards. La sintaxis es de Angular 17+ con funciones y <code>loadComponent</code>.</p>
+    </div>
+
+    <div class="concepts">
+      <h2>Conceptos clave</h2>
+      <ul>
+        <li><code>provideRouter</code> — Proveedor de configuración de rutas en <code>app.config.ts</code></li>
+        <li><code>Routes</code> — Array de definiciones de ruta</li>
+        <li><code>RouterLink</code> — Directiva para enlaces de navegación declarativa</li>
+        <li><code>RouterLinkActive</code> — Directiva para resaltar la ruta activa</li>
+        <li><code>ActivatedRoute</code> — Servicio para acceder a los datos de la ruta actual</li>
+        <li><code>Router.navigate()</code> — Navegación programática con opciones</li>
+        <li><code>Router.navigateByUrl()</code> — Navegación programática por URL absoluta</li>
+        <li><code>:id</code> — Parámetros de ruta dinámicos</li>
+        <li><code>queryParams</code> — Parámetros de consulta en la URL</li>
+        <li><code>children</code> — Rutas anidadas (rutas hijas)</li>
+        <li><code>**</code> — Ruta comodín (wildcard) para páginas 404</li>
+        <li><code>loadComponent</code> — Carga perezosa de un componente individual</li>
+        <li><code>loadChildren</code> — Carga perezosa de un módulo o grupo de rutas</li>
+        <li><code>CanActivate</code> — Guard que controla el acceso a una ruta</li>
+        <li><code>CanDeactivate</code> — Guard que controla la salida de una ruta</li>
+        <li>Guards funcionales — Guards basados en funciones flecha en Angular 17+</li>
+      </ul>
+    </div>
+
+    <!-- Ejercicio 01 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">01</span>Configuración básica con provideRouter</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Configurar el sistema de rutas de Angular desde cero en una aplicación standalone.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una aplicación standalone con dos componentes: <code>HomeComponent</code> y <code>AboutComponent</code>. Configura el enrutador en <code>app.config.ts</code> usando <code>provideRouter</code> y define dos rutas: una para la ruta raíz <code>/</code> que muestre HomeComponent, y otra para <code>/about</code> que muestre AboutComponent. En <code>app.component.ts</code>, añade el <code>&lt;router-outlet&gt;</code> para renderizar el componente activo.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar <code>provideRouter(routes)</code> en el array de providers de <code>app.config.ts</code></li>
+            <li>Definir el array de rutas con <code>Routes</code></li>
+            <li>Cada ruta usa <code>component</code> (no <code>loadComponent</code>)</li>
+            <li>El componente raíz tiene <code>&lt;router-outlet&gt;</code></li>
+            <li>Ambos componentes son standalone</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Recuerda importar <code>provideRouter</code> desde <code>@angular/router</code> y añadirlo al array de providers en <code>bootstrapApplication</code>.</div>
+    </div>
+
+    <!-- Ejercicio 02 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">02</span>RouterLink y RouterLinkActive</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Crear una barra de navegación con enlaces declarativos y resaltado de la ruta activa.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Añade al componente raíz una barra de navegación con tres enlaces: Inicio (<code>/</code>), Acerca de (<code>/about</code>) y Contacto (<code>/contact</code>). Usa la directiva <code>routerLink</code> para la navegación y <code>routerLinkActive</code> para aplicar una clase CSS <code>active</code> al enlace de la ruta actual.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar <code>[routerLink]="['/']</code> y similar para cada ruta</li>
+            <li>Usar <code>routerLinkActive="active"</code> en cada enlace</li>
+            <li>Añadir un estilo CSS para la clase <code>.active</code> que cambie el color o fondo</li>
+            <li>Los enlaces deben usar <code>&lt;a&gt;</code> nativos, no botones</li>
+            <li>Crear los componentes destino si no existen</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">La directiva <code>routerLinkActive</code> acepta un string con clases CSS o un objeto <code>[routerLinkActiveOptions]="{ exact: true }"</code> para controlar la coincidencia exacta en la ruta raíz.</div>
+    </div>
+
+    <!-- Ejercicio 03 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">03</span>Navegación con Router service</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Navegar programáticamente entre rutas usando el servicio <code>Router</code>.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>DashboardComponent</code> con tres botones: "Ir a Perfil", "Ir a Configuración" y "Ir a Inicio". Al hacer clic en cada botón, navega a la ruta correspondiente usando <code>router.navigate()</code>. Añade también un botón "Ir por URL" que use <code>router.navigateByUrl('/')</code> para volver al inicio. Muestra un mensaje en consola cada vez que se produce una navegación.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Inyectar <code>Router</code> desde <code>@angular/router</code></li>
+            <li>Usar <code>this.router.navigate(['/ruta'])</code> para navegación programática</li>
+            <li>Usar <code>this.router.navigateByUrl('/')</code> al menos una vez</li>
+            <li>Usar <code>console.log</code> para registrar cada navegación</li>
+            <li>Crear los componentes destino necesarios</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint"><code>navigate()</code> acepta un array de segmentos de URL y un objeto de opciones como <code>{ queryParams: {...} }</code>. <code>navigateByUrl()</code> acepta un string con la URL completa.</div>
+    </div>
+
+    <!-- Ejercicio 04 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">04</span>Parámetros de ruta con :id</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Leer parámetros dinámicos de la URL para mostrar contenido específico.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una ruta <code>/user/:id</code> que apunte a un <code>UserDetailComponent</code>. Este componente debe leer el parámetro <code>id</code> de la URL usando <code>ActivatedRoute</code> y mostrar un mensaje como "Mostrando perfil del usuario #42". Añade una lista de enlaces en la página principal que usen <code>routerLink</code> para navegar a diferentes usuarios (por ejemplo: usuario 1, 2 y 3).</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Definir la ruta <code>{ path: 'user/:id', component: UserDetailComponent }</code></li>
+            <li>Inyectar <code>ActivatedRoute</code> en el componente</li>
+            <li>Leer el parámetro con <code>this.route.snapshot.paramMap.get('id')</code></li>
+            <li>También usar la versión reactiva con <code>this.route.paramMap.subscribe(...)</code></li>
+            <li>Crear enlaces <code>routerLink</code> tipo <code>['/user', 1]</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Usa <code>snapshot.paramMap</code> para leer el parámetro una sola vez, o <code>paramMap</code> (Observable) cuando el componente se reutiliza y el parámetro cambia sin destruirlo.</div>
+    </div>
+
+    <!-- Ejercicio 05 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">05</span>Parámetros de consulta (Query Parameters)</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Usar query parameters para filtros, paginación y estado sin afectar la ruta base.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>ProductListComponent</code> que muestre una lista ficticia de productos. Implementa un sistema de filtros donde al seleccionar una categoría se añada un <code>queryParams</code> <code>?category=electronics</code> a la URL. Usa <code>activatedRoute.queryParamMap</code> para leer el filtro y mostrar solo los productos de esa categoría. Añade un botón de "Limpiar filtros" que navegue sin query params.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar <code>router.navigate</code> con la opción <code>{ queryParams: { category: 'value' } }</code></li>
+            <li>Leer los query params con <code>this.route.queryParamMap.subscribe(...)</code></li>
+            <li>Filtrar la lista de productos según el query param</li>
+            <li>Preservar otros query params al cambiar de categoría con <code>queryParamsHandling: 'merge'</code></li>
+            <li>Botón para limpiar: <code>router.navigate([], { queryParams: {} })</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">La opción <code>queryParamsHandling</code> admite <code>'merge'</code> (combinar) o <code>'preserve'</code> (mantener los actuales) para no perder parámetros existentes.</div>
+    </div>
+
+    <!-- Ejercicio 06 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">06</span>Rutas anidadas (child routes)</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Organizar la navegación interna de una sección usando rutas hijas.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una sección <code>/settings</code> con un layout propio que contenga una barra lateral con enlaces a <code>/settings/profile</code>, <code>/settings/security</code> y <code>/settings/notifications</code>. Cada sub-ruta debe ser hija de <code>/settings</code> usando la propiedad <code>children</code> en la definición de ruta. El componente padre <code>SettingsComponent</code> debe incluir un <code>&lt;router-outlet&gt;</code> para renderizar los componentes hijos.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar la propiedad <code>children: [...]</code> en la definición de <code>/settings</code></li>
+            <li>El componente padre tiene su propio <code>&lt;router-outlet&gt;</code></li>
+            <li>Cada ruta hija tiene su componente standalone</li>
+            <li>Usar <code>routerLink</code> con rutas relativas: <code>['profile']</code> (sin barra inicial)</li>
+            <li>Añadir <code>routerLinkActive</code> en la barra lateral</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Las rutas relativas en <code>routerLink</code> dentro de rutas anidadas no llevan <code>/</code> al inicio. Por ejemplo, <code>['profile']</code> se resuelve como <code>/settings/profile</code>.</div>
+    </div>
+
+    <!-- Ejercicio 07 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">07</span>Ruta comodín (Wildcard 404)</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Mostrar una página de "no encontrado" cuando la URL no coincide con ninguna ruta definida.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>NotFoundComponent</code> que muestre un mensaje amigable tipo "404 - Página no encontrada" con un enlace para volver al inicio. Añade una ruta comodín <code>**</code> al final del array de rutas que apunte a este componente. Asegúrate de que funcione tanto para rutas inexistentes como para rutas anidadas mal formadas.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>La ruta <code>{ path: '**', component: NotFoundComponent }</code> debe ser la <strong>última</strong> del array</li>
+            <li>El componente muestra un mensaje de error 404</li>
+            <li>Incluye un enlace <code>routerLink</code> para volver a <code>/</code></li>
+            <li>Funciona con cualquier URL inexistente, como <code>/abcdefg</code></li>
+            <li>Crear el componente con estilos apropiados para una página de error</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">La ruta comodín <code>**</code> coincide con cualquier segmento de URL que no haya sido capturado por rutas anteriores. Por eso siempre debe ir al final del array de rutas.</div>
+    </div>
+
+    <!-- Ejercicio 08 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">08</span>Lazy loading con loadComponent</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Cargar componentes bajo demanda para mejorar el rendimiento de carga inicial.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Reconfigura una ruta existente (por ejemplo, <code>/about</code>) para que su componente se cargue de forma perezosa usando <code>loadComponent</code> en lugar de <code>component</code>. El componente no debe importarse estáticamente en el archivo de rutas. Crea el componente en un archivo separado con la anotación <code>export default</code>. Verifica que el chunk separado se carga en la pestaña "Network" del navegador solo cuando se navega a esa ruta.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar <code>loadComponent: () =&gt; import('./path').then(m =&gt; m.default)</code></li>
+            <li>No usar la propiedad <code>component</code> en la misma definición de ruta</li>
+            <li>El componente exportado debe tener <code>export default</code></li>
+            <li>Verificar en la pestaña Network del navegador que se genera un chunk JS separado</li>
+            <li>La navegación funciona igual que con carga estática</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">La función <code>loadComponent</code> usa dynamic import. El componente exportado con <code>export default</code> se extrae con <code>.then(m =&gt; m.default)</code>.</div>
+    </div>
+
+    <!-- Ejercicio 09 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">09</span>Lazy loading con loadChildren</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Cargar un grupo completo de rutas hijas de forma perezosa usando <code>loadChildren</code>.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un archivo de rutas separado <code>admin.routes.ts</code> que exporte un array de rutas para una sección de administración (por ejemplo: <code>/admin/dashboard</code>, <code>/admin/users</code>, <code>/admin/settings</code>). En el archivo principal de rutas, carga este archivo de forma perezosa usando <code>loadChildren</code>. Crea los componentes correspondientes. Verifica que al navegar a cualquier ruta <code>/admin/*</code> se carga un chunk JS independiente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear archivo <code>admin.routes.ts</code> con <code>export default Routes</code></li>
+            <li>Usar <code>loadChildren: () =&gt; import('./admin.routes').then(m =&gt; m.default)</code></li>
+            <li>Las rutas hijas son relativas (sin <code>/admin</code> al inicio)</li>
+            <li>Crear al menos 3 componentes para la sección admin</li>
+            <li>Verificar la carga lazy en la pestaña Network del navegador</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Con <code>loadChildren</code> las rutas hijas se definen sin el prefijo de la ruta padre. La ruta padre (<code>/admin</code>) se concatena automáticamente con cada ruta hija.</div>
+    </div>
+
+    <!-- Ejercicio 10 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">10</span>Guard CanActivate</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Proteger rutas para que solo usuarios autenticados puedan acceder a ellas.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un guard funcional <code>authGuard</code> que verifique si el usuario está autenticado (simula esto con un <code>BehaviorSubject&lt;boolean&gt;</code> en un servicio). Si no está autenticado, redirige a la ruta <code>/login</code>. Aplica este guard a la ruta <code>/dashboard</code> usando <code>canActivate</code>. Crea también un componente <code>LoginComponent</code> con un botón que simule el login.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear el guard como función: <code>export const authGuard: CanActivateFn = (route, state) =&gt; { ... }</code></li>
+            <li>Inyectar el servicio de auth con <code>inject(AuthService)</code></li>
+            <li>Si no autenticado: <code>router.createUrlTree(['/login'])</code> o <code>return ['/login']</code></li>
+            <li>Si autenticado: <code>return true</code></li>
+            <li>Usar <code>canActivate: [authGuard]</code> en la definición de ruta</li>
+            <li>Importar el guard directamente en el array <code>canActivate</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">En Angular 17+ los guards funcionales son funciones con la firma <code>CanActivateFn</code>. Se usan <code>inject()</code> en lugar del constructor para inyectar servicios. El guard puede retornar <code>true</code>, <code>false</code>, o un <code>UrlTree</code>.</div>
+    </div>
+
+    <!-- Ejercicio 11 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">11</span>Guard CanDeactivate (cambios sin guardar)</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Evitar que el usuario navegue fuera de una página si tiene cambios sin guardar.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un componente <code>EditProfileComponent</code> con un formulario (un simple campo de texto). Cuando el usuario modifique el campo, se marca como "cambiado". Crea un guard funcional <code>unsavedChangesGuard</code> que use <code>CanDeactivateFn</code> y verifique si hay cambios pendientes. Si los hay, muestra un <code>confirm()</code> preguntando si desea salir. Si el usuario acepta, permite la navegación; si no, la cancela.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear una interfaz <code>CanComponentDeactivate</code> con un método <code>canDeactivate(): boolean | Observable&lt;boolean&gt;</code></li>
+            <li>El componente implementa esta interfaz</li>
+            <li>El guard verifica si el componente tiene el método y lo llama</li>
+            <li>Usar <code>confirm('¿Seguro que quieres salir?')</code> para la confirmación</li>
+            <li>Aplicar el guard con <code>canDeactivate: [unsavedChangesGuard]</code></li>
+            <li>Mostrar un indicador visual cuando el formulario tiene cambios</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El guard <code>CanDeactivateFn</code> recibe el componente actual como primer parámetro, lo que permite acceder a sus propiedades. Define una interfaz común para que cualquier componente con cambios sin guardar pueda ser detectado.</div>
+    </div>
+
+    <!-- Ejercicio 12 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">12</span>Aplicación multi-página completa</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Integrar todos los conceptos de routing en una aplicación completa con navegación, páginas de detalle, rutas anidadas, lazy loading y guards.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una aplicación de gestión de tareas con las siguientes secciones:</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-text">
+          <ul>
+            <li><strong>Home</strong> (<code>/</code>) — Página de bienvenida con enlaces a las secciones</li>
+            <li><strong>Tareas</strong> (<code>/tasks</code>) — Lista de tareas con query param <code>?status=pending|done</code> para filtrar. Al hacer clic en una tarea, navega a <code>/tasks/:id</code></li>
+            <li><strong>Detalle de tarea</strong> (<code>/tasks/:id</code>) — Muestra el detalle completo de la tarea</li>
+            <li><strong>Panel Admin</strong> (<code>/admin/*</code>) — Rutas anidadas lazy-loaded para <code>admin/dashboard</code> y <code>admin/users</code></li>
+            <li><strong>Login</strong> (<code>/login</code>) — Página de login para simular autenticación</li>
+            <li><strong>404</strong> — Ruta comodín para rutas no encontradas</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Barra de navegación con <code>routerLink</code> y <code>routerLinkActive</code></li>
+            <li>Lazy loading con <code>loadComponent</code> para las páginas principales</li>
+            <li>Lazy loading con <code>loadChildren</code> para la sección admin</li>
+            <li>Ruta <code>/tasks/:id</code> con <code>ActivatedRoute</code> para leer el ID</li>
+            <li>Query params <code>?status=</code> para filtrar la lista de tareas</li>
+            <li>Guard <code>canActivate</code> funcional en las rutas de admin</li>
+            <li>Guard <code>canDeactivate</code> funcional en un formulario de edición de tarea</li>
+            <li>Ruta comodín <code>**</code> como última ruta del array</li>
+            <li>Los guards usan la sintaxis funcional con <code>inject()</code></li>
+            <li>Todos los componentes son standalone</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Organiza las rutas en archivos separados (por ejemplo, <code>admin.routes.ts</code>). Usa un servicio de autenticación simple con <code>BehaviorSubject&lt;boolean&gt;</code> para el estado de login. Para los datos de tareas, puedes usar un array estático en un servicio.</div>
+    </div>
+
+    <footer>
+      <a class="back" href="index.html">&larr; Volver al índice</a>
+      <p>Angular Exercises — Routing — Nivel Avanzado</p>
+    </footer>
+  </div>
+</body>
+</html>

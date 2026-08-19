@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ejercicio 01: Cancelar con AbortController</title></head><body>
+<h1>Módulo 07 — Patrones de fetch</h1>
+<section><h2>Ejercicio 01: Cancelar con AbortController</h2><p>Aprende a cancelar peticiones HTTP en curso usando AbortController y su signal.</p></section>
+<section><h2>Tareas</h2>
+<h3>Tarea 1: Crear AbortController</h3><p>Crea un AbortController y úsalo con fetch para poder cancelar la petición.</p>
+<h3>Tarea 2: Pasar signal al fetch</h3><p>Pasa el <code>controller.signal</code> como segundo argumento de fetch.</p>
+<h3>Tarea 3: Botón Cancelar</h3><p>Haz que el botón Cancelar ejecute <code>controller.abort()</code> para cancelar la petición.</p>
+<h3>Tarea 4: Capturar AbortError</h3><p>En el catch, verifica si <code>error.name === 'AbortError'</code> para manejar la cancelación.</p>
+</section>
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<button id="fetchBtn">Iniciar</button> <button id="cancelBtn" style="background:#ef4444;color:white;">Cancelar</button> <div id="output"></div>
+<a href="index.html">← Volver al índice</a>
+<script src="01Ej.js"></script></body></html>

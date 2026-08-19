@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 03: Promise.all & Concurrent Requests</title>
+</head>
+<body>
+    <h1>AJAX & Fetch Mastery</h1>
+    
+    <section>
+        <h2>Exercise 03: Promise.all & Concurrent Requests</h2>
+        <p>Practice fetching data from multiple endpoints simultaneously using <code>Promise.all</code>.</p>
+        <pre><code>Promise.all([fetch(url1), fetch(url2)])
+  .then(responses => Promise.all(responses.map(res => res.json())))
+  .then(data => console.log(data));</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+        
+        <h3>Task 1: Fetch users and posts concurrently</h3>
+        <p>Use `Promise.all` to fetch `https://jsonplaceholder.typicode.com/users` and `https://jsonplaceholder.typicode.com/posts` at the same time. Log both arrays to the console when both are ready.</p>
+
+        <h3>Task 2: Handle partial failures (Promise.allSettled)</h3>
+        <p>Use `Promise.allSettled` with one valid URL and one invalid URL to see how it resolves instead of rejecting completely.</p>
+    </section>
+
+    <hr>
+
+    <p><strong>Note:</strong> Check the script linked below for the implementation.</p>
+
+    <script src="03Ej.js"></script>
+</body>
+</html>

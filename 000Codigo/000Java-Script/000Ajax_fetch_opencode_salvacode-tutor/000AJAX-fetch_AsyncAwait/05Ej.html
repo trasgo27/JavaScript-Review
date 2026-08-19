@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 05 — Promise.race y Promise.any</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        li::marker { color: var(--accent-color); }
+        code {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+        .nav { margin-top: 2rem; }
+        #resultados {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: rgba(22,30,49,0.9);
+            color: #f8fafc;
+            border: 1px solid rgba(56,189,248,0.2);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Ejercicio 05 — Promise.race y Promise.any</h1>
+        <p>Timeouts de red con Promise.race y fallbacks con Promise.any. Diferencia clave entre ambos.</p>
+        <section>
+            <h2>Tareas:</h2>
+            <ol>
+                <li>Crear funcion <code>fetchWithTimeout(url, ms)</code> usando Promise.race</li>
+                <li>Probar con API lenta (simular con setTimeout + Promise)</li>
+                <li>Crear funcion <code>fetchWithFallback(urls)</code> usando Promise.any</li>
+                <li>Demostrar: race rechaza con el primero que llega, any espera el primer exito</li>
+            </ol>
+        </section>
+        <div id="resultados">Esperando resultados...</div>
+        <p style="margin-top:1.5rem;">Abre la consola del navegador (F12) para ver los resultados.</p>
+        <div class="nav">
+            <a href="index.html">← Volver al indice</a>
+        </div>
+    </div>
+    <script src="05Ej.js"></script>
+</body>
+</html>

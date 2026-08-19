@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>15 · State Management | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>15 · State Management <span class="difficulty hard">Experto</span></h1>
+  <p>Gestión de estado global con Signals, NgRx SignalStore y patrones avanzados.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Store simple con signals en un servicio.</p>
+    <pre><code><span class="keyword">@Injectable</span>({ providedIn: <span class="string">'root'</span> })
+<span class="keyword">export class</span> CartStore {
+  items = signal&lt;Product[]&gt;([]);
+  total = computed(() => <span class="keyword">this</span>.items().reduce((s, i) => s + i.price * i.qty, <span class="keyword">0</span>));
+
+  add(p: Product) {
+    <span class="keyword">this</span>.items.update(list => {
+      <span class="keyword">const</span> existing = list.find(i => i.id === p.id);
+      <span class="keyword">if</span> (existing) <span class="keyword">return</span> list.map(i => i.id === p.id ? { ...i, qty: i.qty + <span class="keyword">1</span> } : i);
+      <span class="keyword">return</span> [...list, { ...p, qty: <span class="keyword">1</span> }];
+    });
+  }
+
+  remove(id: number) {
+    <span class="keyword">this</span>.items.update(list => list.filter(i => i.id !== id));
+  }
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty medium">Medio</span></h3>
+    <p>NgRx SignalStore básico.</p>
+    <pre><code><span class="keyword">import</span> { signalStore, withState, withMethods, patchState } <span class="keyword">from</span> <span class="string">'@ngrx/signals'</span>;
+
+<span class="keyword">export const</span> CounterStore = signalStore(
+  { providedIn: <span class="string">'root'</span> },
+  withState({ count: <span class="keyword">0</span> }),
+  withMethods((store) => ({
+    increment() { patchState(store, { count: store.count() + <span class="keyword">1</span> }); },
+    decrement() { patchState(store, { count: store.count() - <span class="keyword">1</span> }); },
+    reset() { patchState(store, { count: <span class="keyword">0</span> }); }
+  }))
+);
+
+<span class="comment">// Componente:</span>
+store = inject(CounterStore);</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>SignalStore con efectos (rxMethods).</p>
+    <pre><code><span class="keyword">import</span> { rxMethod } <span class="keyword">from</span> <span class="string">'@ngrx/signals/rxjs-interop'</span>;
+<span class="keyword">import</span> { tapResponse } <span class="keyword">from</span> <span class="string">'@ngrx/operators'</span>;
+
+<span class="keyword">export const</span> UserStore = signalStore(
+  withState&lt;{ users: User[]; loading: boolean }&gt;({ users: [], loading: <span class="keyword">false</span> }),
+  withMethods((store, http = inject(HttpClient)) => ({
+    loadUsers: rxMethod&lt;void&gt;(
+      pipe(
+        tap(() => patchState(store, { loading: <span class="keyword">true</span> })),
+        switchMap(() => http.get&lt;User[]&gt;(<span class="string">'/api/users'</span>)),
+        tapResponse({
+          next: (users) => patchState(store, { users, loading: <span class="keyword">false</span> }),
+          error: () => patchState(store, { loading: <span class="keyword">false</span> })
+        })
+      )
+    )
+  }))
+);</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty hard">Difícil</span></h3>
+    <p>Persistencia en localStorage con effect.</p>
+    <pre><code><span class="keyword">@Injectable</span>({ providedIn: <span class="keyword">null</span> })
+<span class="keyword">export class</span> ThemeStore {
+  theme = signal&lt;<span class="string">'light'</span> | <span class="string">'dark'</span>&gt;(
+    (localStorage.getItem(<span class="string">'theme'</span>) <span class="keyword">as</span> any) || <span class="string">'light'</span>
+  );
+
+  <span class="keyword">constructor</span>() {
+    effect(() => {
+      localStorage.setItem(<span class="string">'theme'</span>, <span class="keyword">this</span>.theme());
+      document.body.classList.toggle(<span class="string">'dark'</span>, <span class="keyword">this</span>.theme() === <span class="string">'dark'</span>);
+    });
+  }
+
+  toggle() {
+    <span class="keyword">this</span>.theme.update(t => t === <span class="string">'light'</span> ? <span class="string">'dark'</span> : <span class="string">'light'</span>);
+  }
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Feature store con SignalStore (módulos separados).</p>
+    <pre><code><span class="keyword">export const</span> AuthStore = signalStore(
+  { providedIn: <span class="string">'root'</span> },
+  withState({ user: <span class="keyword">null</span> <span class="keyword">as</span> User | <span class="keyword">null</span>, token: <span class="string">''</span> }),
+  withComputed((state) => ({
+    isLoggedIn: computed(() => !!state.user()),
+    displayName: computed(() => state.user()?.name || <span class="string">'Invitado'</span>)
+  })),
+  withMethods((store, auth = inject(AuthService)) => ({
+    login: rxMethod&lt;Credentials&gt;(
+      pipe(
+        switchMap(c => auth.login(c)),
+        tapResponse({
+          next: (res) => patchState(store, { user: res.user, token: res.token }),
+          error: console.error
+        })
+      )
+    ),
+    logout() { patchState(store, { user: <span class="keyword">null</span>, token: <span class="string">''</span> }); }
+  }))
+);</code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="14-http.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="16-standalone.html">Siguiente →</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 07: Forms (Controlled Components)</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    .form-group { margin: 10px 0; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .form-group textarea { height: 80px; resize: vertical; }
+    
+    button {
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    
+    pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+    
+    .error { color: #dc3545; font-size: 12px; margin-top: 5px; }
+    .validated-form input.error-input { border-color: #dc3545; }
+    
+    .multiple-inputs label {
+      display: block;
+      margin: 10px 0;
+      padding: 5px;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    .multiple-inputs select {
+      padding: 8px;
+      margin: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .dynamic-form .field-row {
+      display: flex;
+      gap: 10px;
+      margin: 5px 0;
+    }
+    .dynamic-form .field-row input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .dynamic-form .field-row button {
+      background: #dc3545;
+      padding: 8px 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 7.1: Basic Form
+    // ============================================
+    // Demonstrates: Controlled components, single handler for multiple inputs
+    
+    function BasicForm() {
+      const [formData, setFormData] = React.useState({
+        name: '',
+        email: '',
+        message: ''
+      });
+    
+      // Single handler works for ALL inputs!
+      // Uses computed property names: [name]: value
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();  // Prevent page reload
+        console.log('Form submitted:', formData);
+        alert(`Submitted:\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`);
+      };
+    
+      return (
+        <div className="basic-form">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Name:</label>
+              {/* Controlled: value comes from state, onChange updates state */}
+              <input type="text" name="name" value={formData.name} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Message:</label>
+              <textarea name="message" value={formData.message} onChange={handleChange} />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+          <h4>Live Preview:</h4>
+          <pre>{JSON.stringify(formData, null, 2)}</pre>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 7.2: Form with Validation
+    // ============================================
+    // Demonstrates: Validation, error messages, touched state
+    
+    function ValidatedForm() {
+      const [formData, setFormData] = React.useState({ username: '', email: '', password: '' });
+      const [errors, setErrors] = React.useState({});
+      const [touched, setTouched] = React.useState({});
+    
+      const validate = () => {
+        const newErrors = {};
+        if (formData.username.length < 3) {
+          newErrors.username = 'Username must be at least 3 characters';
+        }
+        if (!formData.email.includes('@')) {
+          newErrors.email = 'Email must be valid';
+        }
+        if (formData.password.length < 6) {
+          newErrors.password = 'Password must be at least 6 characters';
+        }
+        return newErrors;
+      };
+    
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+      };
+    
+      const handleBlur = (e) => {
+        const { name } = e.target;
+        setTouched(prev => ({ ...prev, [name]: true }));
+        setErrors(validate());
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const newErrors = validate();
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length === 0) {
+          alert('Form is valid! Data: ' + JSON.stringify(formData));
+        }
+      };
+    
+      return (
+        <div className="validated-form">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Username:</label>
+              <input 
+                type="text" 
+                name="username" 
+                value={formData.username} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
+                className={touched.username && errors.username ? 'error-input' : ''}
+              />
+              {touched.username && errors.username && (
+                <div className="error">{errors.username}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={touched.email && errors.email ? 'error-input' : ''}
+              />
+              {touched.email && errors.email && (
+                <div className="error">{errors.email}</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Password:</label>
+              <input 
+                type="password" 
+                name="password" 
+                value={formData.password} 
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={touched.password && errors.password ? 'error-input' : ''}
+              />
+              {touched.password && errors.password && (
+                <div className="error">{errors.password}</div>
+              )}
+            </div>
+            <button type="submit">Register</button>
+          </form>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 7.3: Multiple Input Types
+    // ============================================
+    // Demonstrates: Checkboxes, selects, different input types
+    
+    function MultipleInputTypes() {
+      const [settings, setSettings] = React.useState({
+        username: '',
+        age: '',
+        bio: '',
+        newsletter: true,
+        theme: 'light',
+        role: 'user'
+      });
+    
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setSettings(prev => ({
+          ...prev,
+          [name]: type === 'checkbox' ? checked : value
+        }));
+      };
+    
+      return (
+        <div className="multiple-inputs">
+          <form>
+            <input type="text" name="username" value={settings.username} onChange={handleChange} placeholder="Username" />
+            <input type="number" name="age" value={settings.age} onChange={handleChange} placeholder="Age" />
+            <textarea name="bio" value={settings.bio} onChange={handleChange} placeholder="Bio" />
+            
+            <label>
+              <input type="checkbox" name="newsletter" checked={settings.newsletter} onChange={handleChange} />
+              Subscribe to newsletter
+            </label>
+            
+            <select name="theme" value={settings.theme} onChange={handleChange}>
+              <option value="light">Light Theme</option>
+              <option value="dark">Dark Theme</option>
+            </select>
+            
+            <select name="role" value={settings.role} onChange={handleChange}>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+              <option value="moderator">Moderator</option>
+            </select>
+          </form>
+          <h4>Current Settings:</h4>
+          <pre>{JSON.stringify(settings, null, 2)}</pre>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 7.4: Dynamic Form Fields
+    // ============================================
+    // Demonstrates: Dynamic arrays in state, add/remove fields
+    
+    function DynamicForm() {
+      const [fields, setFields] = React.useState([{ id: 1, value: '' }]);
+    
+      const addField = () => {
+        setFields([...fields, { id: Date.now(), value: '' }]);
+      };
+    
+      const removeField = (id) => {
+        setFields(fields.filter(field => field.id !== id));
+      };
+    
+      const updateField = (id, value) => {
+        setFields(fields.map(field => 
+          field.id === id ? { ...field, value } : field
+        ));
+      };
+    
+      return (
+        <div className="dynamic-form">
+          <h4>Dynamic Fields</h4>
+          {fields.map(field => (
+            <div key={field.id} className="field-row">
+              <input
+                type="text"
+                value={field.value}
+                onChange={(e) => updateField(field.id, e.target.value)}
+                placeholder={`Field ${field.id}`}
+              />
+              <button onClick={() => removeField(field.id)}>Remove</button>
+            </div>
+          ))}
+          <button onClick={addField}>Add Field</button>
+          <h4>Field Data:</h4>
+          <pre>{JSON.stringify(fields, null, 2)}</pre>
+        </div>
+      );
+    }
+    
+    function FormsExercise() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 07: Forms (Controlled Components)</h2>
+          <section>
+            <h3>7.1 Basic Form</h3>
+            <BasicForm />
+          </section>
+          <section>
+            <h3>7.2 Validated Form</h3>
+            <ValidatedForm />
+          </section>
+          <section>
+            <h3>7.3 Multiple Input Types</h3>
+            <MultipleInputTypes />
+          </section>
+          <section>
+            <h3>7.4 Dynamic Form Fields</h3>
+            <DynamicForm />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<FormsExercise />);
+  </script>
+</body>
+</html>

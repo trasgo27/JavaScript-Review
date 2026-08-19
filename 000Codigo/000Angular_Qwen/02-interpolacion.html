@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>02 · Interpolación | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; }
+    .medium { background: #f59e0b; }
+    .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; }
+    .string { color: #86efac; }
+    .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>02 · Interpolación <span class="difficulty easy">Básico</span></h1>
+  <p>La <strong>interpolación</strong> <code>{{ }}</code> permite insertar valores de TypeScript directamente en el HTML.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Muestra el valor de una variable string en el template.</p>
+    <pre><code>titulo = <span class="string">'Mi primera app'</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;h1&gt;{{ titulo }}&lt;/h1&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Realiza operaciones matemáticas dentro de la interpolación.</p>
+    <pre><code>precio = <span class="keyword">100</span>;
+iva = <span class="keyword">0.21</span>;
+<span class="comment">// Template: &lt;p&gt;Total: {{ precio + precio * iva }}€&lt;/p&gt;</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Muestra también el precio sin IVA formateado a 2 decimales.</p>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Concatena strings y usa el operador ternario.</p>
+    <pre><code>nombre = <span class="string">'Carlos'</span>;
+esAdmin = <span class="keyword">true</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;p&gt;Hola {{ nombre }}, eres {{ esAdmin ? 'administrador' : 'usuario' }}&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Accede a propiedades de objetos.</p>
+    <pre><code>usuario = {
+  nombre: <span class="string">'Laura'</span>,
+  email: <span class="string">'laura@mail.com'</span>,
+  direccion: { ciudad: <span class="string">'Madrid'</span> }
+};
+<span class="comment">// Template: &lt;p&gt;{{ usuario.nombre }} vive en {{ usuario.direccion.ciudad }}&lt;/p&gt;</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Usa el operador <code>?.</code> (safe navigation) para evitar errores si el objeto es null.</p>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Llama a un método desde la interpolación.</p>
+    <pre><code>calcularDescuento(precio: number): number {
+  <span class="keyword">return</span> precio * <span class="keyword">0.85</span>;
+}
+<span class="comment">// Template: &lt;p&gt;Precio final: {{ calcularDescuento(200) }}€&lt;/p&gt;</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Crea un método que reciba un array y devuelva su longitud.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="01-componentes.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="03-binding.html">Siguiente →</a>
+  </div>
+</body>
+</html>

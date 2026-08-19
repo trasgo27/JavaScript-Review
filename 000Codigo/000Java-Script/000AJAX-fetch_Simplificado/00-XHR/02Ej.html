@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio 02 — GET con eventos</title>
+</head>
+<body>
+  <h1>Módulo 00: XMLHttpRequest</h1>
+
+  <section>
+    <h2>Ejercicio 02 — GET con manejo de eventos</h2>
+    <p>XMLHttpRequest tiene varios eventos: <code>onload</code>, <code>onerror</code>, <code>onreadystatechange</code>. Practica usarlos.</p>
+  </section>
+
+  <section>
+    <h2>Tasks</h2>
+    <h3>Task 1: Usar onreadystatechange</h3>
+    <p>En vez de <code>onload</code>, usa <code>onreadystatechange</code> y verifica que <code>readyState === 4</code> y <code>status === 200</code>.</p>
+    <h3>Task 2: Mostrar cada post</h3>
+    <p>Fetch a <code>/posts?_limit=5</code> y muestra cada título con un <code>for</code> loop.</p>
+    <h3>Task 3: Mostrar en el DOM</h3>
+    <p>Crea un <code>&lt;ul&gt;</code> con los títulos de los posts. Usa <code>innerHTML</code>.</p>
+  </section>
+
+  <details style="margin:20px 0;padding:15px;background:rgba(22,30,49,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:8px;">
+    <summary style="cursor:pointer;color:#38bdf8;font-weight:bold;">💡 Ver solución completa (click para expandir)</summary>
+    <pre style="margin-top:10px;padding:10px;background:#0d1117;border-radius:6px;overflow-x:auto;color:#c9d1d9;"><code>// ══════════════════════════════════════════════════════════════
+// SOLUCIÓN Ejercicio 02 — GET con eventos
+// ══════════════════════════════════════════════════════════════
+
+console.log('=== Ejercicio 02: GET con eventos ===');
+
+// ─── TASK 1: onreadystatechange ─────────────────────────────
+hacerEj('TASK 1: Usar onreadystatechange', () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts/1');
+
+    xhr.onreadystatechange = function() {
+        // readyState values: 0=UNSENT, 1=OPENED, 2=HEADERS_RECEIVED, 3=LOADING, 4=DONE
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const datos = JSON.parse(xhr.responseText);
+            console.log('readyState=4, status=200. Título:', datos.title);
+        }
+    };
+
+    xhr.send();
+});
+
+// ─── TASK 2: Mostrar cada post ──────────────────────────────
+hacerEj('TASK 2: Listar 5 posts', () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts?_limit=5');
+
+    xhr.onload = function() {
+        const posts = JSON.parse(xhr.responseText);
+        console.log(`Se recibieron ${posts.length} posts:`);
+
+        for (let i = 0; i < posts.length; i++) {
+            console.log(`  ${i + 1}. ${posts[i].title}`);
+        }
+    };
+
+    xhr.send();
+});
+
+// ─── TASK 3: Mostrar en DOM ─────────────────────────────────
+hacerEj('TASK 3: Renderizar en el DOM', () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts?_limit=5');
+
+    xhr.onload = function() {
+        const posts = JSON.parse(xhr.responseText);
+
+        // Crear un ul con los títulos
+        let html = '&lt;ul&gt;';
+        for (const post of posts) {
+            html += `&lt;li&gt;${post.title}&lt;/li&gt;`;
+        }
+        html += '&lt;/ul&gt;';
+
+        // Insertar en el DOM
+        const container = document.getElementById('output');
+        if (container) container.innerHTML = html;
+    };
+
+    xhr.send();
+});
+
+function hacerEj(taskName, taskFunction) {
+    console.log(`\n--- ${taskName} ---`);
+    try { taskFunction(); } catch (error) { console.error(`Error:`, error); }
+}
+</code></pre>
+  </details>
+
+  <div id="output" style="border:1px solid #ccc;padding:10px;margin-top:10px;border-radius:8px;"></div>
+  <p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+  <p><a href="index.html">← Volver al índice</a></p>
+  <script src="02Ej.js"></script>
+</body>
+</html>

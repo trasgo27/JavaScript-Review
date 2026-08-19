@@ -7,6 +7,12 @@
     "spanish-tutor": {
       "color": "#FF6B35",
       "prompt": "Espanyol/spanish-tutor.md"
+    },
+    "salvacode-tutor": {
+      "color": "#38bdf8",
+      "mode": "subagent",
+      "description": "Crea silabos y ejercicios de programacion con estructura de 4 niveles",
+      "prompt": ".opencode/agents/salvacode-tutor.md"
     }
   }
 }

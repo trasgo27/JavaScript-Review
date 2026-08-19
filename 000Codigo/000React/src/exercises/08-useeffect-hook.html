@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 08: useEffect Hook</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #007acc;
+      color: white;
+    }
+    
+    .basic-effect { text-align: center; }
+    .basic-effect h4 { font-size: 24px; }
+    
+    .data-fetching ul { list-style: none; padding: 0; }
+    .data-fetching li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    .timer { text-align: center; }
+    .timer h4 { font-size: 32px; }
+    
+    .window-events {
+      padding: 20px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      text-align: center;
+      font-family: monospace;
+    }
+    
+    .doc-title { text-align: center; }
+    .doc-title h4 { font-size: 24px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 8.1: Basic Effect
+    // ============================================
+    // Demonstrates: useEffect with dependency array
+    
+    function BasicEffect() {
+      const [count, setCount] = React.useState(0);
+      const [lastUpdated, setLastUpdated] = React.useState(null);
+    
+      // useEffect runs AFTER render
+      // [count] = dependency array - only re-run when count changes
+      React.useEffect(() => {
+        console.log('Count changed to:', count);
+        setLastUpdated(new Date().toLocaleTimeString());
+      }, [count]);  // Dependency array
+    
+      return (
+        <div className="basic-effect">
+          <h4>Count: {count}</h4>
+          <p>Last updated: {lastUpdated || 'Never'}</p>
+          <button onClick={() => setCount(c => c + 1)}>Increment</button>
+          <button onClick={() => setCount(c => c - 1)}>Decrement</button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 8.2: Fetching Data
+    // ============================================
+    // Demonstrates: useEffect for API calls on mount
+    
+    function DataFetching() {
+      const [users, setUsers] = React.useState([]);
+      const [loading, setLoading] = React.useState(true);
+      const [error, setError] = React.useState(null);
+    
+      // Empty dependency array [] = run once on mount
+      React.useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            // Simulate API call
+            await new Promise(r => setTimeout(r, 1000));
+            setUsers([
+              { id: 1, name: 'Alice', email: 'alice@example.com' },
+              { id: 2, name: 'Bob', email: 'bob@example.com' },
+              { id: 3, name: 'Charlie', email: 'charlie@example.com' }
+            ]);
+          } catch (err) {
+            setError('Failed to fetch users');
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchUsers();
+      }, []);  // Empty array = run once
+    
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p style={{color: 'red'}}>{error}</p>;
+    
+      return (
+        <div className="data-fetching">
+          <h4>Users (fetched on mount)</h4>
+          <ul>
+            {users.map(user => (
+              <li key={user.id}>
+                <strong>{user.name}</strong> - {user.email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 8.3: Timer with Cleanup
+    // ============================================
+    // Demonstrates: Cleanup function to prevent memory leaks
+    
+    function Timer() {
+      const [seconds, setSeconds] = React.useState(0);
+      const [isRunning, setIsRunning] = React.useState(false);
+    
+      React.useEffect(() => {
+        if (!isRunning) return;
+    
+        const interval = setInterval(() => {
+          setSeconds(s => s + 1);
+        }, 1000);
+    
+        // Cleanup function: runs before next effect or unmount
+        return () => clearInterval(interval);
+      }, [isRunning]);  // Re-run when isRunning changes
+    
+      const reset = () => {
+        setIsRunning(false);
+        setSeconds(0);
+      };
+    
+      return (
+        <div className="timer">
+          <h4>{seconds}s</h4>
+          <button onClick={() => setIsRunning(!isRunning)}>
+            {isRunning ? 'Pause' : 'Start'}
+          </button>
+          <button onClick={reset}>Reset</button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 8.4: Window Event Listener
+    // ============================================
+    // Demonstrates: Adding/removing event listeners with cleanup
+    
+    function WindowEvents() {
+      const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+      const [windowSize, setWindowSize] = React.useState({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    
+      // Track mouse position
+      React.useEffect(() => {
+        const handleMouseMove = (e) => {
+          setMousePos({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        // Cleanup: remove listener when component unmounts
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+      }, []);
+    
+      // Track window resize
+      React.useEffect(() => {
+        const handleResize = () => {
+          setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+      }, []);
+    
+      return (
+        <div className="window-events">
+          <p>Mouse Position: ({mousePos.x}, {mousePos.y})</p>
+          <p>Window Size: {windowSize.width} x {windowSize.height}</p>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 8.5: Document Title Effect
+    // ============================================
+    // Demonstrates: DOM manipulation with useEffect
+    
+    function DocumentTitle() {
+      const [count, setCount] = React.useState(0);
+    
+      React.useEffect(() => {
+        document.title = `Count: ${count}`;
+        // Cleanup: restore original title
+        return () => { document.title = 'React App'; };
+      }, [count]);
+    
+      return (
+        <div className="doc-title">
+          <h4>Browser Tab Title: {count}</h4>
+          <button onClick={() => setCount(c => c + 1)}>Increment</button>
+          <button onClick={() => setCount(0)}>Reset</button>
+        </div>
+      );
+    }
+    
+    function UseEffectHook() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 08: useEffect Hook</h2>
+          <section>
+            <h3>8.1 Basic Effect (Dependency Array)</h3>
+            <p>The effect runs only when <code>count</code> changes.</p>
+            <BasicEffect />
+          </section>
+          <section>
+            <h3>8.2 Data Fetching on Mount</h3>
+            <p>Empty <code>[]</code> dependency array = run once when component mounts.</p>
+            <DataFetching />
+          </section>
+          <section>
+            <h3>8.3 Timer with Cleanup</h3>
+            <p>Return a cleanup function to prevent memory leaks!</p>
+            <Timer />
+          </section>
+          <section>
+            <h3>8.4 Window Events</h3>
+            <p>Move your mouse and resize the window to see updates.</p>
+            <WindowEvents />
+          </section>
+          <section>
+            <h3>8.5 Document Title</h3>
+            <p>Watch the browser tab title change!</p>
+            <DocumentTitle />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UseEffectHook />);
+  </script>
+</body>
+</html>

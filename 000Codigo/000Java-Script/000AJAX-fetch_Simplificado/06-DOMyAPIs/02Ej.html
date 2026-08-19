@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio 02: Input de búsqueda + resultados</title>
+</head>
+<body>
+  <h1>Módulo 06: DOM y APIs</h1>
+  <section>
+    <h2>Ejercicio 02: Input de búsqueda + resultados</h2>
+    <p>Crea un campo de búsqueda que filtre usuarios de la API en tiempo real al escribir.</p>
+  </section>
+  <section>
+    <h2>Tareas</h2>
+    <h3>Tarea 1: Escuchar evento input</h3>
+    <p>Selecciona el campo de búsqueda y escucha el evento <code>'input'</code>.</p>
+    <h3>Tarea 2: Fetch + filtrar por nombre</h3>
+    <p>Cada vez que el usuario escriba, haz fetch a <code>/users</code> y filtra por nombre usando <code>.includes()</code>.</p>
+    <h3>Tarea 3: Mostrar resultados en #results</h3>
+    <p>Renderiza los usuarios filtrados como HTML dentro de <code>#results</code>.</p>
+    <h3>Tarea 4: Mensaje si no hay resultados</h3>
+    <p>Si la búsqueda no encuentra nada, muestra <code>"No encontrado"</code>.</p>
+  </section>
+  <p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+  <input id="search" placeholder="Buscar usuario..." style="padding:8px;width:80%;">
+  <div id="results" style="border:1px solid #ccc;padding:10px;margin-top:10px;"></div>
+  <a href="index.html">← Volver al índice</a>
+  <script src="02Ej.js"></script>
+</body>
+</html>

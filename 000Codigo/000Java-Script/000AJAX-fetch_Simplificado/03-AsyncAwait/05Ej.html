@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicio 05: Promise.all — Multiples fetch en paralelo</title>
+<style>
+:root{--bg:#0b0f19;--card:rgba(22,30,49,0.7);--accent:#38bdf8;--text:#f8fafc;--muted:#94a3b8;--border:rgba(255,255,255,0.08);--red:#f87171;--green:#34d399;--yellow:#fbbf24}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,sans-serif;margin:0;padding:40px 20px;line-height:1.6}
+.container{max-width:800px;margin:0 auto}
+h1{text-align:center;font-size:2rem;background:linear-gradient(135deg,#38bdf8,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+h2{color:var(--accent)}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.75rem;font-weight:bold;margin-left:8px}
+.badge-green{background:rgba(52,211,153,0.2);color:var(--green);border:1px solid var(--green)}
+.badge-yellow{background:rgba(251,191,36,0.2);color:var(--yellow);border:1px solid var(--yellow)}
+pre{background:#0d1117;padding:12px;border-radius:8px;overflow-x:auto;color:#c9d1d9;font-size:0.9rem;line-height:1.5}
+code{font-family:'Fira Code',Consolas,monospace;font-size:0.9rem}
+.task{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin:15px 0}
+.task h3{margin-top:0;border-left:3px solid var(--accent);padding-left:8px}
+.tip{background:rgba(56,189,248,0.1);border-left:3px solid var(--accent);padding:12px;margin:10px 0;border-radius:0 8px 8px 0}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Ejercicio 05: Promise.all</h1>
+<p style="text-align:center;color:var(--muted);">Multiples fetch en paralelo con Promise.all</p>
+
+<div class="task">
+<h2>Contexto</h2>
+<p>Hasta ahora has hecho fetch <strong>secuencialmente</strong>: primero obtienes un dato, luego otro. Pero... &iquest;que pasa si necesitas 3 recursos que no dependen entre si?</p>
+<p><code>Promise.all()</code> recibe un <strong>array de promesas</strong> y las ejecuta <strong>simultaneamente</strong>. Cuando TODAS terminan, retorna un array con los resultados.</p>
+
+<div class="tip">
+<strong>Ventaja:</strong> Si cada fetch tarda 500ms, hacer 3 secuencialmente = 1500ms. Con Promise.all = 500ms.
+</div>
+</div>
+
+<div class="task">
+<h2>Tareas <span class="badge badge-green">5 tareas</span></h2>
+
+<h3>Task 1: Obtener usuario con id=1</h3>
+<p>Usa <code>await fetch()</code> para obtener el usuario de la API.</p>
+<pre><code>const resp = await fetch('https://jsonplaceholder.typicode.com/users/1');
+const usuario = await resp.json();
+console.log('Usuario:', usuario.name);</code></pre>
+
+<h3>Task 2: Obtener posts del usuario</h3>
+<p>Usa el filtro <code>?userId=1</code> para obtener sus publicaciones.</p>
+<pre><code>const resp = await fetch('https://jsonplaceholder.typicode.com/posts?userId=1');
+const posts = await resp.json();
+console.log('Posts:', posts.length, 'publicaciones');</code></pre>
+
+<h3>Task 3: Obtener albums del usuario</h3>
+<p>Mismo patron que Task 2 pero con albums.</p>
+<pre><code>const resp = await fetch('https://jsonplaceholder.typicode.com/albums?userId=1');
+const albums = await resp.json();
+console.log('Albums:', albums.length, 'albumes');</code></pre>
+
+<h3>Task 4: Promise.all en paralelo</h3>
+<p>Ahora combina los 3 fetch en un solo <code>Promise.all</code>. Recuerda:</p>
+<ol>
+  <li>Primero lanza los 3 fetch (sin await)</li>
+  <li>Luego convierte todos a JSON con otro Promise.all</li>
+</ol>
+<pre><code>const [resp1, resp2, resp3] = await Promise.all([
+  fetch(url1), fetch(url2), fetch(url3)
+]);
+const [data1, data2, data3] = await Promise.all([
+  resp1.json(), resp2.json(), resp3.json()
+]);</code></pre>
+
+<h3>Task 5: Mostrar resumen</h3>
+<p>Muestra un resumen con el nombre del usuario, cantidad de posts y albums.</p>
+</div>
+
+<!-- TOGGLE DE SOLUCION -->
+<details style="margin:20px 0;padding:15px;background:rgba(22,30,49,0.7);border:1px solid rgba(255,255,255,0.08);border-radius:8px;">
+  <summary style="cursor:pointer;color:#38bdf8;font-weight:bold;">Ver solucion completa (click para expandir)</summary>
+  <pre style="margin-top:10px;padding:10px;background:#0d1117;border-radius:6px;overflow-x:auto;color:#c9d1d9;"><code>console.log('=== Ejercicio 05: Promise.all ===');
+
+async function main() {
+  console.log('--- Task 1-3: Fetch secuencial (lento) ---');
+  const respUsuario = await fetch('https://jsonplaceholder.typicode.com/users/1');
+  const usuario = await respUsuario.json();
+  console.log('Usuario:', usuario.name);
+
+  const respPosts = await fetch('https://jsonplaceholder.typicode.com/posts?userId=1');
+  const posts = await respPosts.json();
+  console.log('Posts:', posts.length, 'publicaciones');
+
+  const respAlbums = await fetch('https://jsonplaceholder.typicode.com/albums?userId=1');
+  const albums = await respAlbums.json();
+  console.log('Albums:', albums.length, 'albumes');
+
+  console.log('\n--- Task 4: Promise.all en paralelo (rapido) ---');
+  const [rU, rP, rA] = await Promise.all([
+    fetch('https://jsonplaceholder.typicode.com/users/1'),
+    fetch('https://jsonplaceholder.typicode.com/posts?userId=1'),
+    fetch('https://jsonplaceholder.typicode.com/albums?userId=1')
+  ]);
+  const [user, postsArr, albumsArr] = await Promise.all([
+    rU.json(), rP.json(), rA.json()
+  ]);
+  console.log('Promise.all completado!');
+
+  console.log('\n--- Task 5: Resumen ---');
+  console.log('=== RESUMEN ===');
+  console.log('Usuario:', user.name);
+  console.log('Posts:', postsArr.length, 'publicaciones');
+  console.log('Albums:', albumsArr.length, 'albumes');
+}
+
+main();</code></pre>
+</details>
+
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<p><a href="index.html">Volver al indice</a></p>
+<script src="05Ej.js"></script>
+</div>
+</body>
+</html>

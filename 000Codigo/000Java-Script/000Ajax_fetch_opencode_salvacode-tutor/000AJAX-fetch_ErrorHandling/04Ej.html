@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 04 — Manejar Errores de JSON Parsing</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        li::marker { color: var(--accent-color); }
+        code {
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+        .nav { margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Ejercicio 04 — Manejar Errores de JSON Parsing</h1>
+        <p>Cuando el servidor retorna texto plano en vez de JSON, <code>response.json()</code> lanza un SyntaxError. Aprender a manejar esto.</p>
+        <section>
+            <h2>Tareas:</h2>
+            <ol>
+                <li>Fetch a URL que retorne texto plano, no JSON</li>
+                <li>Capturar SyntaxError de JSON.parse</li>
+                <li>Crear función <code>fetchJSON()</code> mejorada que maneje parse errors</li>
+                <li>Crear función <code>fetchText(url)</code> para respuestas que NO son JSON</li>
+                <li>Wrapper final: <code>fetchSmart(url, { expectJson: true })</code></li>
+            </ol>
+        </section>
+        <p style="margin-top:1.5rem;">Abre la consola del navegador (F12) para ver los resultados.</p>
+        <div class="nav">
+            <a href="index.html">← Volver al índice</a>
+        </div>
+    </div>
+    <script src="04Ej.js"></script>
+</body>
+</html>

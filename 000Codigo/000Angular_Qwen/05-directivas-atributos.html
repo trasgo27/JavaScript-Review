@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>05 · Directivas de Atributo | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>05 · Directivas de Atributo <span class="difficulty easy">Básico</span></h1>
+  <p>Las directivas de atributo modifican la apariencia o comportamiento de un elemento: <code>ngClass</code>, <code>ngStyle</code> y binding directo de clases.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Aplica una clase condicional con <code>[class.nombre]</code>.</p>
+    <pre><code>activo = <span class="keyword">true</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;div [class.activo]="activo"&gt;Elemento&lt;/div&gt;</span>
+<span class="comment">// CSS: .activo { color: green; }</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Usa <code>ngClass</code> con objeto de clases.</p>
+    <pre><code>esGrande = <span class="keyword">true</span>;
+esRojo = <span class="keyword">false</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;div [ngClass]="{ 'grande': esGrande, 'rojo': esRojo }"&gt;Texto&lt;/div&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Usa <code>ngStyle</code> para estilos dinámicos.</p>
+    <pre><code>tamano = <span class="keyword">20</span>;
+color = <span class="string">'blue'</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;p [ngStyle]="{ 'font-size.px': tamano, 'color': color }"&gt;Texto dinámico&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Combina múltiples clases según el estado.</p>
+    <pre><code>estado = <span class="string">'exito'</span>; <span class="comment">// 'error' | 'warning' | 'exito'</span>
+
+getClases() {
+  <span class="keyword">return</span> {
+    <span class="string">'alerta-exito'</span>: <span class="keyword">this</span>.estado === <span class="string">'exito'</span>,
+    <span class="string">'alerta-error'</span>: <span class="keyword">this</span>.estado === <span class="string">'error'</span>,
+    <span class="string">'alerta-warning'</span>: <span class="keyword">this</span>.estado === <span class="string">'warning'</span>
+  };
+}
+<span class="comment">// Template: &lt;div [ngClass]="getClases()"&gt;Mensaje&lt;/div&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Crea un "theme switcher" con ngClass y ngStyle.</p>
+    <pre><code>temaOscuro = <span class="keyword">true</span>;
+tamanoFuente = <span class="keyword">16</span>;
+
+toggleTema() { <span class="keyword">this</span>.temaOscuro = !<span class="keyword">this</span>.temaOscuro; }
+
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;div [ngClass]="{ 'oscuro': temaOscuro, 'claro': !temaOscuro }"</span>
+<span class="comment">//      [ngStyle]="{ 'font-size.px': tamanoFuente }"&gt;</span>
+<span class="comment">//   &lt;button (click)="toggleTema()"&gt;Cambiar tema&lt;/button&gt;</span>
+<span class="comment">//   &lt;input type="range" min="12" max="24" [(ngModel)]="tamanoFuente" /&gt;</span>
+<span class="comment">// &lt;/div&gt;</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Añade un tercer tema (sepia) y un selector con 3 opciones.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="04-directivas-estructurales.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="06-signals.html">Siguiente →</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5 — Loading, Empty y Error states</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        section {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        section h2 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        section p, section li { color: var(--text-muted); line-height: 1.6; }
+        section ol { padding-left: 1.2rem; }
+        section li { margin-bottom: 0.3rem; }
+        .demo-controls {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .demo-controls button {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .demo-controls button:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+        .state-container {
+            max-width: 700px;
+            margin: 0 auto;
+            min-height: 200px;
+        }
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        .post-card h3 {
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            text-transform: capitalize;
+        }
+        .post-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 5 — Loading, Empty y Error States</h1>
+
+    <section>
+        <h2>Descripción</h2>
+        <p>Implementa componentes reutilizables para diferentes estados de la UI: carga, vacío y error.</p>
+    </section>
+
+    <section>
+        <h2>Tareas</h2>
+        <ol>
+            <li>Crear componentes: LoadingSpinner, EmptyState, ErrorState</li>
+            <li>Implementar flujo completo: Loading → Datos | Error | Empty</li>
+            <li>Mostrar spinner durante fetch</li>
+            <li>Mostrar "No hay resultados" si array vacío</li>
+            <li>Mostrar error con botón "Reintentar"</li>
+            <li>Estilos CSS inline para cada estado</li>
+        </ol>
+    </section>
+
+    <div class="demo-controls">
+        <button id="btn-success">Cargar datos (éxito)</button>
+        <button id="btn-empty">Cargar vacío</button>
+        <button id="btn-error">Cargar error</button>
+        <button id="btn-real">Fetch real (JSONPlaceholder)</button>
+    </div>
+
+    <div class="state-container" id="state-container"></div>
+
+    <a href="index.html" class="nav-link">← Volver al índice</a>
+
+    <script src="05Ej.js"></script>
+</body>
+</html>

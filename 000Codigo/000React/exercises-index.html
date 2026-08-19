@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Exercises Index</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    h1 { color: #1a1a2e; margin-bottom: 10px; }
+    .subtitle { color: #666; margin-bottom: 30px; }
+    .exercise-list { list-style: none; }
+    .exercise-item { background: white; margin-bottom: 10px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .exercise-item a { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; text-decoration: none; color: inherit; transition: background 0.2s; }
+    .exercise-item:hover { background: #f0f0f0; }
+    .exercise-title { font-weight: 600; }
+    .exercise-desc { color: #666; font-size: 0.9em; }
+    .badge { background: #61dafb; color: #1a1a2e; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; }
+    .badge.basic { background: #4caf50; color: white; }
+    .badge.intermediate { background: #ff9800; color: white; }
+    .badge.advanced { background: #f44336; color: white; }
+    .section { margin-top: 40px; }
+    .section h2 { color: #1a1a2e; margin-bottom: 15px; border-bottom: 2px solid #61dafb; padding-bottom: 5px; }
+    .run-instructions { background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    .run-instructions h3 { margin-bottom: 10px; }
+    code { background: #1a1a2e; color: #61dafb; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>React Exercises</h1>
+    <p class="subtitle">14 exercises to master React fundamentals</p>
+
+    <div class="run-instructions">
+      <h3>How to Run</h3>
+      <p>1. Open terminal in project folder</p>
+      <p>2. Run: <code>npm run dev</code></p>
+      <p>3. Open browser at <code>http://localhost:5173</code></p>
+      <p>4. Click an exercise below to view it</p>
+    </div>
+
+    <div class="section">
+      <h2>Fundamentals</h2>
+      <ul class="exercise-list">
+        <li class="exercise-item">
+          <a href="./src/exercises/01-jsx-basics.jsx">
+            <div>
+              <div class="exercise-title">01 - JSX Basics</div>
+              <div class="exercise-desc">Expressions, attributes, fragments, inline styles</div>
+            </div>
+            <span class="badge basic">Basic</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/02-components-props.jsx">
+            <div>
+              <div class="exercise-title">02 - Components & Props</div>
+              <div class="exercise-desc">Creating components, passing data, composition</div>
+            </div>
+            <span class="badge basic">Basic</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/03-usestate-hook.jsx">
+            <div>
+              <div class="exercise-title">03 - useState Hook</div>
+              <div class="exercise-desc">Managing state, forms, toggles, arrays</div>
+            </div>
+            <span class="badge basic">Basic</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/04-event-handling.jsx">
+            <div>
+              <div class="exercise-title">04 - Event Handling</div>
+              <div class="exercise-desc">Click, form, keyboard, mouse events</div>
+            </div>
+            <span class="badge basic">Basic</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Intermediate</h2>
+      <ul class="exercise-list">
+        <li class="exercise-item">
+          <a href="./src/exercises/05-conditional-rendering.jsx">
+            <div>
+              <div class="exercise-title">05 - Conditional Rendering</div>
+              <div class="exercise-desc">If/else, ternary, && operator, feature flags</div>
+            </div>
+            <span class="badge intermediate">Intermediate</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/06-lists-keys.jsx">
+            <div>
+              <div class="exercise-title">06 - Lists & Keys</div>
+              <div class="exercise-desc">Rendering arrays, filtering, nested lists</div>
+            </div>
+            <span class="badge intermediate">Intermediate</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/07-forms.jsx">
+            <div>
+              <div class="exercise-title">07 - Forms</div>
+              <div class="exercise-desc">Controlled components, validation, dynamic fields</div>
+            </div>
+            <span class="badge intermediate">Intermediate</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/08-useeffect-hook.jsx">
+            <div>
+              <div class="exercise-title">08 - useEffect Hook</div>
+              <div class="exercise-desc">Side effects, cleanup, data fetching, timers</div>
+            </div>
+            <span class="badge intermediate">Intermediate</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/09-usecontext-hook.jsx">
+            <div>
+              <div class="exercise-title">09 - useContext Hook</div>
+              <div class="exercise-desc">Context API, theme switching, user state</div>
+            </div>
+            <span class="badge intermediate">Intermediate</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Advanced</h2>
+      <ul class="exercise-list">
+        <li class="exercise-item">
+          <a href="./src/exercises/10-useref-hook.jsx">
+            <div>
+              <div class="exercise-title">10 - useRef Hook</div>
+              <div class="exercise-desc">DOM refs, timers, persisting values</div>
+            </div>
+            <span class="badge advanced">Advanced</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/11-custom-hooks.jsx">
+            <div>
+              <div class="exercise-title">11 - Custom Hooks</div>
+              <div class="exercise-desc">useLocalStorage, useToggle, useFetch</div>
+            </div>
+            <span class="badge advanced">Advanced</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/12-usereducer-hook.jsx">
+            <div>
+              <div class="exercise-title">12 - useReducer Hook</div>
+              <div class="exercise-desc">Reducer pattern, complex state, shopping cart</div>
+            </div>
+            <span class="badge advanced">Advanced</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/13-performance.jsx">
+            <div>
+              <div class="exercise-title">13 - Performance</div>
+              <div class="exercise-desc">React.memo, useMemo, useCallback</div>
+            </div>
+            <span class="badge advanced">Advanced</span>
+          </a>
+        </li>
+        <li class="exercise-item">
+          <a href="./src/exercises/14-error-boundaries.jsx">
+            <div>
+              <div class="exercise-title">14 - Error Boundaries</div>
+              <div class="exercise-desc">Class components, error handling, recovery</div>
+            </div>
+            <span class="badge advanced">Advanced</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

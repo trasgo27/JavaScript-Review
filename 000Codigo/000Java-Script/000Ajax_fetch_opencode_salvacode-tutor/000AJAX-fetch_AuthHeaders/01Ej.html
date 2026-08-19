@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01: Headers Personalizados</title>
+</head>
+<body>
+    <h1>Headers, Autenticación y Seguridad</h1>
+
+    <section>
+        <h2>Exercise 01: Headers Personalizados y DevTools</h2>
+        <p>Aprende a enviar headers personalizados en tus peticiones fetch y a inspeccionarlos en DevTools.</p>
+        <pre><code>fetch('https://jsonplaceholder.typicode.com/posts', {
+  headers: {
+    'X-Custom-Header': 'salvacode',
+    'Accept': 'application/json',
+    'X-Request-Source': 'exercise-01'
+  }
+})</code></pre>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: Header personalizado simple</h3>
+        <p>Fetch a <code>/posts</code> con el header <code>'X-Custom-Header': 'salvacode'</code>. Abre DevTools → Network y verifica que el header aparece en la petición.</p>
+
+        <h3>Task 2: Header Accept</h3>
+        <p>Fetch con <code>'Accept': 'application/json'</code>. Compara la respuesta con y sin este header.</p>
+
+        <h3>Task 3: Múltiples headers</h3>
+        <p>Fetch con 3 headers personalizados simultáneos. Muestra todos los headers enviados en el DOM.</p>
+
+        <h3>Task 4: Inspección en DevTools</h3>
+        <p>Instrucciones: Abre DevTools (F12) → pestaña Network → haz una petición → haz click en la petición → pestaña Headers → busca "Request Headers". ¿Ves tus headers custom?</p>
+
+        <h3>Task 5: Función fetchConHeaders</h3>
+        <p>Crea una función <code>fetchConHeaders(url, customHeaders)</code> que mergear headers por defecto con los que el usuario pase.</p>
+
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="01Ej.js"></script>
+</body>
+</html>

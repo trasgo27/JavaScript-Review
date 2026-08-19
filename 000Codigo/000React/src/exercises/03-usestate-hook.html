@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 03: useState Hook</title>
+  
+  <!-- ============================================
+       REACT CDN IMPORTS
+       ============================================
+       - useState is a Hook that lets you add state to functional components
+       - It returns [state, setState] - the current state and a function to update it
+  -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    /* Counter Styles */
+    .counter {
+      text-align: center;
+    }
+    .counter button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .counter button:first-of-type { background: #28a745; color: white; }
+    .counter button:nth-of-type(2) { background: #dc3545; color: white; }
+    .counter button:last-of-type { background: #6c757d; color: white; }
+    
+    /* Color classes for counter */
+    .negative { color: #dc3545; }
+    .zero { color: #6c757d; }
+    .positive { color: #28a745; }
+    
+    /* Toggle Styles */
+    .toggle {
+      text-align: center;
+    }
+    .toggle button {
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .toggle-content {
+      margin-top: 15px;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 4px;
+    }
+    
+    /* Form Styles */
+    .form-input input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .form-input button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .form-input button[type="submit"] { background: #007acc; color: white; }
+    .form-input button[type="button"] { background: #6c757d; color: white; }
+    .submitted-data {
+      margin-top: 15px;
+      padding: 15px;
+      background: #d4edda;
+      border-radius: 4px;
+    }
+    .error {
+      color: #dc3545;
+      margin: 10px 0;
+    }
+    
+    /* Profile Editor Styles */
+    .profile-editor {
+      text-align: center;
+    }
+    .profile-editor input, .profile-editor textarea {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .profile-editor button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .profile-editor button:first-of-type { background: #28a745; color: white; }
+    .profile-editor button:last-of-type { background: #dc3545; color: white; }
+    
+    /* Todo List Styles */
+    .todo-list input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 200px;
+    }
+    .todo-list button {
+      padding: 10px 20px;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .todo-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .todo-list li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .todo-list li.completed span {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .todo-list li button {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- ============================================
+       USESTATE HOOK EXERCISE
+       ============================================
+       KEY CONCEPTS:
+       - useState returns [state, setState]
+       - Calling setState triggers a RE-RENDER
+       - State updates are ASYNCHRONOUS (batched)
+       - NEVER mutate state directly - always use setState
+       - Use functional updates when new state depends on previous: setState(prev => prev + 1)
+  -->
+  <script type="text/babel">
+    // Import useState (in browser, it's available via React.useState)
+    // In a real app with build tools: import { useState } from 'react';
+    
+    // ============================================
+    // EXERCISE 3.1: Basic Counter
+    // ============================================
+    // Demonstrates: useState with numbers, event handlers, conditional classes
+    
+    function Counter() {
+      // useState(0) initializes count to 0
+      // count = current state value
+      // setCount = function to update state (triggers re-render)
+      const [count, setCount] = React.useState(0);
+    
+      // Event handlers - these functions run when buttons are clicked
+      const increment = () => {
+        setCount(prev => prev + 1);  // Functional update: uses previous state
+      };
+    
+      const decrement = () => {
+        setCount(prev => prev - 1);
+      };
+    
+      const reset = () => {
+        setCount(0);  // Direct value update
+      };
+    
+      // Dynamic class based on state
+      const getColorClass = () => {
+        if (count < 0) return 'negative';
+        if (count === 0) return 'zero';
+        return 'positive';
+      };
+    
+      return (
+        <div className="counter">
+          <h3 className={getColorClass()}>Count: {count}</h3>
+          <button onClick={increment}>+1</button>
+          <button onClick={decrement}>-1</button>
+          <button onClick={reset}>Reset</button>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 3.2: Toggle Visibility
+    // ============================================
+    // Demonstrates: Boolean state, conditional rendering
+    
+    function ToggleContent() {
+      const [isVisible, setIsVisible] = React.useState(false);
+    
+      const toggle = () => {
+        setIsVisible(prev => !prev);  // Toggle: flip true/false
+      };
+    
+      return (
+        <div className="toggle">
+          <button onClick={toggle}>
+            {isVisible ? 'Hide' : 'Show'} Content
+          </button>
+          
+          {/* Conditional rendering with && operator */}
+          {/* If isVisible is true, render the div. If false, render nothing. */}
+          {isVisible && (
+            <div className="toggle-content">
+              <p>🎉 Surprise! This content is now visible!</p>
+              <p>You toggled this using useState with a boolean value.</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 3.3: Form Input State
+    // ============================================
+    // Demonstrates: Multiple state values, controlled inputs, form handling
+    
+    function FormInput() {
+      const [name, setName] = React.useState('');
+      const [email, setEmail] = React.useState('');
+      const [submitted, setSubmitted] = React.useState(false);
+      const [error, setError] = React.useState('');
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();  // Prevent page reload
+        
+        // Validation
+        if (!name.trim() || !email.trim()) {
+          setError('Please fill in all fields');
+          return;
+        }
+        if (!email.includes('@')) {
+          setError('Please enter a valid email');
+          return;
+        }
+        
+        // Success!
+        setError('');
+        setSubmitted(true);
+      };
+    
+      const handleReset = () => {
+        setName('');
+        setEmail('');
+        setSubmitted(false);
+        setError('');
+      };
+    
+      return (
+        <div className="form-input">
+          <form onSubmit={handleSubmit}>
+            {/* Controlled input: value is tied to state, onChange updates state */}
+            <input 
+              type="text" 
+              placeholder="Name" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            
+            {error && <p className="error">{error}</p>}
+            
+            <button type="submit">Submit</button>
+            <button type="button" onClick={handleReset}>Reset</button>
+          </form>
+          
+          {submitted && (
+            <div className="submitted-data">
+              <h4>Submitted Data:</h4>
+              <p><strong>Name:</strong> {name}</p>
+              <p><strong>Email:</strong> {email}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 3.4: Multiple State Values
+    // ============================================
+    // Demonstrates: Managing multiple related state values, edit/view modes
+    
+    function ProfileEditor() {
+      const [firstName, setFirstName] = React.useState('John');
+      const [lastName, setLastName] = React.useState('Doe');
+      const [bio, setBio] = React.useState('React developer');
+      const [isEditing, setIsEditing] = React.useState(false);
+      
+      // Temporary state for edit mode (so we can cancel without saving)
+      const [tempFirstName, setTempFirstName] = React.useState(firstName);
+      const [tempLastName, setTempLastName] = React.useState(lastName);
+      const [tempBio, setTempBio] = React.useState(bio);
+    
+      const startEditing = () => {
+        // Copy current values to temp state
+        setTempFirstName(firstName);
+        setTempLastName(lastName);
+        setTempBio(bio);
+        setIsEditing(true);
+      };
+    
+      const saveChanges = () => {
+        // Copy temp values to actual state
+        setFirstName(tempFirstName);
+        setLastName(tempLastName);
+        setBio(tempBio);
+        setIsEditing(false);
+      };
+    
+      const cancelEditing = () => {
+        // Just close editor without saving
+        setIsEditing(false);
+      };
+    
+      return (
+        <div className="profile-editor">
+          {isEditing ? (
+            <div className="edit-mode">
+              <input 
+                type="text" 
+                placeholder="First Name" 
+                value={tempFirstName}
+                onChange={(e) => setTempFirstName(e.target.value)}
+              />
+              <input 
+                type="text" 
+                placeholder="Last Name" 
+                value={tempLastName}
+                onChange={(e) => setTempLastName(e.target.value)}
+              />
+              <textarea 
+                placeholder="Bio"
+                value={tempBio}
+                onChange={(e) => setTempBio(e.target.value)}
+              />
+              <button onClick={saveChanges}>Save</button>
+              <button onClick={cancelEditing}>Cancel</button>
+            </div>
+          ) : (
+            <div className="view-mode">
+              <h3>{firstName} {lastName}</h3>
+              <p>{bio}</p>
+              <button onClick={startEditing}>Edit Profile</button>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 3.5: Array State (Todo List)
+    // ============================================
+    // Demonstrates: Managing arrays in state, immutable updates
+    
+    function TodoList() {
+      const [todos, setTodos] = React.useState([
+        { id: 1, text: 'Learn React', completed: true },
+        { id: 2, text: 'Build projects', completed: false }
+      ]);
+      const [newTodo, setNewTodo] = React.useState('');
+    
+      const addTodo = () => {
+        if (!newTodo.trim()) return;
+        
+        // Add new todo using spread operator (immutable update)
+        setTodos([...todos, { 
+          id: Date.now(), 
+          text: newTodo, 
+          completed: false 
+        }]);
+        setNewTodo(''); // Clear input
+      };
+    
+      const toggleTodo = (id) => {
+        // Toggle completed status using .map() (immutable update)
+        setTodos(todos.map(todo => 
+          todo.id === id 
+            ? { ...todo, completed: !todo.completed } 
+            : todo
+        ));
+      };
+    
+      const deleteTodo = (id) => {
+        // Remove todo using .filter() (immutable update)
+        setTodos(todos.filter(todo => todo.id !== id));
+      };
+    
+      // Calculate stats
+      const completedCount = todos.filter(t => t.completed).length;
+    
+      return (
+        <div className="todo-list">
+          <div>
+            <input 
+              type="text" 
+              value={newTodo}
+              onChange={(e) => setNewTodo(e.target.value)}
+              placeholder="Add a todo..."
+              onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+            />
+            <button onClick={addTodo}>Add</button>
+          </div>
+          
+          <p>Total: {todos.length} | Completed: {completedCount}</p>
+          
+          <ul>
+            {todos.map(todo => (
+              <li key={todo.id} className={todo.completed ? 'completed' : ''}>
+                <span onClick={() => toggleTodo(todo.id)}>
+                  {todo.completed ? '✓' : '○'} {todo.text}
+                </span>
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // MAIN COMPONENT
+    // ============================================
+    function UseStateHook() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 03: useState Hook</h2>
+          
+          <section>
+            <h3>3.1 Basic Counter</h3>
+            <Counter />
+          </section>
+          
+          <section>
+            <h3>3.2 Toggle Visibility</h3>
+            <ToggleContent />
+          </section>
+          
+          <section>
+            <h3>3.3 Form Input</h3>
+            <FormInput />
+          </section>
+          
+          <section>
+            <h3>3.4 Profile Editor</h3>
+            <ProfileEditor />
+          </section>
+          
+          <section>
+            <h3>3.5 Todo List (Array State)</h3>
+            <TodoList />
+          </section>
+        </div>
+      );
+    }
+    
+    // ============================================
+    // MOUNT THE APP
+    // ============================================
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<UseStateHook />);
+  </script>
+</body>
+</html>

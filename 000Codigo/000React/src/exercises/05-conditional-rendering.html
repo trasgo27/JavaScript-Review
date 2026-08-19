@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise 05: Conditional Rendering</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .exercise { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    section { margin-bottom: 30px; padding: 15px; background: white; border-radius: 4px; }
+    h2 { color: #007acc; }
+    h3 { color: #555; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    
+    .login-status { text-align: center; }
+    .login-status button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .login-status .login-btn { background: #28a745; color: white; }
+    .login-status .logout-btn { background: #dc3545; color: white; }
+    .welcome { padding: 15px; background: #d4edda; border-radius: 4px; margin-top: 10px; }
+    
+    .access-control { text-align: center; }
+    .access-control select { padding: 10px; border-radius: 4px; }
+    .role-card { padding: 15px; margin-top: 10px; border-radius: 4px; }
+    .role-guest { background: #fff3cd; }
+    .role-user { background: #cce5ff; }
+    .role-admin { background: #f8d7da; }
+    
+    .loading-states { text-align: center; }
+    .loading-states button { padding: 10px 20px; background: #007acc; color: white; border: none; border-radius: 4px; }
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #ccc; border-top-color: #007acc; border-radius: 50%; animation: spin 1s linear infinite; margin: 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { color: #dc3545; padding: 10px; background: #f8d7da; border-radius: 4px; }
+    .data-list { text-align: left; padding: 10px; background: #d4edda; border-radius: 4px; }
+    
+    .feature-flags label { display: block; margin: 5px 0; padding: 5px; }
+    .feature-flags input { margin-right: 10px; }
+    .feature-preview { padding: 15px; margin-top: 10px; border-radius: 4px; border: 1px solid #ddd; }
+    .dark-mode { background: #333; color: white; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ============================================
+    // EXERCISE 5.1: Login Status
+    // ============================================
+    // Demonstrates: Ternary operator, if/else patterns
+    
+    function LoginStatus() {
+      const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+      const [user, setUser] = React.useState({ name: 'Alice', role: 'admin' });
+    
+      const toggleLogin = () => {
+        setIsLoggedIn(prev => !prev);
+      };
+    
+      return (
+        <div className="login-status">
+          {/* Ternary operator: condition ? true : false */}
+          {isLoggedIn ? (
+            <div>
+              <div className="welcome">
+                <h3>Welcome back, {user.name}!</h3>
+                <p>Your role: {user.role}</p>
+              </div>
+              <button className="logout-btn" onClick={toggleLogin}>Logout</button>
+            </div>
+          ) : (
+            <div>
+              <p>Please log in to continue</p>
+              <button className="login-btn" onClick={toggleLogin}>Login</button>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 5.2: Access Control
+    // ============================================
+    // Demonstrates: Multiple conditions, switch-like patterns
+    
+    function AccessControl() {
+      const [role, setRole] = React.useState('guest');
+    
+      // Render different content based on role
+      const renderContent = () => {
+        switch (role) {
+          case 'guest':
+            return (
+              <div className="role-card role-guest">
+                <h4>🔒 Guest Mode</h4>
+                <p>Please log in to access your dashboard.</p>
+              </div>
+            );
+          case 'user':
+            return (
+              <div className="role-card role-user">
+                <h4>👤 User Dashboard</h4>
+                <p>Welcome! You can view your profile and settings.</p>
+                <button>View Profile</button>
+              </div>
+            );
+          case 'admin':
+            return (
+              <div className="role-card role-admin">
+                <h4>⚙️ Admin Panel</h4>
+                <p>Full access granted. Manage users and system settings.</p>
+                <button>Manage Users</button>
+                <button>System Settings</button>
+                <button>View Logs</button>
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
+    
+      return (
+        <div className="access-control">
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="guest">Guest</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          {renderContent()}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 5.3: Loading States
+    // ============================================
+    // Demonstrates: && operator (short-circuit), loading/error patterns
+    
+    function LoadingStates() {
+      const [isLoading, setIsLoading] = React.useState(false);
+      const [error, setError] = React.useState(null);
+      const [data, setData] = React.useState(null);
+    
+      const fetchData = async () => {
+        setIsLoading(true);
+        setError(null);
+        setData(null);
+        try {
+          // Simulate API call
+          await new Promise(r => setTimeout(r, 1500));
+          setData({ items: ['Item 1', 'Item 2', 'Item 3'] });
+        } catch (err) {
+          setError('Failed to fetch data');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+    
+      return (
+        <div className="loading-states">
+          <button onClick={fetchData} disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Fetch Data'}
+          </button>
+          
+          {/* && operator: condition && render */}
+          {/* If isLoading is true, show spinner. If false, show nothing. */}
+          {isLoading && <div className="spinner"></div>}
+          
+          {/* Only show error if error exists */}
+          {error && <div className="error-msg">{error}</div>}
+          
+          {/* Only show data if data exists */}
+          {data && (
+            <div className="data-list">
+              <h4>Data Loaded:</h4>
+              <ul>
+                {data.items.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      );
+    }
+    
+    // ============================================
+    // EXERCISE 5.4: Feature Flags
+    // ============================================
+    // Demonstrates: Complex conditional rendering
+    
+    function FeatureFlags() {
+      const [features, setFeatures] = React.useState({
+        darkMode: false,
+        notifications: true,
+        betaFeatures: false
+      });
+    
+      const toggleFeature = (feature) => {
+        setFeatures(prev => ({ ...prev, [feature]: !prev[feature] }));
+      };
+    
+      return (
+        <div className="feature-flags">
+          <h4>Feature Toggles</h4>
+          {Object.entries(features).map(([feature, enabled]) => (
+            <label key={feature}>
+              <input
+                type="checkbox"
+                checked={enabled}
+                onChange={() => toggleFeature(feature)}
+              />
+              {feature}: {enabled ? 'ON' : 'OFF'}
+            </label>
+          ))}
+          
+          {/* Preview based on enabled features */}
+          <div className={`feature-preview ${features.darkMode ? 'dark-mode' : ''}`}>
+            <p>Preview Mode:</p>
+            {features.notifications && <p>🔔 Notifications are enabled</p>}
+            {features.betaFeatures && <p>🧪 Beta features are active</p>}
+            {!features.notifications && !features.betaFeatures && (
+              <p>Enable features above to see them here</p>
+            )}
+          </div>
+        </div>
+      );
+    }
+    
+    function ConditionalRendering() {
+      return (
+        <div className="exercise">
+          <h2>Exercise 05: Conditional Rendering</h2>
+          <section>
+            <h3>5.1 Login Status</h3>
+            <LoginStatus />
+          </section>
+          <section>
+            <h3>5.2 Access Control</h3>
+            <AccessControl />
+          </section>
+          <section>
+            <h3>5.3 Loading States</h3>
+            <LoadingStates />
+          </section>
+          <section>
+            <h3>5.4 Feature Flags</h3>
+            <FeatureFlags />
+          </section>
+        </div>
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ConditionalRendering />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 5 — Búsqueda, Paginación y Estados de UI</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+        }
+        .card .number {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            font-weight: 800;
+            opacity: 0.4;
+        }
+        .card h2 {
+            color: var(--text-main);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .card .tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Módulo 5</h1>
+    <p class="subtitle">Búsqueda, Paginación y Estados de UI</p>
+
+    <div class="grid">
+        <a href="01Ej.html" class="card">
+            <div class="number">01</div>
+            <h2>Búsqueda con debounce</h2>
+            <p>Búsqueda en tiempo real con debounce personalizado y AbortController.</p>
+            <span class="tag">debounce + abort</span>
+        </a>
+
+        <a href="02Ej.html" class="card">
+            <div class="number">02</div>
+            <h2>Paginación con botones</h2>
+            <p>Navegación entre páginas con botones Anterior/Siguiente y loading.</p>
+            <span class="tag">paginación</span>
+        </a>
+
+        <a href="03Ej.html" class="card">
+            <div class="number">03</div>
+            <h2>Filtrado por categoría</h2>
+            <p>Checkboxes dinámicos para filtrar por autor con selección múltiple.</p>
+            <span class="tag">filtros OR</span>
+        </a>
+
+        <a href="04Ej.html" class="card">
+            <div class="number">04</div>
+            <h2>Búsqueda + Paginación</h2>
+            <p>Combinación de búsqueda por título con paginación de resultados.</p>
+            <span class="tag">búsqueda + paginación</span>
+        </a>
+
+        <a href="05Ej.html" class="card">
+            <div class="number">05</div>
+            <h2>Loading, Empty, Error states</h2>
+            <p>Componentes reutilizables para diferentes estados de la interfaz.</p>
+            <span class="tag">estados de UI</span>
+        </a>
+    </div>
+</body>
+</html>

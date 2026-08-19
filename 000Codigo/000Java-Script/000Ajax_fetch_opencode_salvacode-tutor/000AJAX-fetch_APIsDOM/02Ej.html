@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 — API de Random User</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.7);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        h1 {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        section {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        section h2 { color: var(--accent-color); margin-bottom: 0.5rem; }
+        section p, section li { color: var(--text-muted); line-height: 1.6; }
+        section ol { padding-left: 1.2rem; }
+        section li { margin-bottom: 0.3rem; }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .user-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        .user-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+            margin-bottom: 0.75rem;
+        }
+        .user-card h3 {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .user-card .email {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .user-card .location {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .load-more-area {
+            text-align: center;
+            margin: 2rem auto;
+        }
+        .load-more-btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .load-more-btn:hover { background: #7dd3fc; }
+        #loading {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 1rem;
+            display: none;
+        }
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Ejercicio 2 — API de Random User</h1>
+
+    <section>
+        <h2>Descripción</h2>
+        <p>Genera una galería de usuarios aleatorios con la Random User API y carga más dinámicamente.</p>
+    </section>
+
+    <section>
+        <h2>Tareas</h2>
+        <ol>
+            <li>Fetch de 6 usuarios aleatorios</li>
+            <li>Crear galería de tarjetas con imagen, nombre, email y ubicación</li>
+            <li>Botón "Cargar más" que traiga otros 6</li>
+            <li>Animación fade-in para las tarjetas</li>
+        </ol>
+    </section>
+
+    <div id="loading">Cargando usuarios...</div>
+    <div class="gallery" id="gallery"></div>
+
+    <div class="load-more-area">
+        <button class="load-more-btn" id="load-more">Cargar más</button>
+    </div>
+
+    <a href="index.html" class="nav-link">← Volver al índice</a>
+
+    <script src="02Ej.js"></script>
+</body>
+</html>

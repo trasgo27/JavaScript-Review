@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>09 · Formularios | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>09 · Formularios <span class="difficulty medium">Intermedio</span></h1>
+  <p>Dos enfoques: <strong>Template-driven</strong> (simple, con ngModel) y <strong>Reactive Forms</strong> (escalable, con FormGroup/FormBuilder).</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Formulario Template-driven básico.</p>
+    <pre><code><span class="comment">// Importa FormsModule</span>
+nombre = <span class="string">''</span>;
+
+enviar() {
+  console.log(<span class="string">`Hola ${<span class="keyword">this</span>.nombre}`</span>);
+}
+
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;form (ngSubmit)="enviar()"&gt;</span>
+<span class="comment">//   &lt;input name="nombre" [(ngModel)]="nombre" required /&gt;</span>
+<span class="comment">//   &lt;button type="submit"&gt;Enviar&lt;/button&gt;</span>
+<span class="comment">// &lt;/form&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Reactive Form con FormBuilder.</p>
+    <pre><code><span class="keyword">import</span> { FormBuilder, Validators, ReactiveFormsModule } <span class="keyword">from</span> <span class="string">'@angular/forms'</span>;
+
+fb = inject(FormBuilder);
+form = <span class="keyword">this</span>.fb.group({
+  email: [<span class="string">''</span>, [Validators.required, Validators.email]],
+  password: [<span class="string">''</span>, [Validators.required, Validators.minLength(<span class="keyword">6</span>)]]
+});
+
+enviar() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.form.valid) console.log(<span class="keyword">this</span>.form.value);
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Muestra mensajes de error condicionales.</p>
+    <pre><code><span class="comment">// Template:</span>
+<span class="comment">// &lt;input [formControl]="form.controls.email" /&gt;</span>
+<span class="comment">// @if (form.controls.email.touched && form.controls.email.invalid) {</span>
+<span class="comment">//   @if (form.controls.email.hasError('required')) {</span>
+<span class="comment">//     &lt;small class="error"&gt;Email requerido&lt;/small&gt;</span>
+<span class="comment">//   }</span>
+<span class="comment">//   @if (form.controls.email.hasError('email')) {</span>
+<span class="comment">//     &lt;small class="error"&gt;Email inválido&lt;/small&gt;</span>
+<span class="comment">//   }</span>
+<span class="comment">// }</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>FormArray dinámico (lista de teléfonos).</p>
+    <pre><code>form = <span class="keyword">this</span>.fb.group({
+  nombre: [<span class="string">''</span>, Validators.required],
+  telefonos: <span class="keyword">this</span>.fb.array([<span class="keyword">this</span>.fb.control(<span class="string">''</span>)])
+});
+
+get telefonos() { <span class="keyword">return</span> <span class="keyword">this</span>.form.get(<span class="string">'telefonos'</span>) <span class="keyword">as</span> FormArray; }
+
+agregarTelefono() { <span class="keyword">this</span>.telefonos.push(<span class="keyword">this</span>.fb.control(<span class="string">''</span>)); }
+
+<span class="comment">// Template:</span>
+<span class="comment">// @for (tel of telefonos.controls; track $index) {</span>
+<span class="comment">//   &lt;input [formControl]="$any(tel)" /&gt;</span>
+<span class="comment">// }</span>
+<span class="comment">// &lt;button (click)="agregarTelefono()"&gt;+ Teléfono&lt;/button&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Validador personalizado (confirmar contraseña).</p>
+    <pre><code><span class="keyword">function</span> passwordMatchValidator(g: FormGroup) {
+  <span class="keyword">const</span> p = g.get(<span class="string">'password'</span>)?.value;
+  <span class="keyword">const</span> c = g.get(<span class="string">'confirm'</span>)?.value;
+  <span class="keyword">return</span> p === c ? <span class="keyword">null</span> : { mismatch: <span class="keyword">true</span> };
+}
+
+form = <span class="keyword">this</span>.fb.group({
+  password: [<span class="string">''</span>, Validators.required],
+  confirm: [<span class="string">''</span>, Validators.required]
+}, { validators: passwordMatchValidator });</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 6 <span class="difficulty hard">Difícil</span></h3>
+    <p>Formulario con signals (nuevo patrón Angular 18+).</p>
+    <pre><code><span class="keyword">import</span> { toSignal, toObservable } <span class="keyword">from</span> <span class="string">'@angular/core/rxjs-interop'</span>;
+
+email = signal(<span class="string">''</span>);
+emailInvalido = computed(() => !<span class="keyword">this</span>.email().includes(<span class="string">'@'</span>));
+
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;input [value]="email()" (input)="email.set($any($event.target).value)" /&gt;</span>
+<span class="comment">// @if (emailInvalido()) { &lt;small&gt;Email inválido&lt;/small&gt; }</span></code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="08-input-output.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="10-pipes.html">Siguiente →</a>
+  </div>
+</body>
+</html>

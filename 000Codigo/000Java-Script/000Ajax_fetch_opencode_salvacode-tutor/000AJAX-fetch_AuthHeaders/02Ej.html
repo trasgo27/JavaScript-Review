@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02: Simular Login</title>
+</head>
+<body>
+    <h1>Headers, Autenticación y Seguridad</h1>
+
+    <section>
+        <h2>Exercise 02: Simular Login con Token</h2>
+        <p>Crea un formulario de login, guarda el token en localStorage, y crea funciones para leerlo.</p>
+    </section>
+
+    <section>
+        <h2>Formulario de Login (Simulado)</h2>
+        <div id="login-form" style="margin: 20px 0;">
+            <input id="username" type="text" placeholder="Usuario" value="salvacode" style="padding: 8px; margin-right: 5px;">
+            <input id="password" type="password" placeholder="Contraseña" value="1234" style="padding: 8px; margin-right: 5px;">
+            <button id="loginBtn" style="padding: 8px 16px;">Login</button>
+        </div>
+        <div id="auth-status" style="margin-top: 10px;"></div>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: Capturar credenciales del formulario</h3>
+        <p>Al hacer click en Login, captura los valores de usuario y contraseña.</p>
+
+        <h3>Task 2: POST simulado</h3>
+        <p>Envía un POST a <code>/posts</code> (mock) con las credenciales. Simula la respuesta con un token ficticio.</p>
+
+        <h3>Task 3: Guardar token en localStorage</h3>
+        <p>Guarda el token con timestamp para poder verificar expiración después.</p>
+
+        <h3>Task 4: getAuthHeaders()</h3>
+        <p>Crea una función que lea el token de localStorage y retorne el header Authorization.</p>
+
+        <h3>Task 5: isAuthenticated()</h3>
+        <p>Crea una función que verifique si el token existe y no ha expirado (TTL de 1 hora).</p>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="02Ej.js"></script>
+</body>
+</html>

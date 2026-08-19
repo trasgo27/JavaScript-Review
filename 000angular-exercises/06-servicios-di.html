@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06 - Servicios e Inyección de Dependencias</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    .back { display: inline-block; color: #dd0031; text-decoration: none; margin-bottom: 24px; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 2rem; color: #dd0031; margin-bottom: 16px; }
+    .intro { background: #1a1a2e; border-left: 4px solid #dd0031; padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+    .intro p { color: #ccc; margin-bottom: 8px; }
+    .concepts { margin-bottom: 36px; }
+    .concepts h2 { font-size: 1.2rem; color: #dd0031; margin-bottom: 12px; }
+    .concepts ul { padding-left: 24px; }
+    .concepts li { color: #bbb; margin-bottom: 4px; }
+    .exercise { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+    .exercise:hover { border-color: #dd003144; }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .ex-title { font-size: 1.15rem; color: #e0e0e0; }
+    .ex-num { color: #dd0031; font-weight: bold; margin-right: 6px; }
+    .ex-diff { font-size: 0.8rem; color: #ffc107; background: #2a2a3e; padding: 2px 10px; border-radius: 12px; white-space: nowrap; }
+    .ex-section { margin-bottom: 10px; }
+    .ex-label { font-weight: 600; color: #dd0031; font-size: 0.9rem; margin-bottom: 4px; }
+    .ex-text { color: #ccc; font-size: 0.95rem; }
+    .ex-text ul { padding-left: 20px; margin-top: 4px; }
+    .hint { background: #16213e; border: 1px dashed #444; padding: 12px 16px; border-radius: 6px; color: #aaa; font-size: 0.9rem; margin-top: 8px; }
+    .hint::before { content: "Pista: "; color: #ffc107; font-weight: 600; }
+    footer { text-align: center; color: #555; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a3e; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="index.html">&larr; Volver al índice</a>
+
+    <h1>06 - Servicios e Inyección de Dependencias</h1>
+
+    <div class="intro">
+      <p>Los servicios y la inyección de dependencias (DI) son la columna vertebral de cualquier aplicación Angular real. Un servicio encapsula lógica reutilizable, estado compartido y acceso a datos, mientras que DI se encarga de proporcionar esos servicios a los componentes que los necesitan de forma declarativa y desacoplada.</p>
+      <p>En este módulo avanzado profundizaremos en patrones como factory providers, InjectionToken, multi providers e inyectores jerárquicos para dominar completamente el sistema de DI de Angular 17+.</p>
+    </div>
+
+    <div class="concepts">
+      <h2>Conceptos clave</h2>
+      <ul>
+        <li><strong>@Injectable</strong> - Decorador que marca una clase como servicio disponible para DI</li>
+        <li><strong>providedIn</strong> - Opción de @Injectable que define el alcance del proveedor ('root', 'platform', 'any')</li>
+        <li><strong>Injector</strong> - Clase que gestiona la resolución e instanciación de dependencias</li>
+        <li><strong>inject()</strong> - Función de utilidad para inyectar dependencias fuera de constructores (Angular 14+)</li>
+        <li><strong>Singleton pattern</strong> - Patrón donde una única instancia de servicio comparte estado globalmente</li>
+        <li><strong>providers array</strong> - Arreglo en la configuración de módulos/componentes que registra proveedores</li>
+        <li><strong>useValue</strong> - Estrategia de proveedor que inyecta un valor estático</li>
+        <li><strong>useFactory</strong> - Estrategia de proveedor que usa una función para crear la instancia</li>
+        <li><strong>useExisting</strong> - Estrategia de proveedor que referencia otro proveedor ya registrado</li>
+        <li><strong>InjectionToken</strong> - Token tipado para inyectar valores que no son clases (configuraciones, constantes)</li>
+        <li><strong>Hierarchical injectors</strong> - Sistema de resolución de DI que sube la jerarquía de árbol de componentes</li>
+        <li><strong>providedIn: 'root'</strong> - Hace que un servicio esté disponible globalmente como singleton sin declararlo en providers</li>
+      </ul>
+    </div>
+
+    <!-- Ejercicio 01 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">01</span>Servicio básico con @Injectable</span>
+        <span class="ex-diff">&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Crear un servicio usando el decorador @Injectable y registrarlo en la aplicación.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio llamado <code>FechaService</code> que exponga métodos para obtener la fecha actual, formatear una fecha como cadena de texto y calcular la diferencia en días entre dos fechas. El servicio debe usar <code>providedIn: 'root'</code> para estar disponible globalmente sin necesidad de declararlo explícitamente en ningún módulo.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>El servicio debe tener el decorador <code>@Injectable({ providedIn: 'root' })</code></li>
+            <li>Método <code>obtenerFechaActual()</code> que retorne un objeto <code>Date</code></li>
+            <li>Método <code>formatearFecha(fecha: Date): string</code> que retorne la fecha en formato DD/MM/AAAA</li>
+            <li>Método <code>diferenciaEnDias(f1: Date, f2: Date): number</code> que retorne la diferencia absoluta en días</li>
+            <li>Inyectar el servicio en un componente y mostrar los resultados en la plantilla</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El método <code>providedIn: 'root'</code> en el decorador @Injectable registra el servicio en el inyector raíz automáticamente, sin necesidad de agregarlo al array providers de ningún módulo.</div>
+    </div>
+
+    <!-- Ejercicio 02 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">02</span>Inyección de servicios en componentes</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Dominar las diferentes formas de inyectar un servicio en un componente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>CalculadoraService</code> con métodos para sumar, restar, multiplicar y dividir dos números. Luego crea un componente <code>CalculadoraComponent</code> que permita al usuario elegir dos números y una operación, y muestre el resultado. Implementa la inyección de las dos formas soportadas por Angular 17+.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear el servicio <code>CalculadoraService</code> con <code>providedIn: 'root'</code></li>
+            <li>Métodos: <code>sumar(a, b)</code>, <code>restar(a, b)</code>, <code>multiplicar(a, b)</code>, <code>dividir(a, b)</code></li>
+            <li>Implementar la inyección vía constructor (forma clásica)</li>
+            <li>Crear un segundo componente que use <code>inject(CalculadoraService)</code> (forma moderna)</li>
+            <li>Ambos componentes deben funcionar correctamente y mostrar los resultados</li>
+            <li>Manejar el caso de división por cero con un mensaje de error</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">En Angular 17+ puedes usar <code>private calcService = inject(CalculadoraService)</code> directamente como propiedad de la clase sin necesidad de declarar el parámetro en el constructor.</div>
+    </div>
+
+    <!-- Ejercicio 03 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">03</span>Servicios singleton: demostrando estado compartido</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Demostrar que un servicio registrado en el inyector raíz funciona como singleton, compartiendo su estado entre múltiples componentes.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>ContadorService</code> que mantenga un número entero en su estado interno con métodos para incrementar, decrementar y obtener el valor actual. Luego crea dos componentes diferentes (<code>PanelAComponent</code> y <code>PanelBComponent</code>) que inyecten el mismo servicio. Demuestra que al modificar el contador en un panel, el otro panel refleja el cambio inmediatamente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Servicio con propiedad privada <code>private contador: number = 0</code></li>
+            <li>Métodos: <code>incrementar()</code>, <code>decrementar()</code>, <code>obtenerValor(): number</code></li>
+            <li>Ambos componentes deben inyectar el mismo servicio</li>
+            <li>Mostrar el valor actual del contador en ambos componentes simultáneamente</li>
+            <li>Crear un componente padre que incluya ambos paneles y compruebe el valor final</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Debido a que <code>providedIn: 'root'</code> registra el servicio en el inyector raíz, Angular crea una sola instancia que se comparte entre todos los componentes que lo inyecten.</div>
+    </div>
+
+    <!-- Ejercicio 04 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">04</span>Patrón de servicio Logger</span>
+        <span class="ex-diff">&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Implementar un servicio de logging como patrón de diseño transversal para toda la aplicación.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>LoggerService</code> que permita registrar mensajes con diferentes niveles de severidad (info, warning, error). El servicio debe almacenar un historial de mensajes y ofrecer métodos para consultarlos. Crea al menos tres componentes que usen el logger para registrar eventos, demostrando que el historial se comparte.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Definir una interfaz <code>LogEntry</code> con campos: <code>mensaje</code>, <code>nivel</code>, <code>timestamp</code></li>
+            <li>Métodos: <code>info(msg)</code>, <code>warn(msg)</code>, <code>error(msg)</code></li>
+            <li>Método <code>obtenerHistorial(): LogEntry[]</code> que retorne todos los registros</li>
+            <li>Método <code>limpiarHistorial()</code> que vacíe el array de logs</li>
+            <li>Tres componentes distintos que inyecten y usen el servicio</li>
+            <li>Un componente <code>LogViewerComponent</code> que muestre el historial completo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El servicio Logger es un patrón transversal: se inyecta en múltiples puntos de la aplicación y su estado (el array de historial) se comparte porque es singleton.</div>
+    </div>
+
+    <!-- Ejercicio 05 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">05</span>Servicio Counter compartido entre componentes</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Crear un servicio que gestione un contador con eventos reactivos usando RxJS, compartido entre componentes hermanos.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>SharedCounterService</code> que gestione un contador utilizando <code>BehaviorSubject</code>. Crea dos componentes hermanos: <code>IncrementadorComponent</code> (con botones de +1 y -1) y <code>DisplayCounterComponent</code> (que solo muestra el valor). Ambos se comunican exclusivamente a través del servicio.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Usar <code>BehaviorSubject&lt;number&gt;</code> con valor inicial de 0</li>
+            <li>Exponer un <code>Observable&lt;number&gt;</code> público mediante <code>asObservable()</code></li>
+            <li>Métodos: <code>incrementar()</code>, <code>decrementar()</code>, <code>reset()</code></li>
+            <li><code>IncrementadorComponent</code> con botones para cada operación</li>
+            <li><code>DisplayCounterComponent</code> que se suscriba al observable y muestre el valor</li>
+            <li>Crear un componente padre que contenga ambos componentes hermanos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Usa <code>BehaviorSubject</code> en lugar de <code>Subject</code> porque emite el valor actual a nuevos suscriptores inmediatamente. Exponlo con <code>asObservable()</code> para evitar que otros componentes llamen a <code>next()</code> directamente.</div>
+    </div>
+
+    <!-- Ejercicio 06 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">06</span>Servicio con estado privado y métodos públicos</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Diseñar un servicio que encapsule completamente su estado interno y solo exponga una API pública controlada, aplicando principios de encapsulamiento.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>TareasService</code> que gestione una lista de tareas (todo list). El servicio debe tener toda su estado como propiedades privadas y exponer únicamente métodos públicos para interactuar con las tareas. Implementa operaciones CRUD completas con validación interna.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Definir interfaz <code>Tarea</code> con campos: <code>id</code>, <code>titulo</code>, <code>completada</code>, <code>fechaCreacion</code></li>
+            <li>Estado interno privado: <code>private tareas: Tarea[] = []</code> y <code>private nextId = 1</code></li>
+            <li>Métodos públicos: <code>agregar(titulo)</code>, <code>eliminar(id)</code>, <code>alternarCompletada(id)</code>, <code>obtenerTodas()</code>, <code>obtenerPendientes()</code></li>
+            <li>El método <code>agregar</code> debe validar que el título no esté vacío</li>
+            <li>El método <code>eliminar</code> debe manejar el caso de que el id no exista</li>
+            <li>Un componente que consuma el servicio y muestre la lista de tareas con botones de acción</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Nunca expongas el array interno directamente con <code>obtenerTodas()</code> retornando la referencia. Retorna una copia con <code>[...this.tareas]</code> o usa <code>readonly</code> para evitar modificaciones externas no controladas.</div>
+    </div>
+
+    <!-- Ejercicio 07 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">07</span>Factory providers y useFactory</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Comprender y aplicar la estrategia de proveedores <code>useFactory</code> para crear instancias de servicios con lógica condicional o configuración dinámica.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea dos servicios: <code>ConsolaLoggerService</code> y <code>AlertaLoggerService</code>, ambos con la misma interfaz pero implementaciones diferentes. Luego crea un factory function que decida cuál de los dos servicios instanciar según una condición de entorno (por ejemplo, una variable booleana <code>esProduccion</code>). Registra el factory provider en la configuración del componente.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear interfaz <code>LogStrategy</code> con método <code>registrar(mensaje: string): void</code></li>
+            <li><code>ConsolaLoggerService</code> que implemente la interfaz y use <code>console.log</code></li>
+            <li><code>AlertaLoggerService</code> que implemente la interfaz y use <code>window.alert</code> o muestre un toast</li>
+            <li>Factory function que retorne la instancia correcta según la condición</li>
+            <li>Registrar el provider usando <code>useFactory</code> en el array <code>providers</code> del componente</li>
+            <li>Un componente que consuma el servicio inyectado y pruebe ambos modos</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">El <code>useFactory</code> recibe una función que retorna la instancia del servicio. Puedes pasar dependencias adicionales usando el tercer argumento del objeto provider con <code>deps: [OtherService]</code>.</div>
+    </div>
+
+    <!-- Ejercicio 08 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">08</span>InjectionToken para valores personalizados</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Usar <code>InjectionToken</code> para inyectar valores que no son instancias de clases, como configuraciones, constantes o datos de entorno.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una configuración de aplicación usando <code>InjectionToken</code>. Define tokens para la URL base de la API, el timeout de peticiones y el modo debug. Luego crea un servicio <code>ApiService</code> que consuma estos valores inyectados y un componente que muestre la configuración actual.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear <code>InjectionToken&lt;string&gt;</code> llamado <code>API_URL</code></li>
+            <li>Crear <code>InjectionToken&lt;number&gt;</code> llamado <code>REQUEST_TIMEOUT</code></li>
+            <li>Crear <code>InjectionToken&lt;boolean&gt;</code> llamado <code>DEBUG_MODE</code></li>
+            <li>Registrar los tokens con <code>useValue</code> en el providers del componente o módulo</li>
+            <li>Servicio <code>ApiService</code> que inyecte los tres tokens y exponga un método <code>obtenerConfiguracion()</code></li>
+            <li>Componente que muestre los valores de configuración inyectados</li>
+            <li>Crear una interfaz <code>ApiConfig</code> que agrupe todos los valores y un token único <code>API_CONFIG</code></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint"><code>InjectionToken</code> es preferible a <code>OpaqueToken</code> (ya obsoleto) porque permite definir un tipo genérico. Cuando uses <code>useValue</code>, el valor se inyecta tal cual sin instanciación.</div>
+    </div>
+
+    <!-- Ejercicio 09 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">09</span>Multi providers</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Dominar la estrategia <code>multi: true</code> para registrar múltiples proveedores bajo un mismo token y consumirlos como un array.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un sistema de validadores de formulario usando multi providers. Define un <code>InjectionToken</code> llamado <code>VALIDADORES</code> y registra múltiples funciones validadoras (longitud mínima, solo números, email válido) como multi providers. Un servicio <code>ValidadorService</code> debe inyectar el array de validadores y aplicar todos ellos a un valor de entrada.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear tipo <code>ValidatorFn</code> como <code>(valor: string) =&gt; boolean</code></li>
+            <li>Crear <code>InjectionToken&lt;ValidatorFn[]&gt;</code> llamado <code>VALIDADORES</code></li>
+            <li>Registrar al menos 3 validadores con <code>multi: true</code> y <code>useValue</code></li>
+            <li>Servicio <code>ValidadorService</code> que inyecte el array y ejecute todos los validadores</li>
+            <li>Método <code>validar(valor: string): { valido: boolean; errores: string[] }</code></li>
+            <li>Componente con un campo de texto y botón que valide el valor contra todos los validadores</li>
+            <li>Mostrar los errores de validación en pantalla</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Cuando usas <code>multi: true</code>, Angular agrega tu proveedor al array existente del token en lugar de reemplazarlo. Esto permite que múltiples módulos o componentes contribuyan proveedores al mismo token.</div>
+    </div>
+
+    <!-- Ejercicio 10 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">10</span>Inyectores jerárquicos: nivel componente vs nivel app</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Comprender y demostrar cómo funciona la jerarquía de inyectores en Angular: un servicio registrado en un componente tiene una instancia diferente al registrado en la raíz.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un servicio <code>AnimalService</code> que genere un ID único por instancia (un contador que se incrementa en el constructor). Registra una instancia global con <code>providedIn: 'root'</code> y otra instancia a nivel de componente específico con <code>providers: [AnimalService]</code>. Demuestra que los IDs son diferentes, probando también con <code>providers: []</code> vacío para ver la resolución jerárquica.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Servicio <code>AnimalService</code> con una propiedad <code>instanciaId</code> asignada en el constructor</li>
+            <li>Usar una propiedad estática <code>static contador = 0</code> para generar IDs únicos</li>
+            <li>Componente <code>RootAnimalComponent</code> que inyecte el servicio global (sin providers extras)</li>
+            <li>Componente <code>EspecialAnimalComponent</code> con <code>providers: [AnimalService]</code> que cree una nueva instancia</li>
+            <li>Componente padre que muestre ambos IDs y compruebe que son diferentes</li>
+            <li>Demostrar que al agregar <code>providers: [AnimalService]</code> a un componente nieto, hereda la instancia del padre, no la global</li>
+            <li>Crear un tercer nivel de jerarquía para demostrar la resolución ascendente</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Cuando declaras <code>providers: [AnimalService]</code> en un componente, Angular crea una nueva instancia para ese componente y todos sus hijos. Los componentes fuera de esa rama siguen usando la instancia global. La resolución sube por la jerarquía hasta encontrar un proveedor.</div>
+    </div>
+
+    <!-- Ejercicio 11 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">11</span>Clases abstractas como interfaces de servicio</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Usar clases abstractas como contratos de servicios para lograr desacoplamiento total y permitir intercambio de implementaciones sin modificar los componentes consumidores.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea un sistema de persistencia de datos donde la interfaz es una clase abstracta <code>BasePersistenciaService</code> y existen dos implementaciones concretas: <code>LocalStorageService</code> y <code>MemoriaService</code>. Un componente <code>DatosComponent</code> debe inyectar la clase abstracta y funcionar correctamente con cualquiera de las dos implementaciones, intercambiadas a través de providers.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Clase abstracta <code>BasePersistenciaService</code> con métodos abstractos: <code>guardar(clave, valor)</code>, <code>obtener(clave)</code>, <code>eliminar(clave)</code>, <code>obtenerTodasLasClaves()</code></li>
+            <li><code>LocalStorageService</code> que implemente usando <code>localStorage</code> del navegador</li>
+            <li><code>MemoriaService</code> que implemente usando un <code>Map&lt;string, any&gt;</code> en memoria</li>
+            <li>Ambas clases deben extender la abstracta y usar <code>@Injectable()</code> sin <code>providedIn</code></li>
+            <li>Componente que inyecte <code>BasePersistenciaService</code> (la abstracta)</li>
+            <li>Registrar la implementación concreta usando <code>useExisting</code> o <code>useClass</code> en los providers</li>
+            <li>Demostrar que al cambiar el provider, el componente funciona con la otra implementación sin modificaciones</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Las clases abstractas en TypeScript son ideales como contratos de DI porque permiten definir tipos sin implementación. Usa <code>{ provide: BasePersistenciaService, useClass: MemoriaService }</code> para mapear la abstracta a la concreta.</div>
+    </div>
+
+    <!-- Ejercicio 12 -->
+    <div class="exercise">
+      <div class="ex-header">
+        <span class="ex-title"><span class="ex-num">12</span>Aplicación completa: servicio de configuración multi-componente</span>
+        <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Objetivo</div>
+        <div class="ex-text">Integrar todos los conceptos de servicios y DI en una aplicación completa que use un servicio de configuración compartido entre múltiples componentes.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Enunciado</div>
+        <div class="ex-text">Crea una aplicación de gestión de apariencia (theme). Un servicio <code>ConfiguracionService</code> gestionará el tema (claro/oscuro), el tamaño de fuente y el idioma. Múltiples componentes consumirán y modificarán esta configuración: un panel de control para cambiar opciones, un header que reaccione al tema, un contenido que cambie el tamaño de texto y un footer que muestre el idioma actual.</div>
+      </div>
+      <div class="ex-section">
+        <div class="ex-label">Requisitos</div>
+        <div class="ex-text">
+          <ul>
+            <li>Crear <code>InjectionToken</code> para la configuración inicial con valores por defecto</li>
+            <li>Servicio <code>ConfiguracionService</code> con <code>BehaviorSubject</code> para cada opción</li>
+            <li>Propiedades reactivas: <code>tema$</code>, <code>tamanioFuente$</code>, <code>idioma$</code></li>
+            <li>Métodos: <code>cambiarTema(tema)</code>, <code>cambiarTamanoFuente(size)</code>, <code>cambiarIdioma(lang)</code></li>
+            <li>Método <code>obtenerConfiguracionCompleta()</code> que retorne un objeto con todas las opciones</li>
+            <li>Componente <code>PanelControlComponent</code> con controles para cada opción</li>
+            <li>Componente <code>HeaderComponent</code> que cambie estilos según el tema</li>
+            <li>Componente <code>ContenidoComponent</code> que ajuste el tamaño de fuente</li>
+            <li>Componente <code>FooterComponent</code> que muestre el idioma activo</li>
+            <li>Un LoggerService que registre cada cambio de configuración con timestamp</li>
+            <li>Todos los componentes deben reaccionar a los cambios en tiempo real usando <code>async</code> pipe o suscripciones</li>
+            <li>Aplicar al menos un <code>useFactory</code> para inicializar la configuración según el entorno</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hint">Combina <code>InjectionToken</code> con <code>useValue</code> para los valores iniciales, <code>BehaviorSubject</code> para el estado reactivo, y asegúrate de inyectar el <code>LoggerService</code> también en el <code>ConfiguracionService</code> para registrar los cambios. El <code>async</code> pipe simplifica la suscripción en plantillas.</div>
+    </div>
+
+    <footer>
+      <a class="back" href="index.html">&larr; Volver al índice</a>
+      <p>Módulo 06 - Servicios e Inyección de Dependencias | Angular 17+ Exercises Guide</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>03 · Binding | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>03 · Property & Event Binding <span class="difficulty easy">Básico</span></h1>
+  <p>El <strong>binding</strong> conecta el componente con el DOM: <code>[prop]</code> para datos, <code>(evento)</code> para acciones, <code>[(ngModel)]</code> para dos vías.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p><strong>Property Binding:</strong> Enlaza el atributo <code>src</code> de una imagen.</p>
+    <pre><code>imagenUrl = <span class="string">'https://angular.io/assets/images/logos/angular/angular.svg'</span>;
+<span class="comment">// Template: &lt;img [src]="imagenUrl" alt="Angular" /&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p><strong>Event Binding:</strong> Escucha un click y ejecuta un método.</p>
+    <pre><code>contador = <span class="keyword">0</span>;
+saludar() { alert(<span class="string">'¡Hola!'</span>); }
+<span class="comment">// Template: &lt;button (click)="saludar()"&gt;Saludar&lt;/button&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Accede al evento con <code>$event</code>.</p>
+    <pre><code>mostrarValor(evento: Event) {
+  console.log((evento.target <span class="keyword">as</span> HTMLInputElement).value);
+}
+<span class="comment">// Template: &lt;input (input)="mostrarValor($event)" /&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p><strong>Two-way binding</strong> con <code>[(ngModel)]</code>.</p>
+    <pre><code><span class="comment">// Importa FormsModule en el componente</span>
+nombre = <span class="string">''</span>;
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;input [(ngModel)]="nombre" /&gt;</span>
+<span class="comment">// &lt;p&gt;Hola {{ nombre }}&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Combina property + event binding en un formulario completo.</p>
+    <pre><code>email = <span class="string">''</span>;
+enviado = <span class="keyword">false</span>;
+
+enviar() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.email.includes(<span class="string">'@'</span>)) {
+    <span class="keyword">this</span>.enviado = <span class="keyword">true</span>;
+  }
+}
+<span class="comment">// Template:</span>
+<span class="comment">// &lt;input [value]="email" (input)="email = $any($event.target).value" /&gt;</span>
+<span class="comment">// &lt;button (click)="enviar()" [disabled]="!email"&gt;Enviar&lt;/button&gt;</span></code></pre>
+    <p>✅ <strong>Reto:</strong> Añade un mensaje de confirmación que aparezca solo si <code>enviado</code> es true.</p>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="02-interpolacion.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="04-directivas-estructurales.html">Siguiente →</a>
+  </div>
+</body>
+</html>

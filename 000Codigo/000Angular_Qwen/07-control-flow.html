@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>07 · Control Flow Avanzado | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>07 · Control Flow Avanzado <span class="difficulty medium">Intermedio</span></h1>
+  <p>Profundiza en el control flow: filtros en <code>@for</code>, variables locales, <code>@if</code> con else-if chain, y <code>@switch</code> exhaustivo.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Filtra elementos en un <code>@for</code> con <code>@if</code>.</p>
+    <pre><code>numeros = [<span class="keyword">1</span>, <span class="keyword">2</span>, <span class="keyword">3</span>, <span class="keyword">4</span>, <span class="keyword">5</span>, <span class="keyword">6</span>];
+
+<span class="keyword">@for</span> (n <span class="keyword">of</span> numeros; track n) {
+  <span class="keyword">@if</span> (n % <span class="keyword">2</span> === <span class="keyword">0</span>) {
+    &lt;span&gt;{{ n }} es par&lt;/span&gt;
+  }
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Cadena <code>@if / @else if / @else</code>.</p>
+    <pre><code>nota = <span class="keyword">85</span>;
+
+<span class="keyword">@if</span> (nota >= <span class="keyword">90</span>) {
+  &lt;p&gt;Sobresaliente 🌟&lt;/p&gt;
+} <span class="keyword">@else if</span> (nota >= <span class="keyword">70</span>) {
+  &lt;p&gt;Notable 👍&lt;/p&gt;
+} <span class="keyword">@else if</span> (nota >= <span class="keyword">50</span>) {
+  &lt;p&gt;Aprobado ✓&lt;/p&gt;
+} <span class="keyword">@else</span> {
+  &lt;p&gt;Suspenso ❌&lt;/p&gt;
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Usa todas las variables locales de <code>@for</code>.</p>
+    <pre><code>tareas = [
+  { id: <span class="keyword">1</span>, texto: <span class="string">'Comprar pan'</span> },
+  { id: <span class="keyword">2</span>, texto: <span class="string">'Estudiar Angular'</span> }
+];
+
+<span class="keyword">@for</span> (t <span class="keyword">of</span> tareas; track t.id;
+      let i = $index, first = $first, last = $last, even = $even) {
+  &lt;div [class.first]="first" [class.last]="last" [class.even]="even"&gt;
+    {{ i + <span class="keyword">1</span> }}. {{ t.texto }}
+  &lt;/div&gt;
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p><code>@switch</code> con tipos complejos.</p>
+    <pre><code>estado = <span class="string">'cargando'</span>; <span class="comment">// 'cargando' | 'exito' | 'error'</span>
+
+<span class="keyword">@switch</span> (estado) {
+  <span class="keyword">@case</span> (<span class="string">'cargando'</span>) { &lt;app-spinner /&gt; }
+  <span class="keyword">@case</span> (<span class="string">'exito'</span>) { &lt;app-datos /&gt; }
+  <span class="keyword">@case</span> (<span class="string">'error'</span>) { &lt;app-error /&gt; }
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Combina todo: <code>@for</code> con <code>@if</code>, <code>@switch</code> anidado y <code>@empty</code>.</p>
+    <pre><code>pedidos = [
+  { id: <span class="keyword">1</span>, estado: <span class="string">'enviado'</span>, items: [<span class="string">'📦'</span>, <span class="string">'📦'</span>] },
+  { id: <span class="keyword">2</span>, estado: <span class="string">'pendiente'</span>, items: [] },
+  { id: <span class="keyword">3</span>, estado: <span class="string">'cancelado'</span>, items: [<span class="string">'📦'</span>] }
+];
+
+<span class="keyword">@for</span> (p <span class="keyword">of</span> pedidos; track p.id) {
+  &lt;h3&gt;Pedido #{{ p.id }}&lt;/h3&gt;
+  <span class="keyword">@switch</span> (p.estado) {
+    <span class="keyword">@case</span> (<span class="string">'enviado'</span>) { &lt;span class="badge-enviado"&gt;✅ Enviado&lt;/span&gt; }
+    <span class="keyword">@case</span> (<span class="string">'pendiente'</span>) { &lt;span class="badge-pend"&gt;⏳ Pendiente&lt;/span&gt; }
+    <span class="keyword">@default</span> { &lt;span class="badge-cancel"&gt;❌ Cancelado&lt;/span&gt; }
+  }
+  <span class="keyword">@if</span> (p.items.length > <span class="keyword">0</span>) {
+    <span class="keyword">@for</span> (item <span class="keyword">of</span> p.items; track $index) {
+      &lt;span&gt;{{ item }}&lt;/span&gt;
+    }
+  } <span class="keyword">@empty</span> {
+    &lt;p&gt;Sin productos&lt;/p&gt;
+  }
+}</code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="06-signals.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="08-input-output.html">Siguiente →</a>
+  </div>
+</body>
+</html>

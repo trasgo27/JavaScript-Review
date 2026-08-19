@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 04: Wrapper Completo</title>
+</head>
+<body>
+    <h1>Patrones Avanzados y Optimización</h1>
+
+    <section>
+        <h2>Exercise 04: Wrapper Completo — Cache + Retry + Abort</h2>
+        <p>Combina todos los patrones en una función <code>fetchAdvanced()</code>.</p>
+    </section>
+
+    <section>
+        <h2>Tasks</h2>
+
+        <h3>Task 1: fetchAdvanced()</h3>
+        <p>Función con cache (Map + TTL), retry (backoff), y abort (AbortController).</p>
+
+        <h3>Task 2: UI de控制</h3>
+        <p>Input para URL + botón Fetch + botón Cancelar.</p>
+
+        <h3>Task 3: Mostrar métricas</h3>
+        <p>Resultado, tiempo de respuesta, si vino de cache, reintentos realizados.</p>
+
+        <h3>Task 4: Historial de peticiones</h3>
+        <p>Guardar cada petición en un array y mostrarla debajo.</p>
+
+        <div>
+            <input id="urlInput" type="text" value="https://jsonplaceholder.typicode.com/posts/1" style="padding:8px; width:60%;">
+            <button id="fetchAdvancedBtn" style="padding:8px 16px;">Fetch</button>
+            <button id="cancelAdvancedBtn" style="padding:8px 16px; background:#ff6b6b; color:white;">Cancelar</button>
+        </div>
+        <div id="output" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+        <div id="history" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+    </section>
+
+    <p><strong>Nota:</strong> Revisa la consola y el script linked abajo para la implementación.</p>
+
+    <script src="04Ej.js"></script>
+</body>
+</html>

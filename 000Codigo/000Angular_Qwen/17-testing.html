@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>17 · Testing | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>17 · Testing <span class="difficulty hard">Experto</span></h1>
+  <p>Unit tests con Jasmine/Karma, TestBed para componentes, y mocks para servicios.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Test básico de un servicio.</p>
+    <pre><code><span class="keyword">import</span> { TestBed } <span class="keyword">from</span> <span class="string">'@angular/core/testing'</span>;
+<span class="keyword">import</span> { SaludoService } <span class="keyword">from</span> <span class="string">'./saludo.service'</span>;
+
+describe(<span class="string">'SaludoService'</span>, () => {
+  <span class="keyword">let</span> service: SaludoService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(SaludoService);
+  });
+
+  it(<span class="string">'debería saludar correctamente'</span>, () => {
+    expect(service.saludar(<span class="string">'Ana'</span>)).toBe(<span class="string">'Hola Ana 👋'</span>);
+  });
+});</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Test de componente simple.</p>
+    <pre><code><span class="keyword">import</span> { ComponentFixture, TestBed } <span class="keyword">from</span> <span class="string">'@angular/core/testing'</span>;
+<span class="keyword">import</span> { HolaComponent } <span class="keyword">from</span> <span class="string">'./hola.component'</span>;
+
+describe(<span class="string">'HolaComponent'</span>, () => {
+  <span class="keyword">let</span> fixture: ComponentFixture&lt;HolaComponent&gt;;
+
+  beforeEach(async () => {
+    <span class="keyword">await</span> TestBed.configureTestingModule({
+      imports: [HolaComponent]
+    }).compileComponents();
+    fixture = TestBed.createComponent(HolaComponent);
+    fixture.detectChanges();
+  });
+
+  it(<span class="string">'debería mostrar el título'</span>, () => {
+    <span class="keyword">const</span> h1 = fixture.nativeElement.querySelector(<span class="string">'h1'</span>);
+    expect(h1.textContent).toContain(<span class="string">'¡Hola Angular!'</span>);
+  });
+});</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Mock de un servicio con spyOn.</p>
+    <pre><code>describe(<span class="string">'UserListComponent'</span>, () => {
+  <span class="keyword">let</span> userServiceSpy: jasmine.SpyObj&lt;UserService&gt;;
+
+  beforeEach(() => {
+    <span class="keyword">const</span> spy = jasmine.createSpyObj(<span class="string">'UserService'</span>, [<span class="string">'getUsers'</span>]);
+    TestBed.configureTestingModule({
+      imports: [UserListComponent],
+      providers: [{ provide: UserService, useValue: spy }]
+    });
+    userServiceSpy = TestBed.inject(UserService) <span class="keyword">as</span> jasmine.SpyObj&lt;UserService&gt;;
+  });
+
+  it(<span class="string">'debería cargar usuarios al iniciar'</span>, () => {
+    userServiceSpy.getUsers.and.returnValue(of([{ id: <span class="keyword">1</span>, name: <span class="string">'Ana'</span>]));
+    <span class="comment">// ... crear componente y detectar cambios</span>
+    expect(userServiceSpy.getUsers).toHaveBeenCalled();
+  });
+});</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Test de interacción (click en botón).</p>
+    <pre><code>it(<span class="string">'debería incrementar el contador al hacer click'</span>, () => {
+  <span class="keyword">const</span> button = fixture.nativeElement.querySelector(<span class="string">'button'</span>);
+  button.click();
+  fixture.detectChanges();
+
+  <span class="keyword">const</span> p = fixture.nativeElement.querySelector(<span class="string">'p'</span>);
+  expect(p.textContent).toContain(<span class="string">'1'</span>);
+});</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Test de formulario reactivo.</p>
+    <pre><code>it(<span class="string">'debería mostrar error si el email es inválido'</span>, () => {
+  <span class="keyword">const</span> emailInput = fixture.nativeElement.querySelector(<span class="string">'input[name="email"]'</span>);
+  emailInput.value = <span class="string">'invalido'</span>;
+  emailInput.dispatchEvent(<span class="keyword">new</span> Event(<span class="string">'input'</span>));
+  fixture.detectChanges();
+
+  <span class="keyword">const</span> error = fixture.nativeElement.querySelector(<span class="string">'.error'</span>);
+  expect(error).toBeTruthy();
+  expect(error.textContent).toContain(<span class="string">'Email inválido'</span>);
+});</code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="16-standalone.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="18-performance.html">Siguiente →</a>
+  </div>
+</body>
+</html>

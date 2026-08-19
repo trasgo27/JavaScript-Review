@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 - Signals y Control Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f0f0f; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    .back { display: inline-block; color: #dd0031; text-decoration: none; margin-bottom: 24px; font-size: 0.95rem; }
+    .back:hover { text-decoration: underline; }
+    h1 { font-size: 2rem; color: #dd0031; margin-bottom: 16px; }
+    .intro { background: #1a1a2e; border-left: 4px solid #dd0031; padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+    .intro p { color: #ccc; margin-bottom: 8px; }
+    .concepts { margin-bottom: 36px; }
+    .concepts h2 { font-size: 1.2rem; color: #dd0031; margin-bottom: 12px; }
+    .concepts ul { padding-left: 24px; }
+    .concepts li { color: #bbb; margin-bottom: 4px; }
+    .exercise { background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+    .exercise:hover { border-color: #dd003144; }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .ex-title { font-size: 1.15rem; color: #e0e0e0; }
+    .ex-num { color: #dd0031; font-weight: bold; margin-right: 6px; }
+    .ex-diff { font-size: 0.8rem; color: #ffc107; background: #2a2a3e; padding: 2px 10px; border-radius: 12px; white-space: nowrap; }
+    .ex-section { margin-bottom: 10px; }
+    .ex-label { font-weight: 600; color: #dd0031; font-size: 0.9rem; margin-bottom: 4px; }
+    .ex-text { color: #ccc; font-size: 0.95rem; }
+    .ex-text ul { padding-left: 20px; margin-top: 4px; }
+    .hint { background: #16213e; border: 1px dashed #444; padding: 12px 16px; border-radius: 6px; color: #aaa; font-size: 0.9rem; margin-top: 8px; }
+    .hint::before { content: "Pista: "; color: #ffc107; font-weight: 600; }
+    footer { text-align: center; color: #555; font-size: 0.85rem; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a3e; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a class="back" href="index.html">&larr; Volver al índice</a>
+
+  <h1>02 - Signals y Control Flow</h1>
+
+  <div class="intro">
+    <p><strong>Objetivo del módulo:</strong> Dominar el sistema de Signals de Angular para manejar estado reactivo de forma simple y eficiente, combinándolo con el control flow moderno.</p>
+    <p><strong>Tiempo estimado:</strong> 3-4 horas</p>
+  </div>
+
+  <div class="concepts">
+    <h2>Conceptos Clave</h2>
+    <ul>
+      <li><code>signal()</code>: crear señales reactivas que contienen un valor</li>
+      <li>Lectura de señales con <code>()</code> en el template y en el componente</li>
+      <li>Actualización con <code>.set()</code>, <code>.update()</code> y <code>.mutate()</code></li>
+      <li><code>computed()</code>: derivar valores que dependen de otras señales</li>
+      <li><code>effect()</code>: ejecutar efectos secundarios cuando cambian las señales</li>
+      <li>Señales como reemplazo moderno de los Observables simples</li>
+    </ul>
+  </div>
+
+  <!-- EJERCICIO 1 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">01</span>Primera Signal</span>
+      <span class="ex-diff">&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Crear y leer una señal básica en Angular.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>mi-contador</code> que use una signal para almacenar un número. Muestra el valor de la signal en el template y actualízalo con botones de incremento y decremento.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Importa <code>signal</code> desde <code>@angular/core</code></li>
+          <li>Crea una signal con <code>signal&lt;number&gt;(0)</code></li>
+          <li>Lee la signal en el template con <code>contador()</code></li>
+          <li>Usa <code>.update()</code> para incrementar y decrementar</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">La diferencia clave entre signal y variable normal es que al usar <code>.update()</code> o <code>.set()</code>, Angular sabe que debe re-renderizar las partes del template que usan esa signal.</div>
+  </div>
+
+  <!-- EJERCICIO 2 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">02</span>Computed: Valores Derivados</span>
+      <span class="ex-diff">&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Crear valores derivados automáticamente a partir de señales existentes.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>carrito-compras</code> con una signal que contenga un array de productos. Usa <code>computed()</code> para calcular automáticamente el total, el número de items y el item más caro.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Define una signal <code>productos</code> con un array de objetos (nombre, precio, cantidad)</li>
+          <li>Crea un <code>computed()</code> para <code>total</code></li>
+          <li>Crea un <code>computed()</code> para <code>cantidadItems</code></li>
+          <li>Crea un <code>computed()</code> para <code>productoMasCaro</code></li>
+          <li>Agrega y elimina productos y verifica que los computed se actualicen</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint"><code>computed()</code> es readonly y se recalcula automáticamente. No necesitas llamarlo manualmente. Solo funciona si se leen dentro de un contexto reactivo (template o effect).</div>
+  </div>
+
+  <!-- EJERCICIO 3 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">03</span>Effect: Efectos Secundarios</span>
+      <span class="ex-diff">&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Ejecutar código automáticamente cuando cambian las señales, usando <code>effect()</code>.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>tema-dinamico</code> con una signal <code>tema</code> que puede ser "claro" u "oscuro". Usa <code>effect()</code> para aplicar automáticamente una clase al body del documento cuando cambie el tema.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Define una signal <code>tema</code> con valor inicial "oscuro"</li>
+          <li>Usa <code>effect()</code> para agregar/quitar la clase <code>dark-mode</code> en <code>document.body</code></li>
+          <li>Un botón alterna entre "claro" y "oscuro"</li>
+          <li>El efecto se ejecuta cada vez que cambia la signal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint"><code>effect()</code> se ejecuta automáticamente después del primer render y cada vez que cualquier signal leída dentro de él cambia. Usa <code>inject(Injector)</code> para注册 el effect si es necesario en el constructor.</div>
+  </div>
+
+  <!-- EJERCICIO 4 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">04</span>Actualización con .update()</span>
+      <span class="ex-diff">&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Practicar las diferentes formas de actualizar una signal: <code>.set()</code>, <code>.update()</code> y <code>.mutate()</code>.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>gestor-lista</code> con una signal que contenga una lista de números. Implementa 3 botones: uno que reemplace toda la lista (<code>.set()</code>), uno que agregue un número al final (<code>.update()</code>) y uno que duplique todos los valores existentes.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Signal tipo <code>signal&lt;number[]&gt;([1, 2, 3])</code></li>
+          <li>Botón "Reiniciar" usa <code>.set([1, 2, 3])</code></li>
+          <li>Botón "Agregar" usa <code>.update(prev =&gt; [...prev, nuevoNumero])</code></li>
+          <li>Botón "Duplicar" usa <code>.update(prev =&gt; prev.map(n =&gt; n * 2))</code></li>
+          <li>Muestra la lista con <code>@for</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint"><code>.set()</code> reemplaza el valor completamente. <code>.update()</code> recibe el valor anterior y retorna el nuevo. Para arrays, siempre crea una nueva referencia (spread o map) en lugar de mutar directamente.</div>
+  </div>
+
+  <!-- EJERCICIO 5 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">05</span>Señales con Objetos Complejos</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Manejar señales que contienen objetos anidados y arrays de objetos.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>perfil-usuario-signal</code> con una signal que contenga un objeto usuario (nombre, email, preferencias: { tema, idioma }). Permite actualizar cada campo individualmente y muestra las preferencias con computed.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Signal con objeto <code>{ nombre, email, preferencias: { tema, idioma } }</code></li>
+          <li>Usa <code>.update()</code> con spread para crear nuevos objetos sin mutar el original</li>
+          <li>Crea computed para <code>resumenPerfil</code> que combine nombre y tema</li>
+          <li>Permite cambiar tema e idioma independientemente</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Para objetos anidados, usa spread en cada nivel: <code>.update(prev =&gt; ({ ...prev, preferencias: { ...prev.preferencias, tema: 'oscuro' } }))</code></div>
+  </div>
+
+  <!-- EJERCICIO 6 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">06</span>Toggle y Estado con Signals</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Implementar patrones comunes de UI usando signals para el estado.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>acordeon</code> con 4 secciones colapsables. Solo una sección puede estar abierta a la vez. Usa signals para controlar qué sección está activa y muestra el contenido con transiciones.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Array de secciones con título y contenido (signal)</li>
+          <li>Signal <code>seccionActiva</code> con el índice de la sección abierta (o -1 para cerrar todas)</li>
+          <li>Al hacer clic en una sección, alterna su estado</li>
+          <li>Usa <code>@if</code> para mostrar/ocultar el contenido</li>
+          <li>Aplica una clase CSS activa a la sección abierta</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Para que solo una sección esté abierta, guarda el índice en la signal. Si el índice clickeado es igual al actual, cierra (-1); si no, abre el nuevo.</div>
+  </div>
+
+  <!-- EJERCICIO 7 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">07</span>Timer con Signals y Effect</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Crear un cronómetro que use signals para el estado y effect para los efectos secundarios.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>cronometro</code> con un timer que muestre minutos:segundos:centésimas. Tiene botones de iniciar, pausar y reiniciar. Usa <code>effect()</code> para actualizar el título del documento con el tiempo actual.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Signals para: tiempo (en centésimas), ejecutándose (boolean), intervalo ID</li>
+          <li><code>effect()</code> que actualice <code>document.title</code> con el tiempo formateado</li>
+          <li>Botones de iniciar/pausar que usen <code>setInterval</code> y <code>clearInterval</code></li>
+          <li>Reiniciar que ponga todo a cero</li>
+          <li>Formato de visualización: <code>MM:SS:CC</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Para el intervalo, almacena el ID del <code>setInterval</code> en una signal. En el effect, actualiza el título. Al pausar, limpia el intervalo con <code>clearInterval</code>.</div>
+  </div>
+
+  <!-- EJERCICIO 8 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">08</span>Filtros con Computed</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Usar múltiples signals y computed para crear un sistema de filtrado interactivo.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>catalogo-filtrable</code> con una lista de productos. Tiene signals para el texto de búsqueda, el rango de precio y la categoría seleccionada. Usa computed para calcular los resultados filtrados en tiempo real.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Array de al menos 10 productos con nombre, precio y categoría</li>
+          <li>Signals: <code>busqueda</code>, <code>precioMinimo</code>, <code>precioMaximo</code>, <code>categoria</code></li>
+          <li>Un <code>computed()</code> que combine todos los filtros y retorne los productos que cumplan todas las condiciones</li>
+          <li>Un <code>computed()</code> que cuente cuántos resultados hay</li>
+          <li>Input de búsqueda, sliders de precio y selector de categoría</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Dentro del <code>computed()</code>, encadena filtros: primero filtra por categoría, luego por precio, luego por texto. Recuerda que el <code>computed</code> se recalcula cuando cualquiera de las signals leídas cambia.</div>
+  </div>
+
+  <!-- EJERCICIO 9 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">09</span>Formulario con Signals</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Implementar un formulario completo usando signals como reemplazo de ngModel o formularios reactivos.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>registro-signal</code> con un formulario de registro (nombre, email, contraseña, confirmar contraseña). Valida en tiempo real usando signals y computed, y muestra errores debajo de cada campo.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Signals para cada campo del formulario</li>
+          <li><code>computed()</code> para <code>errores</code> que verifique: nombre requerido, email válido, contraseña mínima 8 caracteres, contraseñas coincidentes</li>
+          <li><code>computed()</code> para <code>formularioValido</code> que sea true solo si no hay errores</li>
+          <li>Botón de envío habilitado solo cuando el formulario es válido</li>
+          <li>Al enviar, muestra un mensaje de éxito y reinicia el formulario</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Crea un <code>computed()</code> que retorne un objeto con los errores de cada campo. Cada error es un string o null. El formulario es válido cuando todos los valores del objeto de errores son null.</div>
+  </div>
+
+  <!-- EJERCICIO 10 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <span class="ex-title"><span class="ex-num">10</span>Simulador de E-Commerce</span>
+      <span class="ex-diff">&#11088;&#11088;&#11088;&#11088;&#11088;</span>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Objetivo</div>
+      <div class="ex-text">Construir un mini simulador de e-commerce que use signals, computed y effect de forma integrada.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Enunciado</div>
+      <div class="ex-text">Crea un componente <code>tienda-signal</code> que muestre productos disponibles, un carrito de compras y un resumen de pedido. El usuario puede agregar/quitar productos, aplicar un cupón de descuento y ver el total actualizado en tiempo real. Usa <code>effect()</code> para guardar el carrito en localStorage.</div>
+    </div>
+    <div class="ex-section">
+      <div class="ex-label">Requisitos</div>
+      <div class="ex-text">
+        <ul>
+          <li>Signals: <code>productos</code> (catálogo), <code>carrito</code> (array de items), <code>cupon</code> (string), <code>descuentoAplicado</code> (boolean)</li>
+          <li><code>computed()</code> para <code>total</code>, <code>totalConDescuento</code>, <code>cantidadCarrito</code></li>
+          <li><code>effect()</code> que guarde el carrito en <code>localStorage</code> cada vez que cambie</li>
+          <li>Al cargar el componente, lee <code>localStorage</code> para restaurar el carrito</li>
+          <li>Productos con nombre, precio e imagen</li>
+          <li>Al aplicar cupón válido, muestra 10% de descuento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="hint">Para restaurar el carrito desde localStorage, lee el valor al crear la signal inicial. Para el effect de guardado, usa <code>effect(() =&gt; localStorage.setItem('carrito', JSON.stringify(this.carrito())))</code>.</div>
+  </div>
+
+  <footer>
+    <a class="back" href="index.html">&larr; Volver al índice</a>
+  </footer>
+</div>
+
+</body>
+</html>

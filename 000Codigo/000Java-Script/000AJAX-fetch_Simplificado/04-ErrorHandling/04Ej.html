@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicio 04: Wrapper fetchJSON seguro</title>
+</head>
+<body>
+<h1>Módulo 04: Manejo de Errores</h1>
+<section>
+  <h2>Ejercicio 04: Wrapper fetchJSON seguro</h2>
+  <p>Crea tu propia función reutilizable que encapsule todo el manejo de errores de fetch.</p>
+</section>
+<section>
+  <h2>Tareas</h2>
+  <h3>Tarea 1: Crear función fetchJSON</h3>
+  <p>Crea <code>fetchJSON(url)</code> que haga fetch, verifique <code>response.ok</code>, lance error si no es OK, y retorne el JSON parseado.</p>
+  <h3>Tarea 2: Probar con URL válida</h3>
+  <p>Usa <code>fetchJSON</code> con <code>/users/1</code>. Debe funcionar correctamente.</p>
+  <h3>Tarea 3: Probar con URL inválida</h3>
+  <p>Usa <code>fetchJSON</code> con <code>/posts/99999</code>. Debe lanzar un error claro.</p>
+</section>
+<p><strong>Abre la consola (F12) para ver los resultados.</strong></p>
+<a href="index.html">← Volver al índice</a>
+<script src="04Ej.js"></script>
+</body>
+</html>

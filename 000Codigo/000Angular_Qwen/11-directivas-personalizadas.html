@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>11 · Directivas Personalizadas | Angular Academy</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 2rem; max-width: 1000px; margin: auto; }
+    h1 { color: #dd0031; border-bottom: 2px solid #dd0031; padding-bottom: 0.5rem; }
+    h2 { color: #f59e0b; margin-top: 2rem; }
+    h3 { color: #10b981; }
+    .exercise { background: #1e293b; border-left: 4px solid #dd0031; padding: 1.2rem; margin: 1rem 0; border-radius: 8px; }
+    .difficulty { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; margin-left: 0.5rem; }
+    .easy { background: #10b981; } .medium { background: #f59e0b; } .hard { background: #ef4444; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 6px; overflow-x: auto; border: 1px solid #334155; }
+    code { color: #fbbf24; font-family: 'Consolas', monospace; }
+    .keyword { color: #c084fc; } .string { color: #86efac; } .comment { color: #64748b; font-style: italic; }
+    a { color: #3b82f6; text-decoration: none; }
+    .nav { margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="nav"><a href="index.html">← Volver al índice</a></div>
+
+  <h1>11 · Directivas Personalizadas <span class="difficulty medium">Avanzado</span></h1>
+  <p>Crea directivas con <code>@Directive</code> para modificar el comportamiento del DOM de forma reutilizable.</p>
+
+  <h2>Ejercicios</h2>
+
+  <div class="exercise">
+    <h3>Ejercicio 1 <span class="difficulty easy">Fácil</span></h3>
+    <p>Directiva que cambia el color al hacer hover.</p>
+    <pre><code><span class="keyword">import</span> { Directive, HostListener, ElementRef } <span class="keyword">from</span> <span class="string">'@angular/core'</span>;
+
+<span class="keyword">@Directive</span>({ selector: <span class="string">'[appHoverColor]'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> HoverColorDirective {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> el: ElementRef) {}
+
+  <span class="keyword">@HostListener</span>(<span class="string">'mouseenter'</span>) onMouseEnter() {
+    <span class="keyword">this</span>.el.nativeElement.style.color = <span class="string">'red'</span>;
+  }
+  <span class="keyword">@HostListener</span>(<span class="string">'mouseleave'</span>) onMouseLeave() {
+    <span class="keyword">this</span>.el.nativeElement.style.color = <span class="string">''</span>;
+  }
+}
+<span class="comment">// Uso: &lt;p appHoverColor&gt;Pásame el ratón&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 2 <span class="difficulty easy">Fácil</span></h3>
+    <p>Directiva con input (color configurable).</p>
+    <pre><code><span class="keyword">@Directive</span>({ selector: <span class="string">'[appColor]'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> ColorDirective {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> el: ElementRef) {}
+
+  <span class="keyword">@Input</span>() set appColor(color: string) {
+    <span class="keyword">this</span>.el.nativeElement.style.color = color;
+  }
+}
+<span class="comment">// Uso: &lt;p [appColor]="'blue'"&gt;Azul&lt;/p&gt;</span></code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 3 <span class="difficulty medium">Medio</span></h3>
+    <p>Directiva con <code>HostBinding</code>.</p>
+    <pre><code><span class="keyword">@Directive</span>({ selector: <span class="string">'[appBold]'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> BoldDirective {
+  <span class="keyword">@HostBinding</span>(<span class="string">'style.fontWeight'</span>) fontWeight = <span class="string">'bold'</span>;
+  <span class="keyword">@HostBinding</span>(<span class="string">'style.fontSize'</span>) fontSize = <span class="string">'1.2em'</span>;
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 4 <span class="difficulty medium">Medio</span></h3>
+    <p>Directiva que detecta clicks fuera del elemento.</p>
+    <pre><code><span class="keyword">@Directive</span>({ selector: <span class="string">'[appClickOutside]'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> ClickOutsideDirective {
+  <span class="keyword">@Output</span>() clickOutside = output&lt;void&gt;();
+
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> el: ElementRef) {}
+
+  <span class="keyword">@HostListener</span>(<span class="string">'document:click'</span>, [<span class="string">'$event.target'</span>])
+  onClick(target: HTMLElement) {
+    <span class="keyword">if</span> (!<span class="keyword">this</span>.el.nativeElement.contains(target)) {
+      <span class="keyword">this</span>.clickOutside.emit();
+    }
+  }
+}</code></pre>
+  </div>
+
+  <div class="exercise">
+    <h3>Ejercicio 5 <span class="difficulty hard">Difícil</span></h3>
+    <p>Directiva estructural personalizada (<code>*appHasPermission</code>).</p>
+    <pre><code><span class="keyword">@Directive</span>({ selector: <span class="string">'[appHasPermission]'</span>, standalone: <span class="keyword">true</span> })
+<span class="keyword">export class</span> HasPermissionDirective {
+  <span class="keyword">constructor</span>(
+    <span class="keyword">private</span> templateRef: TemplateRef&lt;any&gt;,
+    <span class="keyword">private</span> viewContainer: ViewContainerRef
+  ) {}
+
+  <span class="keyword">@Input</span>() set appHasPermission(permiso: string) {
+    <span class="keyword">if</span> (<span class="keyword">this</span>.tienePermiso(permiso)) {
+      <span class="keyword">this</span>.viewContainer.createEmbeddedView(<span class="keyword">this</span>.templateRef);
+    } <span class="keyword">else</span> {
+      <span class="keyword">this</span>.viewContainer.clear();
+    }
+  }
+
+  tienePermiso(p: string): boolean {
+    <span class="comment">// Lógica de permisos (ej: AuthService)</span>
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+  }
+}
+<span class="comment">// Uso: &lt;button *appHasPermission="'admin'"&gt;Admin&lt;/button&gt;</span></code></pre>
+  </div>
+
+  <div class="nav" style="margin-top: 3rem;">
+    <a href="10-pipes.html">← Anterior</a> | <a href="index.html">Índice</a> | <a href="12-servicios.html">Siguiente →</a>
+  </div>
+</body>
+</html>
